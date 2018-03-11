@@ -1,0 +1,16 @@
+{
+    "name": "Python",
+    "type": "python",
+    "pythonPath":"${config:python.pythonPath}",
+    "request": "launch",
+    "stopOnEntry": true,
+    "console": "none",
+    "program": "${file}",
+    "cwd": "${workspaceFolder}",
+    "debugOptions": [
+        "WaitOnAbnormalExit",
+        "WaitOnNormalExit",
+        "RedirectOutput"
+    ],
+    "env": {"name":"value"}
+}

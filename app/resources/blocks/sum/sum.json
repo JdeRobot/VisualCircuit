@@ -1,0 +1,25 @@
+{
+    "Id": "",
+    "Name": "Sum",
+    "Description": "",
+    "Image": "",
+    "Clock": 1000,
+
+    "Inputs": {
+        "pIn1": {
+            "type": "number",
+            "default": 0
+        },
+        "pIn2": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "Outputs": {
+        "pOut1": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "Properties": { }
+}

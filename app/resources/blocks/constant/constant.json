@@ -1,0 +1,21 @@
+{
+    "Id": "",
+    "Name": "Constant",
+    "Description": "",
+    "Image": "",
+    "Clock": 1000,
+
+    "Inputs": { },
+    "Outputs": {
+        "pOut1": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "Properties": { 
+        "value": {
+            "type": "number",
+            "default": 0
+        }
+    }
+}

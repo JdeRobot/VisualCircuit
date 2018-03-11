@@ -1,0 +1,15 @@
+{
+    "Id": "",
+    "Name": "Print",
+    "Description": "",
+    "Image": "",
+    "Clock": 1000,
+
+    "Inputs": {
+        "pIn1": {
+            "type": "any",
+            "default": ""
+        }
+    },
+    "Outputs": { }
+}

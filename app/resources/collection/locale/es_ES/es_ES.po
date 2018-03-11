@@ -1,0 +1,878 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-05-20 09:15+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: translation.js\n"
+
+#: translation.js:12
+msgid "Bit"
+msgstr "Bit"
+
+#: translation.js:13
+msgid "Logic"
+msgstr "Lógica"
+
+#: translation.js:14
+msgid "Setup"
+msgstr "Setup"
+
+#: translation.js:15
+msgid "0"
+msgstr "0"
+
+#: translation.js:16
+msgid "Assign 0 to the output wire"
+msgstr "Asignar 0 al cable de salida"
+
+#: translation.js:17
+msgid "1"
+msgstr "1"
+
+#: translation.js:18
+msgid "Assign 1 to the output wire"
+msgstr "Asignar 1 al cable de salida"
+
+#: translation.js:19
+msgid "Combinational"
+msgstr "Combinacional"
+
+#: translation.js:20
+msgid "Gate"
+msgstr "Puerta"
+
+#: translation.js:21
+msgid "Sequential"
+msgstr "Secuencial"
+
+#: translation.js:22
+msgid "Mux 2:1"
+msgstr "Mux 2:1"
+
+#: translation.js:23
+msgid "Multiplexer 2:1"
+msgstr "Multiplexor 2 a 1"
+
+#: translation.js:24
+msgid "AND"
+msgstr "AND"
+
+#: translation.js:25
+msgid "AND logic gate"
+msgstr "Puerta lógica AND"
+
+#: translation.js:26
+msgid "NAND"
+msgstr "NAND"
+
+#: translation.js:27
+msgid "NAND logic gate"
+msgstr "Puerta lógica NAND"
+
+#: translation.js:28
+msgid "NOR"
+msgstr "NOR"
+
+#: translation.js:29
+msgid "NOR logic gate"
+msgstr "Puerta lógica NOR"
+
+#: translation.js:30
+msgid "NOT"
+msgstr "NOT"
+
+#: translation.js:31
+msgid "NOT logic gate"
+msgstr "Puerta lógica NOT"
+
+#: translation.js:32
+msgid "OR"
+msgstr "OR"
+
+#: translation.js:33
+msgid "OR logic gate"
+msgstr "Puerta lógica OR"
+
+#: translation.js:34
+msgid "XNOR"
+msgstr "XNOR"
+
+#: translation.js:35
+msgid "XNOR logic gate"
+msgstr "Puerta lógica XNOR"
+
+#: translation.js:36
+msgid "XOR"
+msgstr "XOR"
+
+#: translation.js:37
+msgid "XOR logic gate"
+msgstr "Puerta lógica XOR"
+
+#: translation.js:38
+msgid "Debouncer"
+msgstr "Antirrebotes"
+
+#: translation.js:39
+msgid "Remove the rebound on a mechanical switch"
+msgstr "Eliminar los rebotes en los pulsadores mecánicos"
+
+#: translation.js:40
+msgid "Flip-flop D"
+msgstr "Biestable D"
+
+#: translation.js:41
+msgid "Delay flip-flop"
+msgstr "Biestable tipo D"
+
+#: translation.js:42
+msgid "Flip-flop T"
+msgstr "Biestable T"
+
+#: translation.js:43
+msgid "Toggle flip-flop"
+msgstr "Biestable tipo T"
+
+#: translation.js:44
+msgid "Prescaler22"
+msgstr "Prescaler22"
+
+#: translation.js:45
+msgid "22-bits prescaler"
+msgstr "Prescaler de 22 bits"
+
+#: translation.js:46
+msgid "Parametric N-bits prescaler"
+msgstr "Prescaler de N bits"
+
+#: translation.js:47
+msgid "PrescalerN"
+msgstr "PrescalerN"
+
+#: translation.js:48
+msgid "Pull-up"
+msgstr "Pull-up"
+
+#: translation.js:49
+msgid "FPGA internal pull-up configuration on the connected input port"
+msgstr "Resistencia de pull-up interna de la FPGA en el pin de entrada"
+
+#: translation.js:50
+msgid "Tri-state"
+msgstr "Triestado"
+
+#: translation.js:51
+msgid "Tri-state logic block"
+msgstr "Bloque lógico triestado"
+
+#: translation.js:52
+msgid "1. Basic"
+msgstr "1. Básico"
+
+#: translation.js:53
+msgid "2. Flip-flops"
+msgstr "2. Biestables"
+
+#: translation.js:54
+msgid "3. Gates"
+msgstr "3. Puertas"
+
+#: translation.js:55
+msgid "4. Muxes"
+msgstr "4. Multiplexores"
+
+#: translation.js:56
+msgid "5. Verilog"
+msgstr "5. Verilog"
+
+#: translation.js:57
+msgid "01. One LED"
+msgstr "01. Un LED"
+
+#: translation.js:58
+msgid "Turn on a LED"
+msgstr "Encender un LED"
+
+#: translation.js:59
+msgid "02. Two LEDs"
+msgstr "02. Dos LEDs"
+
+#: translation.js:60
+msgid "Turn on two LEDs"
+msgstr "Encender dos LEDs"
+
+#: translation.js:61
+msgid "03. Three LEDs"
+msgstr "03. Tres LEDs"
+
+#: translation.js:62
+msgid "Turn on three LEDs"
+msgstr "Encender tres LEDs"
+
+#: translation.js:63
+msgid "04. One LED blink"
+msgstr "04. Parpadeo de un LED"
+
+#: translation.js:64
+msgid "Blinking LED"
+msgstr "LED parpadeante"
+
+#: translation.js:65
+msgid "05. Two LEDs alternate blink"
+msgstr "05. Dos LEDs parpadeando alternativamente"
+
+#: translation.js:66
+msgid "Leds 0 and 7 are blinking alternatively"
+msgstr "Los leds 0 y 7 parpadean alternativamente"
+
+#: translation.js:67
+msgid "06. Pushbutton and LED"
+msgstr "06. Pulsador y LED"
+
+#: translation.js:68
+msgid "One pushbutton for turning the LED on and off"
+msgstr "Un pulsador para encender y apagar el LED"
+
+#: translation.js:69
+msgid "01. DFF manual load"
+msgstr "01. Biestable D con carga manual"
+
+#: translation.js:70
+msgid "The LED is turned on when the pushbutton is pressed"
+msgstr "Se enciende el LED al apretar el pulsador"
+
+#: translation.js:71
+msgid "02. Chain of three DFFs"
+msgstr "02. Tres biestables D en serie"
+
+#: translation.js:72
+msgid ""
+"A chain of three D flip-flops\n"
+"The LEDs are turned on secuentially, with every click on the button"
+msgstr ""
+"Tres biestables tipo D en serie\n"
+"Los LEDs se encienden secuencialmente, con cada pulsación del botón"
+
+#: translation.js:73
+msgid "03. Ring of four DFFs"
+msgstr "03. Cuatro biestables D en anillo"
+
+#: translation.js:74
+msgid ""
+"A ring of four D flip-flops\n"
+"The sequence is shown in the LEDs"
+msgstr ""
+"Cuatro biestables D en anillo\n"
+"La secuencia se muestra en los LEDs"
+
+#: translation.js:75
+msgid "04. Toggle button"
+msgstr "04. Botón de cambio"
+
+#: translation.js:76
+msgid "When the pushbutton is clicked the LED changes"
+msgstr "Al apretar el pulsador el LED cambia"
+
+#: translation.js:77
+msgid "05. Binary counter with three TFFs"
+msgstr "05. Contador binario con tres biestables T"
+
+#: translation.js:78
+msgid "A 3-bit binary counter with T flip-flops"
+msgstr "Un contador binario de 3 bits con biestables tipo T"
+
+#: translation.js:79
+msgid "01. AND gate"
+msgstr "01. Puerta AND"
+
+#: translation.js:80
+msgid "Testing the AND gate"
+msgstr "Probando la puerta AND"
+
+#: translation.js:81
+msgid "02. OR gate"
+msgstr "02. Puerta OR"
+
+#: translation.js:82
+msgid "Testing the OR gate"
+msgstr "Probando la puerta OR"
+
+#: translation.js:83
+msgid "03. AND truth table"
+msgstr "03. Tabla de verdad de la puerta AND"
+
+#: translation.js:84
+msgid "Truth table of the AND gate"
+msgstr "Tabla de verdad de la puerta Y"
+
+#: translation.js:85
+msgid "04. OR truth table"
+msgstr "04. Tabla de verdad de la puerta OR"
+
+#: translation.js:86
+msgid "Truth table of the OR gate"
+msgstr "Tabla de verdad de la puerta O"
+
+#: translation.js:87
+msgid "05. SR latch"
+msgstr "05. Latch RS"
+
+#: translation.js:88
+msgid "An SR-latch implemented with logic gates"
+msgstr "Un biestable RS implementado con puertas lógicas"
+
+#: translation.js:89
+msgid "06. D latch"
+msgstr "06. Latch D"
+
+#: translation.js:90
+msgid "A D latch implemented with logic gates"
+msgstr "Un latch D implementado con puertas lógicas"
+
+#: translation.js:91
+msgid "07. D flip-flop"
+msgstr "07. Biestable D"
+
+#: translation.js:92
+msgid "Master Latch"
+msgstr "Latch maestro"
+
+#: translation.js:93
+msgid "Slave latch"
+msgstr "Latch esclavo"
+
+#: translation.js:94
+msgid "A D flip-flip with a falling-edge trigger implemented with logic gates"
+msgstr ""
+"Un biestable D, activo en flanco de bajada, implementado con puertas lógicas"
+
+#: translation.js:95
+msgid "08. Multiplexer 2:1"
+msgstr "08. Multiplexor 2:1"
+
+#: translation.js:96
+msgid ""
+"Mux 2:1 implemented with logic gates\n"
+"The LED0 blinks or is turned on depending on the pushbutton 1"
+msgstr ""
+"Multiplexor 2:1 implementado con puertas lógicas\n"
+"El LED 0 parpadea o se queda encendido dependiendo del pulsador 1"
+
+#: translation.js:97
+msgid "Mux 2:1 with logic gates"
+msgstr "Multiplexor 2:1 con puertas lógicas"
+
+#: translation.js:98
+msgid "Signal for blinking the LED"
+msgstr "Señal para que el LED parpadee"
+
+#: translation.js:99
+msgid "Fixed signal for turning on the LED"
+msgstr "Señal fija para encender el LED"
+
+#: translation.js:100
+msgid "09. Decoder 2:4"
+msgstr "09. Decodificador 2:4"
+
+#: translation.js:101
+msgid "2 to 4 bits decoder with logic gates"
+msgstr "Decodificador de 2 a 4 con puertas lógicas"
+
+#: translation.js:102
+msgid "10. One bit adder"
+msgstr "10. Sumador de 1 bit"
+
+#: translation.js:103
+msgid "1-bit adder"
+msgstr "Sumador de 1 bit"
+
+#: translation.js:104
+msgid "Sum"
+msgstr "Suma"
+
+#: translation.js:105
+msgid "Carry"
+msgstr "Acarreo"
+
+#: translation.js:106
+msgid "01. Blinking fixed LED"
+msgstr "01. LED parpadeante/fijo"
+
+#: translation.js:107
+msgid ""
+"Blinking/fixed LED\n"
+"The toggle button selects if the LED blinks or stays turned on"
+msgstr ""
+"LED parpadeante/fijo\n"
+"El pulsador selecciona si el LED parpadea o se queda encendido"
+
+#: translation.js:108
+msgid "02. LED three states"
+msgstr "02. LED en tres estados"
+
+#: translation.js:109
+msgid ""
+"The LED has three modes of operation: blinking, turned on an turned off\n"
+"SW2 pushbutton determines if the LED blinks/stays fixed\n"
+"SW1 pushbutton determines the LED state (on or off), in fixed mode"
+msgstr ""
+"El LED tiene tres modos de operacion: parpadeando, encendido y apagado\n"
+"El pulsador SW2 determina si el LED parpadea o permanece fijo\n"
+"El pulsador SW1 determina el estado del LED (encendido o apagado), en el "
+"modo fijo"
+
+#: translation.js:110
+msgid "03. Multiplexer 4:1"
+msgstr "03. Multiplexor 4:1"
+
+#: translation.js:111
+msgid ""
+"A 4:1 mux from two 2:1 muxes\n"
+"The LED can be in four states: off, blinking, on, blinking fast"
+msgstr ""
+"Un multiplexor 4:1 creado a partir de dos multiplexores 2:1\n"
+"El LED puede estar en cuatro estados: apagado, parpadeando, encendido y "
+"parpadeando rápido"
+
+#: translation.js:112
+msgid "04. Shift register"
+msgstr "04. Registro de desplazamiento"
+
+#: translation.js:113
+msgid ""
+"4 bits shift register. It is loaded with the initial value 1000 and then\n"
+"shifted on every clock pulse"
+msgstr ""
+"Registro de desplazamiento de 4 bits. Se carga con el valor inicial 1000 y\n"
+"después se desplaza con cada ciclo del reloj"
+
+#: translation.js:114
+msgid "Binary value to load and shift"
+msgstr "Valor binario a cargar y desplazar"
+
+#: translation.js:115
+msgid ""
+"Initializer. It has the initial value 0, so that the\n"
+"i0 is selected in all the muxes. The register is loaded.\n"
+"In the next cycle, it has the value 1, so the i1 input\n"
+"is selected in all the muxes. The register is shifted.\n"
+"In the next cycles it will remain in the shift state"
+msgstr ""
+"Inicializador. Tiene el valor inicial 0, de forma que\n"
+"i0 se selecciona en todos los multiplexores. El registro se carga.\n"
+"En el siguiente ciclo, tiene el valor 1, por lo que la entrada i1\n"
+"se selecciona en todos los multiplexores. El registro se desplaza\n"
+"En el siguiente ciclo permanecerá en el estado de desplazamiento"
+
+#: translation.js:116
+msgid "01. Four bits fixed binary value"
+msgstr "01. Valor fijo de 4 bits en binario"
+
+#: translation.js:117
+msgid "Displaying a 4-bits fixed value in the LEDs"
+msgstr "Mostrando un valor fijo de 4 bits en los LEDs"
+
+#: translation.js:118
+msgid "02. Four bits fixed hexadecimal value"
+msgstr "02. Valor fijo de 4 bits en hexadecimal"
+
+#: translation.js:119
+msgid "Displaying a 4-bits fixed value (in hexadecimal) in the LEDs"
+msgstr "Mostrando un valor fijo de 4 bits (en hexadecimal) en los LEDs"
+
+#: translation.js:120
+msgid "03. Eight bits fixed value buses"
+msgstr "03. Bus de 8 bits"
+
+#: translation.js:121
+msgid "Using buses for displaying a fixed value in the LEDs"
+msgstr "Usando un bus para mostrar un valor fijo en los LEDs"
+
+#: translation.js:122
+msgid "04. Eight bits counter"
+msgstr "04. Contador de 8 bits"
+
+#: translation.js:123
+msgid "An 8-bit binary counter"
+msgstr "Un contador binario de 8 bits"
+
+#: translation.js:124
+msgid "05. Split buses"
+msgstr "05. División de buses"
+
+#: translation.js:125
+msgid ""
+"An 8-bit binary counter, using an 8-bit bus splitted\n"
+"into two 4-bit buses"
+msgstr ""
+"Un contador binario de 8 bits, usando un bus de 8 bits \n"
+"dividido en dos buses de 4 bits"
+
+#: translation.js:126
+msgid "06. ROM 16x8"
+msgstr "06. ROM de 16x8"
+
+#: translation.js:127
+msgid "Displaying the contents of an 16x8 rom memory in the LEDs"
+msgstr "Mostrando el contenido de una memoria ROM de 16x8 en los LEDs"
+
+#: translation.js:128
+msgid "07. ROM 16x8 file"
+msgstr "07. ROM de 16x8 en fichero"
+
+#: translation.js:129
+msgid ""
+"Displaying the contents of an 16x8 rom memory in the LEDs\n"
+"The memory is read from the rom0.list file"
+msgstr ""
+"Mostrando el contenido de una memoria ROM de 16x8 en los LEDs\n"
+"La memoria se lee del fichero rom0.list"
+
+#: translation.js:130
+msgid "08. ROM 16x8 file generic"
+msgstr "08. ROM de 16x8 en fichero genérico"
+
+#~ msgid "Delay flip-flop with synchronous reset"
+#~ msgstr "Biestable tipo D con reset síncrono"
+
+#~ msgid "06. Pushbutton LED"
+#~ msgstr "06. "
+
+#~ msgid "Pull up"
+#~ msgstr "Pull up"
+
+#~ msgid "FPGA internal pull up configuration on the connected input port"
+#~ msgstr "Resistencia de pull up interna de la FPGA en el pin de entrada"
+
+#~ msgid "bit"
+#~ msgstr "Bit"
+
+#~ msgid "config"
+#~ msgstr "Config"
+
+#~ msgid "logic"
+#~ msgstr "Lógica"
+
+#~ msgid "pull_up"
+#~ msgstr "Pull up"
+
+#~ msgid "combinational"
+#~ msgstr "Combinacional"
+
+#~ msgid "gate"
+#~ msgstr "Puerta"
+
+#~ msgid "sequential"
+#~ msgstr "Secuencial"
+
+#~ msgid "mux_2_1"
+#~ msgstr "Mux 2:1"
+
+#~ msgid "and"
+#~ msgstr "And"
+
+#~ msgid "not"
+#~ msgstr "Not"
+
+#~ msgid "or"
+#~ msgstr "Or"
+
+#~ msgid "xor"
+#~ msgstr "Xor"
+
+#~ msgid "debouncer"
+#~ msgstr "Antirrebotes"
+
+#~ msgid "dff"
+#~ msgstr "Biestable D"
+
+#~ msgid "prescaler_22"
+#~ msgstr "Prescaler 22"
+
+#~ msgid "prescalerN"
+#~ msgstr "Prescaler N"
+
+#~ msgid "tff"
+#~ msgstr "Biestable T"
+
+#~ msgid "1_basic"
+#~ msgstr "1. Básico"
+
+#~ msgid "2_flip_flops"
+#~ msgstr "2. Biestables"
+
+#~ msgid "3_gates"
+#~ msgstr "3. Puertas"
+
+#~ msgid "4_muxes"
+#~ msgstr "4. Multiplexores"
+
+#~ msgid "5_verilog"
+#~ msgstr "5. Verilog"
+
+#~ msgid "1_one_led"
+#~ msgstr "1. Un led encendido"
+
+#~ msgid "Turn on a led"
+#~ msgstr "Encender un led"
+
+#~ msgid "2_two_leds"
+#~ msgstr "2. Dos leds encendidos"
+
+#~ msgid "Turn on two leds"
+#~ msgstr "Encender dos leds"
+
+#~ msgid "3_three_leds"
+#~ msgstr "3. Tres leds encendidos"
+
+#~ msgid "Turn on three leds"
+#~ msgstr "Encender tres leds"
+
+#~ msgid "4_blink"
+#~ msgstr "4. Led parpadeante"
+
+#~ msgid "Blinking led"
+#~ msgstr "Led parpadeante"
+
+#~ msgid "5_two_led_alternate_blink"
+#~ msgstr "5. Dos leds parpadeando alternativamente"
+
+#~ msgid "6_pushbutton_led"
+#~ msgstr "6. Boton y led"
+
+#~ msgid "One pushbutton for turning the led on and off"
+#~ msgstr "Un pulsador para encender y apagar el led"
+
+#~ msgid "1_Dff_manual_load"
+#~ msgstr "1. Biestable D con carga manual"
+
+#~ msgid "The led is turned on when the pushbutton is pressed"
+#~ msgstr "Se enciende el led al apretar el pulsador"
+
+#~ msgid "2_chain_of_three_DFF"
+#~ msgstr "2. Tres biestables D en serie"
+
+#~ msgid ""
+#~ "A chain of three D flip-flops\n"
+#~ "The leds are turned on secuentially, with every click on the button"
+#~ msgstr ""
+#~ "Tres biestables tipo D en serie\n"
+#~ "Los leds se encienden secuencialmente, con cada pulsación del botón"
+
+#~ msgid "3_ring_of_four_DFFs"
+#~ msgstr "3. Cuatro biestables D en anillo"
+
+#~ msgid ""
+#~ "A ring of four D flip-flops\n"
+#~ "The sequence is shown in the leds"
+#~ msgstr "Cuatro biestables tipo D conectados en anillo"
+
+#~ msgid "4_toggle_button"
+#~ msgstr "4. Botón de cambio"
+
+#~ msgid "When the pushbutton is clicked the led changes"
+#~ msgstr "Al apretar el pulsador el led cambia"
+
+#~ msgid "5_binary_counter_with_three_TFFs"
+#~ msgstr "5. Contador binario con tres biestables T"
+
+#~ msgid "01_and"
+#~ msgstr "1. Puerta Y"
+
+#~ msgid "02_or"
+#~ msgstr "2. Puerta O"
+
+#~ msgid "03_and_truth_table"
+#~ msgstr "3. Tabla de verdad de la puerta Y"
+
+#~ msgid "04_or_truth_table"
+#~ msgstr "4. Tabla de verdad de la puerta O"
+
+#~ msgid "05_sr_latch"
+#~ msgstr "5. Biestable RS"
+
+#~ msgid "06_D_latch"
+#~ msgstr "6. Latch tipo D"
+
+#~ msgid "An D latch implemented with logic gates"
+#~ msgstr "Un latch D implementado con puertas lógicas"
+
+#~ msgid "07_D_flip_flop"
+#~ msgstr "7. Biestable D"
+
+#~ msgid "08_mux_2_1"
+#~ msgstr "8. Multiplexor 2:1"
+
+#~ msgid ""
+#~ "Mux 2:1 implemented with logic gates\n"
+#~ "The led0 blinks or is turned on depending on the pushbutton 1"
+#~ msgstr ""
+#~ "Multiplexor 2:1 implementado con puertas lógicas\n"
+#~ "El LED 0 parpadea o se queda encendido dependiendo del pulsador 1"
+
+#~ msgid "Signal for blinking the led"
+#~ msgstr "Señal para que el led parpadee"
+
+#~ msgid "Fixed signal for turning on the led"
+#~ msgstr "Señal fija para encender el led"
+
+#~ msgid "09_two_to_four_decoder"
+#~ msgstr "9. Decodificador de 2 a 4"
+
+#~ msgid "10_one_bit_adder"
+#~ msgstr "10. Sumador de 1 bit"
+
+#~ msgid "1_Blinking_fixed_led"
+#~ msgstr "1. Led parpadeante/fijo"
+
+#~ msgid ""
+#~ "Blinking/fixed led\n"
+#~ "The toggle button selects if the led blinks or stays turned on"
+#~ msgstr ""
+#~ "LED parpadeante/fijo\n"
+#~ "El pulsador selecciona si el led parpadea o se queda encendido"
+
+#~ msgid "2_led_three_states"
+#~ msgstr "2. Led en tres estados"
+
+#~ msgid ""
+#~ "The led has three modes of operation: blinking, turned on an turned off\n"
+#~ "SW2 pushbutton determines if the led blinks/stays fixed\n"
+#~ "SW1 pushbutton determines the led state (on or off), in fixed mode"
+#~ msgstr ""
+#~ "El led tiene tres modos de operacion: parpadeando, encendido y apagado\n"
+#~ "El pulsador SW2 determina si el LED parpadea o permanece fijo\n"
+#~ "El pulsador SW1 determina el estado del led (encendido o apagado), en el "
+#~ "modo fijo"
+
+#~ msgid "3_mux_4_1"
+#~ msgstr "3. Multiplexor 4:1"
+
+#~ msgid ""
+#~ "A 4:1 mux from two 2:1 muxes\n"
+#~ "The led can be in four states: off, blinking, on, blinking fast"
+#~ msgstr ""
+#~ "Un multiplexor 4:1 creado a partir de dos multiplexores 2:1\n"
+#~ "El LED puede estar en cuatro estados: apagado, parpadeando, encendido y "
+#~ "parpadeando rápido"
+
+#~ msgid "4_shift_register"
+#~ msgstr "4. Registro de desplazamiento"
+
+#~ msgid "01_four_bits_fixed_binary_value"
+#~ msgstr "1. Valor fijo de 4 bits en binario"
+
+#~ msgid "Displaying a 4-bits fixed value in the leds"
+#~ msgstr "Mostrando un valor fijo de 4 bits en los leds"
+
+#~ msgid "02_four_bits_fixed_hexa_value"
+#~ msgstr "2 Valor fijo de 4 bits en hexadecimal"
+
+#~ msgid "Displaying a 4-bits fixed value (in hexadecimal) in the leds"
+#~ msgstr "Mostrando un valor fijo de 4 bits (en hexadecimal) en los leds"
+
+#~ msgid "03_eight_bits_fixed_value_buses"
+#~ msgstr "3. Bus de 8 bits"
+
+#~ msgid "Using buses for displaying a fixed value in the leds"
+#~ msgstr "Usando un bus para mostrar un valor fijo en los leds"
+
+#~ msgid "04_eight_bits_counter"
+#~ msgstr "4. Contador de 8 bits"
+
+#~ msgid "05_split_buses"
+#~ msgstr "5. Division de buses"
+
+#~ msgid "06_rom16x8"
+#~ msgstr "6. Memoria ROM de 16x8"
+
+#~ msgid "Displaying the contents of an 16x8 rom memory in the leds"
+#~ msgstr "Mostrando el contenido de una memoria ROM de 16x8 en los leds"
+
+#~ msgid "07_rom16x8_file"
+#~ msgstr "7. Memoria ROM de 16x8 en fichero"
+
+#~ msgid ""
+#~ "Displaying the contents of an 16x8 rom memory in the leds\n"
+#~ "The memory is read from the rom0.list file"
+#~ msgstr ""
+#~ "Mostrando el contenido de una memoria ROM de 16x8 en los leds\n"
+#~ "La memoria se lee del fichero rom0.list"
+
+#~ msgid "08_rom16x8_file_generic"
+#~ msgstr "8. Memoria ROM de 16x8 en fichero genérico"
+
+#~ msgid "2_Chain_of_three_DFF"
+#~ msgstr "2. Tres biestables D conectados en serie"
+
+#~ msgid "2_counter"
+#~ msgstr "2. Counter"
+
+#~ msgid "1_led_on"
+#~ msgstr "1. Encender led"
+
+#~ msgid "2_switch_led"
+#~ msgstr "2. Interruptor con led"
+
+#~ msgid "3_switch_and_gate"
+#~ msgstr "3. Interruptor con puerta and"
+
+#~ msgid "contadorAsc"
+#~ msgstr "Contador ascendente"
+
+#~ msgid "contadorDes"
+#~ msgstr "Contador descendente"
+
+#~ msgid "dff_sr"
+#~ msgstr "Biestable D"
+
+#~ msgid "tff_sr"
+#~ msgstr "Biestable T"
+
+#~ msgid "pull_up_inv"
+#~ msgstr "Pull up inv"
+
+#~ msgid "tri_state"
+#~ msgstr "Tri-estado"
+
+#~ msgid "demux_1_2"
+#~ msgstr "Demux 1:2"
+
+#~ msgid "demux_1_4"
+#~ msgstr "Demux 1:4"
+
+#~ msgid "demux_1_8"
+#~ msgstr "Demux 1:8"
+
+#~ msgid "hex_7seg_cc"
+#~ msgstr "Hex 7 Segment CC"
+
+#~ msgid "hex_7seg_ca"
+#~ msgstr "Hex 7 Segment AC"
+
+#~ msgid "mux_4_1"
+#~ msgstr "Mux 4:1"
+
+#~ msgid "nand"
+#~ msgstr "Nand"
+
+#~ msgid "nor"
+#~ msgstr "Nor"
+
+#~ msgid "xnor"
+#~ msgstr "Xnor"
+
+#~ msgid "dff_ar"
+#~ msgstr "Biestable D asinc"
+
+#~ msgid "tff_ar"
+#~ msgstr "Biestable T asinc"
