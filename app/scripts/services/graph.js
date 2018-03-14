@@ -407,28 +407,6 @@ angular.module('visualcircuit')
             });
 
             function processDblClick(cellView) {
-                var type = cellView.model.get('blockType');
-                if (type.indexOf('basic.') !== -1) {
-                    if (paper.options.enabled) {
-                        blocks.editBasic(type, cellView, function (cell) {
-                            addCell(cell);
-                            selectionView.cancelSelection();
-                        });
-                    }
-                } else if (common.allDependencies[type]) {
-                    z.index = 1;
-                    var project = common.allDependencies[type];
-                    var breadcrumbsLength = self.breadcrumbs.length;
-                    $rootScope.$broadcast('navigateProject', {
-                        update: breadcrumbsLength === 1,
-                        project: project
-                    });
-                    self.breadcrumbs.push({
-                        name: project.package.name || '#',
-                        type: type
-                    });
-                    utils.rootScopeSafeApply();
-                }
             }
 
             paper.on('blank:pointerdown', function (evt, x, y) {
@@ -745,12 +723,6 @@ angular.module('visualcircuit')
                 self.addDraggableCells([cell]);
             });
         };
-
-        // this.createBasicBlock = function (type) {
-        //     blocks.newBasic(type, function (cells) {
-        //         self.addDraggableCells(cells);
-        //     });
-        // };
 
         this.addDraggableCell = function (cell) {
             this.addingDraggableBlock = true;
@@ -1255,7 +1227,7 @@ angular.module('visualcircuit')
 
         function updateCellAttributes(cell) {
             cell.attributes.state = state;
-            cell.attributes.rules = profile.get('boardRules');
+            // cell.attributes.rules = profile.get('boardRules');
             //cell.attributes.zindex = z.index;
         }
 

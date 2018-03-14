@@ -899,11 +899,13 @@ joint.shapes.ice.CodeView = joint.shapes.ice.ModelView.extend({
           ' + editorLabel + '.setAutoScrollEditorIntoView(true);\
           ' + editorLabel + '.session.setMode("ace/mode/verilog");\
           ' + editorLabel + '.renderer.$cursorLayer.element.style.opacity = 0;\
+          .session.setMode("ace/mode/python")\
         </script>\
         <div class="resizer"/>\
       </div>\
       '
         )());
+        
 
         this.model.on('change', this.updateBox, this);
         this.model.on('remove', this.removeBox, this);
