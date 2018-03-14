@@ -159,16 +159,6 @@ angular.module('visualcircuit')
             $scope.saveProjectAs(callback);
         });
 
-        // $scope.addAsBlock = function () {
-        //   var notification = true;
-        //   utils.openDialog('#input-add-as-block', '.ice', function (filepaths) {
-        //     filepaths = filepaths.split(';');
-        //     for (var i in filepaths) {
-        //       project.addBlockFile(filepaths[i], notification);
-        //     }
-        //   });
-        // };
-
         /**
          * Sets a new path as the current working directory.
          * @param filepath {string} the path

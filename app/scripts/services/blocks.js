@@ -9,6 +9,7 @@ angular.module('visualcircuit')
 
         this.getAllBlocks = getAllBlocks;
         this.newBlock = newBlock;
+        this.editBlockCode = editBlockCode;
 
         function getAllBlocks() {
             var blocks = [];
@@ -21,7 +22,7 @@ angular.module('visualcircuit')
                 var metadata = getBlockMetadata(blockFolder, blockName);
                 var code = getBlockCode(blockFolder, blockName);
                 if (metadata && code) {
-                    Object.assign(metadata,code);
+                    metadata.Code = code
                 }
                 return metadata;
             });
@@ -36,8 +37,6 @@ angular.module('visualcircuit')
 
             try {
                 nodeFs.accessSync(filePath, nodeFs.R_OK);
-                console.log('can read/write');
-
                 var content = nodeFs.readFileSync(filePath, 'utf8');
                 // TODO: Error checks
                 if (content) {
@@ -67,11 +66,12 @@ angular.module('visualcircuit')
         }
 
         function getBlockCode(folder, name) {
+            debugger;
             var filePath = getCodeFilePath(folder, name);
             var code = null;
             try {
                 nodeFs.accessSync(filePath, nodeFs.R_OK);
-                code = nodeFs.readFile(filePath);
+                code = nodeFs.readFileSync(filePath, 'utf8');
             }
             catch (err) {
                 console.error(err);
@@ -90,7 +90,6 @@ angular.module('visualcircuit')
         }
 
         function newBlock (block, callback) {
-            return;
             if (!block) {
                 return ;
             }
@@ -100,29 +99,30 @@ angular.module('visualcircuit')
             block.position = { x: 40 * gridsize, y: 16 * gridsize };
             block.size = { width: 192, height: 128 };
             block.data = {ports: {in: [], out:[]}};
+
             // Create ports
             block.data.ports.in = [];
-            Object.keys(block.Inputs).forEach( function(inputName) {
+            var inputs = Object.keys(block.Inputs) || [];
+            inputs.forEach( function(inputName) {
                 if (inputName) {
                     var inputProp = block.Inputs[inputName];
                     block.data.ports.in.push({
                         name: inputName,
                         range: inputProp.range || '',
-                        // size: (pins.length > 1) ? pins.length : undefined
-                        // size: undefined,
+                        size: inputs.length,
                         default: inputProp.default
                     });
                 }
             });
             block.data.ports.out = [];
-            Object.keys(block.Outputs).forEach(function (outputName) {
+            var outputs = Object.keys(block.Outputs) || [];
+            outputs.forEach(function (outputName) {
                 if (outputName) {
                     var outputProp = block.Outputs[outputName];
                     block.data.ports.out.push({
                         name: outputName,
                         range: outputProp.range || '',
-                        // size: (pins.length > 1) ? pins.length : undefined
-                        // size: undefined,
+                        size: outputs.length,
                         default: outputProp.default
                     });
                 }
@@ -141,7 +141,7 @@ angular.module('visualcircuit')
             }
         }
 
-        function newCustomBlock() {
+        /*function newCustomBlock() {
             var blockInstance = {
                 id: null,
                 data: {
@@ -161,6 +161,43 @@ angular.module('visualcircuit')
                 'c , d',
                 ''
             ];
+        }*/
+
+        function editBlockCode(cellView, callback) {
+            var graph = cellView.paper.model;
+            var block = cellView.model.attributes;
+            var blockInstance = {
+                id: block.id,
+                data: utils.clone(block.data),
+                type: 'basic.code',
+                position: block.position,
+                size: block.size
+            };
+            newBasicCode(function (cells) {
+                if (callback) {
+                    var cell = cells[0];
+                    if (cell) {
+                        var connectedWires = graph.getConnectedLinks(cellView.model);
+                        graph.startBatch('change');
+                        cellView.model.remove();
+                        callback(cell);
+                        // Restore previous connections
+                        for (var w in connectedWires) {
+                            var wire = connectedWires[w];
+                            var size = wire.get('size');
+                            var source = wire.get('source');
+                            var target = wire.get('target');
+                            if ((source.id === cell.id && containsPort(source.port, size, cell.get('rightPorts'))) ||
+                                (target.id === cell.id && containsPort(target.port, size, cell.get('leftPorts')) && source.port !== 'constant-out') ||
+                                (target.id === cell.id && containsPort(target.port, size, cell.get('topPorts')) && source.port === 'constant-out')) {
+                                graph.addCell(wire);
+                            }
+                        }
+                        graph.stopBatch('change');
+                        alertify.success(gettextCatalog.getString('Block updated'));
+                    }
+                }
+            }, blockInstance);
         }
 
 
@@ -198,6 +235,8 @@ angular.module('visualcircuit')
                     label: port.name
                 });
             }
+
+            instance.data.code = instance.Code || '';
     
             var cell = new joint.shapes.ice.Code({
                 id: instance.id,
@@ -210,6 +249,8 @@ angular.module('visualcircuit')
                 rightPorts: rightPorts,
                 topPorts: topPorts
             });
+
+            cell.set('code', instance.Code);
     
             return cell;
         }

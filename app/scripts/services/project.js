@@ -380,7 +380,6 @@ angular.module('visualcircuit')
         };
 
         this.addBlock = function(block){
-            console.debug("Adding block...", block);
             graph.createBlock(block);
         };
 
