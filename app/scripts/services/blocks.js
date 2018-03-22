@@ -1,6 +1,7 @@
 'use strict';
 
 // var fs = require('fs');
+var path = require('path');
  
 
 angular.module('visualcircuit')
@@ -10,6 +11,8 @@ angular.module('visualcircuit')
         this.getAllBlocks = getAllBlocks;
         this.newBlock = newBlock;
         this.editBlockCode = editBlockCode;
+
+        var n = nodePath;
 
         function getAllBlocks() {
             var blocks = [];
@@ -56,7 +59,6 @@ angular.module('visualcircuit')
                         'Inputs': parsed.Inputs,
                         'Outputs': parsed.Outputs
                     };
-                    debugger;
                 }
             } catch (err) {
                 console.error('Cannot read metadata in ' + filePath);
@@ -66,7 +68,6 @@ angular.module('visualcircuit')
         }
 
         function getBlockCode(folder, name) {
-            debugger;
             var filePath = getCodeFilePath(folder, name);
             var code = null;
             try {
@@ -81,19 +82,18 @@ angular.module('visualcircuit')
 
         function getMetadataFilePath(path, block) {
             path = path.trim();
-            return '/home/sergio/Desarrollos/visualcircuit/app/' + path + utils.sep + block + '.json';
+            return './' + path + utils.sep + block + '.json';
         }
 
         function getCodeFilePath(path, block) {
             path = path.trim();
-            return '/home/sergio/Desarrollos/visualcircuit/app/' + path + utils.sep + block + '.py';
+            return './' + path + utils.sep + block + '.py';
         }
 
         function newBlock (block, callback) {
             if (!block) {
                 return ;
             }
-            debugger;
             // Add some drawing attributes.
             block.type = 'basic.code';
             block.position = { x: 40 * gridsize, y: 16 * gridsize };
@@ -244,6 +244,7 @@ angular.module('visualcircuit')
                 data: instance.data,
                 position: instance.position,
                 size: instance.size,
+                image: instance.Image,
                 disabled: disabled,
                 leftPorts: leftPorts,
                 rightPorts: rightPorts,

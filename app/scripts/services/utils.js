@@ -732,8 +732,6 @@ angular.module('visualcircuit')
         };
 
         this.parsePortLabel = function (data) {
-            // e.g: name[x:y]
-            debugger;
             var match, ret = {};
             var maxSize = 95;
             var pattern = /([A-Za-z_]+[A-Za-z_0-9]*)?(\[([0-9]+):([0-9]+)\])?/g;
