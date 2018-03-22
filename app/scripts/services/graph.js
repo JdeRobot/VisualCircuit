@@ -407,6 +407,7 @@ angular.module('visualcircuit')
             });
 
             function processDblClick(cellView) {
+                cellView.doubleClick();
             }
 
             paper.on('blank:pointerdown', function (evt, x, y) {
@@ -426,6 +427,9 @@ angular.module('visualcircuit')
                         self.panAndZoom.enablePan();
                     }
                 }
+
+                // Close code editors
+                paper.$el.find(".code-block.show-editor").removeClass("show-editor");
             });
 
             paper.on('blank:pointerup', function ( /*cellView, evt*/) {

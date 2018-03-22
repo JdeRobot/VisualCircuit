@@ -381,47 +381,21 @@ g {
   pointer-events: auto;
 }
 
-.info-block {
-  position: absolute;
-  background: #DDD;
-  border-radius: 5px;
-  border: 1px solid #777;
-  pointer-events: none;
-  -webkit-user-select: none;
-  user-select: none;
-  z-index: 0;
-  transition: opacity 0.2s;
+.code-block:not(.show-editor) .code-editor {
+    display: none;
 }
 
-.info-block-readonly {
-  background: transparent;
-  border: 1px solid transparent;
+.image-wrapper {  top: 5px;
+    bottom: 5px;
+    background-color: #DDF;
+    left: 5px;
+    right: 5px;
+    position: absolute;
 }
-
-.info-block .info-text {
-  position: absolute;
-  overflow: visible;
-  background: transparent;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  margin: 8px;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  pointer-events: none;
-}
-
-.info-block .info-editor {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  margin: 8px;
-  border-radius: 5px;
-  border: 1px solid #BBB;
-  pointer-events: auto;
+.block-image {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
 }
 
 .joint-highlight-stroke.joint-theme-default {
