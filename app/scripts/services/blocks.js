@@ -12,8 +12,6 @@ angular.module('visualcircuit')
         this.newBlock = newBlock;
         this.editBlockCode = editBlockCode;
 
-        var n = nodePath;
-
         function getAllBlocks() {
             var blocks = [];
 
@@ -25,7 +23,7 @@ angular.module('visualcircuit')
                 var metadata = getBlockMetadata(blockFolder, blockName);
                 var code = getBlockCode(blockFolder, blockName);
                 if (metadata && code) {
-                    metadata.Code = code
+                    metadata.Code = code;
                 }
                 return metadata;
             });
@@ -109,7 +107,7 @@ angular.module('visualcircuit')
                     block.data.ports.in.push({
                         name: inputName,
                         range: inputProp.range || '',
-                        size: inputs.length,
+                        size: inputProp.size || 1,
                         default: inputProp.default
                     });
                 }
@@ -122,7 +120,7 @@ angular.module('visualcircuit')
                     block.data.ports.out.push({
                         name: outputName,
                         range: outputProp.range || '',
-                        size: outputs.length,
+                        size: outputProp.size || 1,
                         default: outputProp.default
                     });
                 }
@@ -173,31 +171,7 @@ angular.module('visualcircuit')
                 position: block.position,
                 size: block.size
             };
-            newBasicCode(function (cells) {
-                if (callback) {
-                    var cell = cells[0];
-                    if (cell) {
-                        var connectedWires = graph.getConnectedLinks(cellView.model);
-                        graph.startBatch('change');
-                        cellView.model.remove();
-                        callback(cell);
-                        // Restore previous connections
-                        for (var w in connectedWires) {
-                            var wire = connectedWires[w];
-                            var size = wire.get('size');
-                            var source = wire.get('source');
-                            var target = wire.get('target');
-                            if ((source.id === cell.id && containsPort(source.port, size, cell.get('rightPorts'))) ||
-                                (target.id === cell.id && containsPort(target.port, size, cell.get('leftPorts')) && source.port !== 'constant-out') ||
-                                (target.id === cell.id && containsPort(target.port, size, cell.get('topPorts')) && source.port === 'constant-out')) {
-                                graph.addCell(wire);
-                            }
-                        }
-                        graph.stopBatch('change');
-                        alertify.success(gettextCatalog.getString('Block updated'));
-                    }
-                }
-            }, blockInstance);
+            // TODO: 
         }
 
 
@@ -254,19 +228,5 @@ angular.module('visualcircuit')
             cell.set('code', instance.Code);
     
             return cell;
-        }
-
-
-        function getPins(portInfo) {
-            var pins = [];
-            if (portInfo.range) {
-                for (var r in portInfo.range) {
-                    pins.push({ index: portInfo.range[r].toString(), name: '', value: '0' });
-                }
-            }
-            else {
-                pins.push({ index: '0', name: '', value: '0' });
-            }
-            return pins;
         }
     });

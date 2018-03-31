@@ -57,8 +57,7 @@ module.exports = function (grunt) {
       nw: 'nw app' + (WIN32 ? '' : ' 2>/dev/null') + ' --remote-debugging-port=5858',
       stopNW: (WIN32 ? 'taskkill /F /IM nw.exe >NUL 2>&1' : 'killall nw 2>/dev/null || killall nwjs 2>/dev/null') + ' || (exit 0)',
       nsis32: 'makensis -DARCH=win32 -DPYTHON="python-2.7.13.msi" -DVERSION=<%=pkg.version%> -V3 scripts/windows_installer.nsi',
-      nsis64: 'makensis -DARCH=win64 -DPYTHON="python-2.7.13.amd64.msi" -DVERSION=<%=pkg.version%> -V3 scripts/windows_installer.nsi',
-      chrome: 'start chrome http://localhost:9999'
+      nsis64: 'makensis -DARCH=win64 -DPYTHON="python-2.7.13.amd64.msi" -DVERSION=<%=pkg.version%> -V3 scripts/windows_installer.nsi'
     },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
@@ -294,8 +293,7 @@ module.exports = function (grunt) {
         tasks: [
           'wiredep',
           'exec:stopNW',
-          'exec:nw',
-          'exec:chrome http://localhost:9999'
+          'exec:nw'
         ],
         options: {
           atBegin: true,
