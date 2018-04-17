@@ -93,7 +93,7 @@ angular.module('visualcircuit')
          * a new window, else the same window will be used.
          */
         $scope.openProjectDialog = function () {
-            utils.openDialog('#input-open-project', '.ice', function (filepath) {
+            utils.openDialog('#input-open-project', common.PROJECT_FILES_EXT, function (filepath) {
                 if (zeroProject) {
                     // If this is the first action, open
                     // the projec in the same window

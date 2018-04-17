@@ -928,22 +928,15 @@ angular.module('visualcircuit')
             for (var c = 0; c < cells.length; c++) {
                 var cell = cells[c];
 
-                if (cell.type === 'ice.Generic' ||
-                    cell.type === 'ice.Input' ||
-                    cell.type === 'ice.Output' ||
-                    cell.type === 'ice.Code' ||
-                    cell.type === 'ice.Info' ||
-                    cell.type === 'ice.Constant') {
+                if (cell.type === 'ice.Code') {
                     var block = {};
                     block.id = cell.id;
                     block.type = cell.blockType;
                     block.data = cell.data;
                     block.position = cell.position;
-                    if (cell.type === 'ice.Generic' ||
-                        cell.type === 'ice.Code' ||
-                        cell.type === 'ice.Info') {
-                        block.size = cell.size;
-                    }
+                    block.size = cell.size;
+                    block.data.image = cell.image;
+                    block.data.code = cell.code; 
                     blocks.push(block);
                 }
                 else if (cell.type === 'ice.Wire') {
@@ -956,7 +949,6 @@ angular.module('visualcircuit')
                 }
             }
 
-            p.design.board = common.selectedBoard.name;
             p.design.graph = { blocks: blocks, wires: wires };
 
             // Update dependencies

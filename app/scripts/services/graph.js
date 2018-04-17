@@ -1118,7 +1118,7 @@ angular.module('visualcircuit')
                             pins[i].value = 0;
                         }
                     }
-                    cell = blocks.loadBasic(blockInstance, opt.disabled);
+                    cell = blocks.loadBlock(blockInstance, opt.disabled);
                 } else {
                     if (blockInstance.type in common.allDependencies) {
                         cell = blocks.loadGeneric(blockInstance, common.allDependencies[blockInstance.type], opt.disabled);

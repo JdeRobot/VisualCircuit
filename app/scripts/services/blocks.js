@@ -1,7 +1,4 @@
 'use strict';
-
-// var fs = require('fs');
-var path = require('path');
  
 
 angular.module('visualcircuit')
@@ -11,6 +8,8 @@ angular.module('visualcircuit')
         this.getAllBlocks = getAllBlocks;
         this.newBlock = newBlock;
         this.editBlockCode = editBlockCode;
+        this.loadBlock = loadBlock;
+        this.loadWire = loadWire;
 
         function getAllBlocks() {
             var blocks = [];
@@ -133,33 +132,13 @@ angular.module('visualcircuit')
             //         });
             //     }
             // }
+            block.data.code = block.data.code || block.Code;
+            block.data.image = block.data.image || block.Image;
 
             if (callback) {
-                callback(loadBasicCode(block));
+                callback(loadBlock(block));
             }
         }
-
-        /*function newCustomBlock() {
-            var blockInstance = {
-                id: null,
-                data: {
-                    code: '',
-                    params: [],
-                    ports: { 
-                        in: [],
-                        out: []
-                    }
-                },
-                type: 'basic.code',
-                position: { x: 40 * gridsize, y: 16 * gridsize },
-                size: { width: 192, height: 128 }
-            };
-            var defaultValues = [
-                'a , b',
-                'c , d',
-                ''
-            ];
-        }*/
 
         function editBlockCode(cellView, callback) {
             var graph = cellView.paper.model;
@@ -175,7 +154,7 @@ angular.module('visualcircuit')
         }
 
 
-        function loadBasicCode(instance, disabled) {
+        function loadBlock(instance, disabled) {
             var port;
             var leftPorts = [];
             var rightPorts = [];
@@ -210,23 +189,58 @@ angular.module('visualcircuit')
                 });
             }
 
-            instance.data.code = instance.Code || '';
-    
+            instance.data.code = instance.data.code || instance.Code || '';
+            
             var cell = new joint.shapes.ice.Code({
                 id: instance.id,
                 blockType: instance.type,
                 data: instance.data,
                 position: instance.position,
                 size: instance.size,
-                image: instance.Image,
+                image: instance.data.image,
                 disabled: disabled,
                 leftPorts: leftPorts,
                 rightPorts: rightPorts,
                 topPorts: topPorts
             });
 
-            cell.set('code', instance.Code);
+            cell.set('code', instance.data.code);
     
             return cell;
+        }
+
+        function loadWire(instance, source, target) {
+
+            // Find selectors
+            var sourceSelector, targetSelector;
+            var leftPorts = target.get('leftPorts');
+            var rightPorts = source.get('rightPorts');
+            for (var _out = 0; _out < rightPorts.length; _out++) {
+                if (rightPorts[_out] === instance.source.port) {
+                    sourceSelector = _out;
+                    break;
+                }
+            }
+            for (var _in = 0; _in < leftPorts.length; _in++) {
+                if (leftPorts[_in] === instance.target.port) {
+                    targetSelector = _in;
+                    break;
+                }
+            }
+
+            var _wire = new joint.shapes.ice.Wire({
+                source: {
+                    id: source.id,
+                    selector: sourceSelector,
+                    port: instance.source.port
+                },
+                target: {
+                    id: target.id,
+                    selector: targetSelector,
+                    port: instance.target.port
+                },
+                vertices: instance.vertices
+            });
+            return _wire;
         }
     });
