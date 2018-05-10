@@ -1106,6 +1106,8 @@ angular.module('visualcircuit')
 
             opt = opt || {};
 
+            debugger;
+
             // Blocks
             _.each(_graph.blocks, function (blockInstance) {
                 if (blockInstance.type.indexOf('basic.') !== -1) {
