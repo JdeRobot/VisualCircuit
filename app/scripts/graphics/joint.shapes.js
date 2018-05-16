@@ -665,7 +665,7 @@ joint.shapes.ice.CodeView = joint.shapes.ice.ModelView.extend({
                     // Reset deltas
                     self.deltas = [];
                     // Set data.code
-                    self.model.attributes.data.code = self.editor.session.getValue();
+                    self.model.attributes.data.code = self.model.attributes.code = self.editor.session.getValue();
                 }, undoGroupingInterval);
                 // Reset counter
                 self.counter = Date.now();
@@ -895,7 +895,7 @@ joint.shapes.ice.CodeView = joint.shapes.ice.ModelView.extend({
         // 'border-width': 2 * state.zoom: problem int instead of float
     },
     doubleClick: function() {
-        this.$box.addClass("show-editor");
+        this.$box.addClass('show-editor');
     }
 });
 

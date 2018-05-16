@@ -12,6 +12,7 @@ angular.module('visualcircuit')
         $scope.version = _package.version;
         $scope.workingdir = '';
         $scope.snapshotdir = '';
+        $scope.PROJECT_FILES_EXT = common.PROJECT_FILES_EXT;
 
         var zeroProject = true;  // New project without changes
         var resultAlert = null;
@@ -187,26 +188,38 @@ angular.module('visualcircuit')
         };
 
         function exit() {
-            var doExit = false;
-            var onOk = function () { doExit = true; };
-            var onKo = function () { doExit = false; };
-            if (!project.changed) {
-                doExit = true;
+            if (project.changed) {
+              alertify.set('confirm', 'labels', {
+                'ok': gettextCatalog.getString('Close')
+              });
+              alertify.set('confirm', 'defaultFocus', 'cancel');
+              alertify.confirm(
+                utils.bold(gettextCatalog.getString('Do you want to close the application?')) + '<br>' +
+                gettextCatalog.getString('Your changes will be lost if you don’t save them'),
+                function() {
+                  // Close
+                  _exit();
+                },
+                function() {
+                  // Cancel
+                  setTimeout(function() {
+                    alertify.set('confirm', 'labels', {
+                      'ok': gettextCatalog.getString('OK')
+                    });
+                    alertify.set('confirm', 'defaultFocus', 'ok');
+                  }, 200);
+                }
+              );
             }
             else {
-                alertify.confirm(
-                    utils.bold(gettextCatalog.getString('Do you want to close the application?')) + '<br>' +
-                    gettextCatalog.getString('Your changes will be lost if you don’t save them'),
-                    onOk,
-                    onKo
-                );
+              _exit();
             }
-
-            if (doExit) {
-                utils.removeTempBuildDir();
-                win.close(true);
+            function _exit() {
+              //win.hide();
+              utils.removeTempBuildDir();
+              win.close(true);
             }
-        }
+          }
 
 
         //-- Edit menu
