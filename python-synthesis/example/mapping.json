@@ -1,0 +1,23 @@
+{
+  "mapping":
+  [
+    {
+    "block_name": "camera",
+    "input_wires": [],
+    "output_wires": ["1"],
+    "parameters": []
+    },
+    {
+    "block_name": "edge_detector",
+    "input_wires": ["1"],
+    "output_wires": ["2"],
+    "parameters": ["3"]
+    },
+    {
+    "block_name": "screen",
+    "input_wires": ["2"],
+    "output_wires": [],
+    "parameters": []
+    }
+  ]
+}
