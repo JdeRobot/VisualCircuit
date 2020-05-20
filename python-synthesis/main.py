@@ -18,8 +18,6 @@ def load_JSON(file_path):
         data = json.load(obj)
     return data
 
-#cd Desktop/VisualCircuit-V1
-#Driver Code
 wires = load_JSON(WIRES_PATH)
 
 wires_list = []
