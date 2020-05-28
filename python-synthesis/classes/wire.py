@@ -1,22 +1,32 @@
-import threading
+import multiprocessing
+import copy
 
 class Wire:
-    def __init__(self, identifier):
+    def __init__(self, identifier, sh_mem, lock):
+
         self.id = identifier
-        self.value = None
-        self.lock = threading.Lock()
+        self.value = sh_mem
+        #self.addr = hex(id(sh_mem))
+        self.addr = hex(id(self.value))
+        self.lock = lock
 
     def read(self):
-        if self.value is not None:
-            self.lock.acquire()
-            return_value = self.value.copy()
-            self.lock.release()
-            return return_value
-        return None
+
+        self.lock.acquire()
+        return_value = self.value.copy()
+        self.lock.release()
+        return return_value
+
+        '''
+            #Faster but might cause synchronization issues.
+            while(self.lock.locked()):
+                pass
+            return self.value
+        '''
 
     def write(self, to_write):
-        if to_write is not None:
-            self.lock.acquire()
-            self.value = to_write.copy()
-            self.lock.release()
+
+        self.lock.acquire()
+        self.value = to_write.copy()
+        self.lock.release()
         return
