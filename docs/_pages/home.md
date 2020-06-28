@@ -3,17 +3,17 @@ layout: splash
 permalink: /
 header:
   overlay_color: "#5e616c"
-  overlay_image: /assets/images/cover/peloto_texto_urjc.png
+  overlay_image: /assets/images/cover/jderobot.png
   actions:
     #- label: "<i class='fas fa-download'></i> Install now"
     #  url: "/installation/"
 excerpt: 
-  Deep Reinforcement Learning for autonomous car
+  Visual programming of robots using hardware blocks composition and Python 
 feature_row:
   - image_path: /assets/images/cover/logbook.jpg
-    alt: "Logbook"
-    title: "Logbook"
-    excerpt: "Goals, progress, problems and solutions achieved during development"
+    alt: "Usage"
+    title: "Usage"
+    excerpt: "Guide on how to use VisualCircuit."
     url: "/logbook/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
@@ -27,24 +27,21 @@ feature_row:
     btn_label: "Learn more"
 
   - image_path: /assets/images/cover/about.jpg
-    alt: "About"
-    title: "About"
-    excerpt: "More information about the project. References used, guides, articles, etc."
+    alt: "Documentation"
+    title: "Documentation"
+    excerpt: "Detailed description on how the project is organized and how to contribute."
     url: "/about/"
     btn_class: "btn--primary"
-    btn_label: "Learn more"   
-youTube_id: ID7qaEcIu4k
+    btn_label: "Learn more"
 ---
 
 {% include feature_row %}
 
-Hello, everybody.
+VisualCircuit is a visual editor for programming robotics applications with ease.
 
-I'm Nacho Arranz and this is the place where we will be putting the advances that are made on the work of end of master.
+VisualCircuit will allow users to program robotic intelligence using a visual language application. This tool follows the divide and conquer approach in solving problems related to robotics and computer vision. Each block is considered as a separate and functional part of the system which is running independently at fast iterations. The modular design of this tool helps the user to think in terms of blocks running concurrently which can then be easily connected to each other with the help of wires which are basically used for communication between the blocks. This tool will allow the user to think more effectively, reduce the development time and experiment with more solutions in a short period of time.
 
-The objective of the work is the learning of the controllers of an autonomous vehicle so that it is able to complete the return to a circuit through learning by reinforcement.
-
-The tutors of the project are:
+The people working on the project are:
 
 - [Jose Maria Cañas](https://gsyc.urjc.es/jmplaza/)
-- [Eduardo Perdices](https://gsyc.urjc.es/~eperdices/)
+- [Muhammad Taha Suhail](https://github.com/AbsorbedInThought)
