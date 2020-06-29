@@ -12,10 +12,8 @@ Visual editor for programming robotic applications. Built on top of the [IceStud
 For more information visit our site [VisualCircuit](https://jderobot.github.io/VisualCircuit/)
 
 ### Supported Platforms
-
-#### Python-3 + ROS-Noetic
-
-#### Might support future ROS Distributions
+ * Python-3 + ROS-Noetic
+ * Might support future ROS Distributions
 
 
 
