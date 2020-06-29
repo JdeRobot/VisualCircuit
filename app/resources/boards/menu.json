@@ -1,0 +1,8 @@
+[
+  {
+    "type": "LP8K",
+    "boards": [
+      "Python3-Noetic"
+    ]
+  }
+]
