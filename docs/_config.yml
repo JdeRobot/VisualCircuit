@@ -16,12 +16,12 @@ minimal_mistakes_skin    : "air"
 
 # Site Settings
 #locale                   : "en-US"
-title                    : "Robotics Lab URJC"
+title                    : "VisualCircuit-JdeRobot"
 title_separator          : "-"
-subtitle                 : Programming Robot Intelligence
+subtitle                 : Visual Editor for Robotics
 name                     : "JdeRobot"
-description              : "Programming Robot Intelligence"
-url                      : http://jderobot.github.io/2019-tfm-ignacio-arranz
+description              : "Visual Editor for Programming Robotics Applications"
+url                      : https://jderobot.github.io/VisualCircuit/
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : JdeRobot
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
@@ -122,24 +122,24 @@ analytics:
 # PROFILE
 # Site Author
 author:
-  name             : "Nacho Arranz"
+  name             : "JdeRobot"
   avatar           : "/assets/images/profile.jpg"
   bio              : "Site for Master Thesis"
   location         : "Madrid"
   email            :
   links:
-    - label: "Email"
+    - label: "Website"
       icon: "fas fa-fw fa-envelope-square"
-      url: n.arranz.agueda@gmail.com
-    - label: "About Me"
+      url: jderobot.github.io
+    - label: "Community"
       icon: "fas fa-fw fa-link"
-      url: "https://igarag.github.io/online-cv/"
+      url: "https://jderobot.github.io/community/"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/i__arranz"
+      url: "https://twitter.com/JdeRobot"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/igarag/2019-tfm-ignacio-arranz"
+      url: "https://github.com/JdeRobot"
     #- label: "Youtube"
     #  icon: "fab fa-fw fa-youtube"
     #  url: "https://www.youtube.com/channel/UCgmUgpircYAv_QhLQziHJOQ"
@@ -163,10 +163,10 @@ footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/roboticslaburjc"
+      url: "https://twitter.com/JdeRobot"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/RoboticsLabURJC"
+      url: "https://github.com/JdeRobot"
     #- label: "GitLab"
     #  icon: "fab fa-fw fa-gitlab"
     #  url:
