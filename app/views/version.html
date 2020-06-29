@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<div id="version-info-tab"  class="hidden">
+    <div class="version-info-tab--bg"></div>
+    <div class="version-info-tab--body">
+        <div class="version-info-tab--body--content">
+
+            <h1>{{ 'VisualCircuit (v1.0)' | translate }}</h1>
+            <hr>
+            <p>{{ 'Welcome to VisualCircuit!. This version is the first prototype for this tool.' | translate }}</p>
+            <br/>
+            <h2>{{ 'UI Theme Support' | translate }}</h2>
+            <p>{{ 'This version includes the first user interface Theme Support.' | translate }}</p>
+            <p>{{ 'For the moment,  we have only two themes. Light and Dark mode.' | translate }}</p>
+            <p><img class="img-responsive" src="resources/images/version-notes/0.5.1n200523/dark-theme.gif"></p>
+            <br>
+            <p>{{'To change UI theme , go to Edit > Preferences > UI Theme  , select visual mode and restart VisualCircuit.'}}</p>
+            <br/>
+          
+            <h2>{{ 'Block collection' | translate }}</h2>
+            <p>{{ 'Provides several built-in blocks ready to use. Design your robotics application easily with this visual editor' | translate }}</p>
+            <br/>
+
+           
+            <h2>{{ 'Development' | translate }}</h2>
+            <p>{{ 'This tool is still under development.' | translate }}</p>
+            <br/>
+
+            <h2>{{'Develop Applications' | translate }}</h2>
+            <p>{{'It has never been so easy to implement robotics applications!' | translate }}</p>
+
+           
+            <h2>{{'Acknowledgment' | translate }}</h2>
+            <p>The front-end of this tool is built upon IceStudio. We all in the JdeRobot community appreciate it very much. You rock! Thank you very much!</p>
+	    <p>This release has been possible thanks to the great work done by <a ng-click="openUrl('http://fpgawars.github.io/')">FPGAwars</a> community</p>
+            <br/>
+            <br/>
+            <p><strong>This is a nightly build and there can be some bugs. If you find one, please submit an issue at <a  ng-click="openUrl('https://github.com/JdeRobot/VisualCircuit/issues',$event)" href="https://github.com/JdeRobot/VisualCircuit/issues">VisualCircuit repository</a>, indicating with a tag [nightly] in the issue subject</a></strong></p>
+            <br>
+            <p>VisualCircuit is part of <a ng-click="openUrl('http://jderobot.github.io/')">JdeRobot</a> community</p>
+        </div>
+    <div class="version-info-tab--options">
+        <div class="version-info-tab--options--group"><input type="checkbox" name="version-info-tab--no-display"><label for="version-info-tab--no-display">{{ 'Don\'t display' | translate }}</label></div>
+        <div class="version-info-tab--options--group"></div>
+        <div class="version-info-tab--options--group util--text-align-right"><button ng-click="closeVersionInfoWindow()" >{{ 'Close' | translate }}</button></div>
+    </div>
+
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<div ng-controller="DesignCtrl">
+  <div class="banner hidden">
+    <div class="info">&nbsp;{{ information.name }}&nbsp;{{ information.version ? '-&nbsp;v' + information.version + '&nbsp;' : '' }}</div>
+    <div class="read-only">&nbsp;{{ 'Read only' | translate }}&nbsp;</div>
+    <a class="back-button" ng-click="breadcrumbsBack()">&nbsp;&lt;&nbsp;{{ 'back' | translate }}&nbsp;</a>
+  </div>
+  <div class="banner-submodule hidden">
+      <a class="edit-button" ng-click="editModeToggle($event)"><img src="resources/images/lock.png" data-lock="resources/images/lock.png" data-unlock="resources/images/unlock.png"></a>
+  </div>
+
+  <div class="paper"></div>
+  <div class="footer ice-bar">
+    <div class="breadcrumbs-container">
+      <ol class="breadcrumb">
+        <li ng-repeat="item in graph.breadcrumbs" ng-class="{active: $last}" ng-switch="$last">
+          <span ng-switch-when="true">{{ item.name }}</span>
+          <a href ng-click="breadcrumbsNavitate(item)" ng-switch-default>{{ item.name }}</a>
+        </li>
+      </ol>
+    </div>
+    <div class="board-container">
+      <div class="fpga-resources" ng-show="common.selectedBoard && topModule && profile.data.showFPGAResources">
+        <span>
+          LC:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.LC.used+' / '+common.FPGAResources.nextpnr.LC.total+' ('+common.FPGAResources.nextpnr.LC.percentage+'%)') }}
+        </span>
+        <span>
+         RAM:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.RAM.used+' / '+common.FPGAResources.nextpnr.RAM.total+' ('+common.FPGAResources.nextpnr.RAM.percentage+'%)') }}
+        </span>
+        <span>
+          IO:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.IO.used+' / '+common.FPGAResources.nextpnr.IO.total+' ('+common.FPGAResources.nextpnr.IO.percentage+'%)') }}
+        </span>
+        <span>
+          GB:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.GB.used+' / '+common.FPGAResources.nextpnr.GB.total+' ('+common.FPGAResources.nextpnr.GB.percentage+'%)') }}
+        </span>
+        <span>
+          PLL:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.PLL.used+' / '+common.FPGAResources.nextpnr.PLL.total+' ('+common.FPGAResources.nextpnr.PLL.percentage+'%)') }}
+        </span>
+
+        <span>
+         WB:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '- / -' : (common.FPGAResources.nextpnr.WB.used+' / '+common.FPGAResources.nextpnr.WB.total+' ('+common.FPGAResources.nextpnr.WB.percentage+'%)') }}
+        </span>
+
+        <span>
+         MaxFreq.:&nbsp;&nbsp;{{ (common.hasChangesSinceBuild || !common.FPGAResources.nextpnr) ? '-' : (common.FPGAResources.nextpnr.MF.value+'MHz') }}
+        </span>
+
+      </div>
+      {{ common.selectedBoard.info.label }}
+    </div>
+  </div>
+</div>
