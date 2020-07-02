@@ -14,7 +14,7 @@ feature_row:
     alt: "Usage"
     title: "Usage"
     excerpt: "Guide on how to use VisualCircuit."
-    url: "/logbook/"
+    url: "/about/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
 
