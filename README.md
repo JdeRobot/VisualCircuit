@@ -1,4 +1,4 @@
 # Visual Circuit
 
-- [Web Site Documentation.](https://jderobot.github.io/VisualCircuit/
+- [Website for Documentation](https://jderobot.github.io/VisualCircuit/)
 
