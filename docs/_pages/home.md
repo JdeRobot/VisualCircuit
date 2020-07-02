@@ -11,10 +11,10 @@ excerpt:
   Visual programming of robots using hardware blocks composition and Python 
 feature_row:
   - image_path: /assets/images/cover/logbook.jpg
-    alt: "Usage"
-    title: "Usage"
-    excerpt: "Guide on how to use VisualCircuit."
-    url: "/logbook/"
+    alt: "About"
+    title: "About"
+    excerpt: "Information about VisualCircuit."
+    url: "/about/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
 
