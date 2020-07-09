@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .controller('MainCtrl', function ($scope,
     gettextCatalog, tools, utils) {
 

@@ -1,5 +1,5 @@
 
-joint.routers.ice = (function (g, _, joint) {
+joint.routers.vz = (function (g, _, joint) {
 
   'use strict';
 
@@ -15,7 +15,7 @@ step: 8,
     excludeEnds: [], // 'source', 'target'
 
     // should be any element with a certain type not to be consider as an obstacle
-    excludeTypes: ['ice.Info'],
+    excludeTypes: ['vz.Info'],
 
     // if number of route finding loops exceed the maximum, stops searching and returns
     // fallback route

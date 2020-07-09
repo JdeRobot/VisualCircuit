@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .service('tools', function (project,
     compiler,
     profile,
@@ -1216,11 +1216,11 @@ angular.module('icestudio')
           };
         }
 
-        addCollectionItem('blocks', 'ice', _collections, zipEntry);
+        addCollectionItem('blocks', 'vz', _collections, zipEntry);
         addCollectionItem('blocks', 'v', _collections, zipEntry);
         addCollectionItem('blocks', 'vh', _collections, zipEntry);
         addCollectionItem('blocks', 'list', _collections, zipEntry);
-        addCollectionItem('examples', 'ice', _collections, zipEntry);
+        addCollectionItem('examples', 'vz', _collections, zipEntry);
         addCollectionItem('examples', 'v', _collections, zipEntry);
         addCollectionItem('examples', 'vh', _collections, zipEntry);
         addCollectionItem('examples', 'list', _collections, zipEntry);
@@ -1318,11 +1318,11 @@ angular.module('icestudio')
               var msg = '';
               if (hasNewVersion === 'stable') {
                 msg = '<div class="new-version-notifier-box"><div class="new-version-notifier-box--icon"><img src="resources/images/confetti.svg"></div>\
-                                          <div class="new-version-notifier-box--text">' + gettextCatalog.getString('There is a new stable version available') + '<br/><a class="action-open-url-external-browser" href="https://icestudio.io" target="_blank">Click here to download it.</a></div></div>';
+                                          <div class="new-version-notifier-box--text">' + gettextCatalog.getString('There is a new stable version available') + '<br/><a class="action-open-url-external-browser" href="https://jderobot.github.io" target="_blank">Click here to download it.</a></div></div>';
 
               } else {
                 msg = '<div class="new-version-notifier-box"><div class="new-version-notifier-box--icon"><img src="resources/images/confetti.svg"></div>\
-                                          <div class="new-version-notifier-box--text">' + gettextCatalog.getString('There is a new nightly version available') + '<br/><a class="action-open-url-external-browser" href="https://icestudio.io" target="_blank">Click here to download it.</a></div></div>';
+                                          <div class="new-version-notifier-box--text">' + gettextCatalog.getString('There is a new nightly version available') + '<br/><a class="action-open-url-external-browser" href="https://jderobot.github.io" target="_blank">Click here to download it.</a></div></div>';
 
               }
               alertify.notify(msg, 'notify', 30);

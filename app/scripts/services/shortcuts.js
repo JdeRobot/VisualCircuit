@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .filter('shortcut', function (shortcuts) {
     return function (action) {
       return shortcuts.label(action);
