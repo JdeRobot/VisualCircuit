@@ -1,13 +1,9 @@
 import cv2
 import numpy as np
 from time import sleep
-from wire import Wire_Read
+from wires.wire_img import Wire_Read
 
 def Screen(input_wires, output_wires, parameters):
-
-    print("screen")
-    print(input_wires)
-    print(output_wires)
 
     shm_r = Wire_Read(input_wires[0])
 

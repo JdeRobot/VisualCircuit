@@ -1,13 +1,9 @@
 import cv2
 import numpy as np
 from time import sleep
-from wire import Wire_Write
+from wires.wire_img import Wire_Write
 
 def Camera(input_wires, output_wires, parameters):
-
-    print("camera")
-    print(input_wires)
-    print(output_wires)
 
     cap = cv2.VideoCapture(0)
 
