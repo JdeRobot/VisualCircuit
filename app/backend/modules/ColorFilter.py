@@ -1,14 +1,10 @@
 import cv2 as cv
 import numpy as np
 from time import sleep
-from wire import Wire_Read, Wire_Write
+from wires.wire_img import Wire_Read, Wire_Write
 
 def ColorFilter(input_wires, output_wires, parameters):
 
-
-    print("color")
-    print(input_wires)
-    print(output_wires)
     shm_r = Wire_Read(input_wires[0])
     shm_w = Wire_Write(output_wires[0])
 
