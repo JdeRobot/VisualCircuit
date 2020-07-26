@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .service('blocks', function (joint,
     utils,
     common,
@@ -762,7 +762,7 @@ angular.module('visualcircuit')
         size: data.pins ? data.pins.length : (data.size || 1)
       }];
 
-      var cell = new joint.shapes.vz.Input({
+      var cell = new joint.shapes.ice.Input({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -786,7 +786,7 @@ angular.module('visualcircuit')
         size: data.pins ? data.pins.length : (data.size || 1)
       }];
 
-      var cell = new joint.shapes.vz.OutputLabel({
+      var cell = new joint.shapes.ice.OutputLabel({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -807,7 +807,7 @@ angular.module('visualcircuit')
         label: '',
         size: data.pins ? data.pins.length : (data.size || 1)
       }];
-      var cell = new joint.shapes.vz.Output({
+      var cell = new joint.shapes.ice.Output({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -827,8 +827,8 @@ angular.module('visualcircuit')
         size: data.pins ? data.pins.length : (data.size || 1)
       }];
 
-      //var cell = new joint.shapes.vz.Output({
-      var cell = new joint.shapes.vz.InputLabel({
+      //var cell = new joint.shapes.ice.Output({
+      var cell = new joint.shapes.ice.InputLabel({
         id: instance.id,
         blockColor: instance.blockColor,
         blockType: instance.type,
@@ -848,7 +848,7 @@ angular.module('visualcircuit')
         name: '',
         label: ''
       }];
-      var cell = new joint.shapes.vz.Constant({
+      var cell = new joint.shapes.ice.Constant({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -865,7 +865,7 @@ angular.module('visualcircuit')
         name: '',
         label: ''
       }];
-      var cell = new joint.shapes.vz.Memory({
+      var cell = new joint.shapes.ice.Memory({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -915,7 +915,7 @@ angular.module('visualcircuit')
         });
       }
 
-      var cell = new joint.shapes.vz.Code({
+      var cell = new joint.shapes.ice.Code({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -935,7 +935,7 @@ angular.module('visualcircuit')
       if (instance.data.info && instance.data.readonly) {
         instance.data.text = gettextCatalog.getString(instance.data.info);
       }
-      var cell = new joint.shapes.vz.Info({
+      var cell = new joint.shapes.ice.Info({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -1017,7 +1017,7 @@ angular.module('visualcircuit')
         }
       }
 
-      var cell = new joint.shapes.vz.Generic({
+      var cell = new joint.shapes.ice.Generic({
         id: instance.id,
         blockType: instance.type,
         data: instance.data,
@@ -1056,7 +1056,7 @@ angular.module('visualcircuit')
         }
       }
 
-      var _wire = new joint.shapes.vz.Wire({
+      var _wire = new joint.shapes.ice.Wire({
         source: {
           id: source.id,
           selector: sourceSelector,

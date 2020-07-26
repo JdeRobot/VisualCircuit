@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .service('drivers', function (gettextCatalog,
     profile,
     common,
@@ -162,7 +162,7 @@ angular.module('visualcircuit')
     function configureLinuxDrivers(commands, callback) {
       var command = 'sh -c "' + commands.join('; ') + '"';
       utils.beginBlockingTask();
-      nodeSudo.exec(command, { name: 'VisualCircuit' }, function (error/*, stdout, stderr*/) {
+      nodeSudo.exec(command, { name: 'Icestudio' }, function (error/*, stdout, stderr*/) {
         utils.endBlockingTask();
         if (!error) {
           if (callback) {
@@ -307,7 +307,7 @@ angular.module('visualcircuit')
     function processDriverDarwin(driver, load, callback) {
       if (driver) {
         var command = (load ? 'kextload' : 'kextunload') + ' -b ' + driver;
-        nodeSudo.exec(command, { name: 'VisualCircuit' }, function (/*error, stdout, stderr*/) {
+        nodeSudo.exec(command, { name: 'Icestudio' }, function (/*error, stdout, stderr*/) {
           if (callback) {
             callback();
           }
@@ -353,7 +353,7 @@ angular.module('visualcircuit')
     function enableWindowsDrivers(type) {
       var option = '--' + type + '-enable';
       utils.beginBlockingTask();
-      nodeSudo.exec([common.APIO_CMD, 'drivers', option].join(' '), { name: 'VisualCircuit' }, function (error, stdout, stderr) {
+      nodeSudo.exec([common.APIO_CMD, 'drivers', option].join(' '), { name: 'Icestudio' }, function (error, stdout, stderr) {
         utils.endBlockingTask();
         if (stderr) {
           alertify.error(gettextCatalog.getString('Toolchain not installed') + '.<br>' + gettextCatalog.getString('Click here to install it'), 30)

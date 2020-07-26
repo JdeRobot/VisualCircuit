@@ -5,7 +5,7 @@
 
 
 angular
-  .module('visualcircuit', [
+  .module('icestudio', [
     'ui.bootstrap',
     'ngRoute',
     'gettext'

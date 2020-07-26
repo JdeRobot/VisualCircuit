@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .factory('gui', function() {
     var gui = require('nw.gui');
     return gui;

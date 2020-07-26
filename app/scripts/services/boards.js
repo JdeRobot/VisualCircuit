@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .service('boards', function(utils,
                               common,
                               nodeFs,
                               nodePath) {
-    const DEFAULT = 'Python3-Noetic';
+    const DEFAULT = 'icezum';
 
     this.loadBoards = function() {
       var boards = [];
@@ -13,7 +13,7 @@ angular.module('visualcircuit')
       var menu = nodeFs.readFileSync(nodePath.join(path, 'menu.json'));
       JSON.parse(menu).forEach(function(section) {
         section.boards.forEach(function(name) {
-          var contentPath = nodePath.join(path, name);s
+          var contentPath = nodePath.join(path, name);
           if (nodeFs.statSync(contentPath).isDirectory()) {
             var info = readJSONFile(contentPath, 'info.json');
             var pinout = readJSONFile(contentPath, 'pinout.json');
