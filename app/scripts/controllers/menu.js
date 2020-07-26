@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .controller('MenuCtrl', function ($rootScope,
     $scope,
     $timeout,
@@ -54,7 +54,7 @@ angular.module('icestudio')
       var mb = new gui.Menu({
         type: 'menubar'
       });
-      mb.createMacBuiltin('Icestudio');
+      mb.createMacBuiltin('VisualCircuit');
       win.menu = mb;
     }
 
@@ -191,7 +191,7 @@ angular.module('icestudio')
     };
 
     $scope.openProjectDialog = function () {
-      utils.openDialog('#input-open-project', '.ice', function (filepath) {
+      utils.openDialog('#input-open-project', '.vz', function (filepath) {
         if (zeroProject) {
           // If this is the first action, open
           // the projec in the same window
@@ -246,7 +246,7 @@ angular.module('icestudio')
 
     $scope.doSaveProjectAs = function (localCallback) {
 
-      utils.saveDialog('#input-save-project', '.ice', function (filepath) {
+      utils.saveDialog('#input-save-project', '.vz', function (filepath) {
         updateWorkingdir(filepath);
         project.save(filepath, function () {
           reloadCollectionsIfRequired(filepath);
@@ -301,7 +301,7 @@ angular.module('icestudio')
 
     $scope.addAsBlock = function () {
       var notification = true;
-      utils.openDialog('#input-add-as-block', '.ice', function (filepaths) {
+      utils.openDialog('#input-add-as-block', '.vz', function (filepaths) {
         filepaths = filepaths.split(';');
         for (var i in filepaths) {
           project.addBlockFile(filepaths[i], notification);
@@ -365,7 +365,7 @@ angular.module('icestudio')
     }
 
     function equalWorkingFilepath(filepath) {
-      return $scope.workingdir + project.name + '.ice' === filepath;
+      return $scope.workingdir + project.name + '.vz' === filepath;
     }
 
     $scope.quit = function () {
@@ -609,7 +609,7 @@ angular.module('icestudio')
     $scope.selectTheme = function (theme) {
       if (profile.get('uiTheme') !== theme) {
         profile.set('uiTheme', theme);
-      alertify.warning(gettextCatalog.getString('Icestudio needs to be restarted to switch the new UI Theme.'), 15);
+      alertify.warning(gettextCatalog.getString('VisualCircuit needs to be restarted to switch the new UI Theme.'), 15);
 
 
       }
@@ -629,7 +629,7 @@ angular.module('icestudio')
         height: 700,
         'min_width': 300,
         'min_height': 300,
-        icon: 'resources/images/icestudio-logo.png'
+        icon: 'resources/images/jderobot-logo.png'
       });
     };
 
@@ -645,7 +645,7 @@ angular.module('icestudio')
           height: 700,
           'min_width': 300,
           'min_height': 300,
-          icon: 'resources/images/icestudio-logo.png'
+          icon: 'resources/images/jderobot-logo.png'
         });
       } else {
         alertify.warning(gettextCatalog.getString('{{board}} pinout not defined', {
@@ -679,7 +679,7 @@ angular.module('icestudio')
           height: 500,
           'min_width': 300,
           'min_height': 300,
-          icon: 'resources/images/icestudio-logo.png'
+          icon: 'resources/images/jderobot-logo.png'
         });
       } else {
         alertify.error(gettextCatalog.getString('{{board}} rules not defined', {
@@ -705,7 +705,7 @@ angular.module('icestudio')
           height: 700,
           'min_width': 300,
           'min_height': 300,
-          icon: 'resources/images/icestudio-logo.png'
+          icon: 'resources/images/jderobot-logo.png'
         });
       } else {
         alertify.error(gettextCatalog.getString('Collection {{collection}} info not defined', {
@@ -724,7 +724,7 @@ angular.module('icestudio')
         height: 400,
         'min_width': 300,
         'min_height': 300,
-        icon: 'resources/images/icestudio-logo.png'
+        icon: 'resources/images/jderobot-logo.png'
       });
     };
 

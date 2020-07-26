@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .service('collections', function (utils,
     common,
     profile,

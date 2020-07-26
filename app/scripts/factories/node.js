@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .factory('fastCopy', function() {
     return require('fast-copy');
   })

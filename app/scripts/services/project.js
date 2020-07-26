@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .service('project', function ($rootScope,
     graph,
     boards,
@@ -155,11 +155,11 @@ angular.module('icestudio')
     function checkVersion(version) {
       if (version > common.VERSION) {
         var errorAlert = alertify.error(gettextCatalog.getString('Unsupported project format {{version}}', { version: version }), 30);
-        alertify.message(gettextCatalog.getString('Click here to <b>download a newer version</b> of Icestudio'), 30)
+        alertify.message(gettextCatalog.getString('Click here to <b>download a newer version</b> of VisualStudio'), 30)
           .callback = function (isClicked) {
             if (isClicked) {
               errorAlert.dismiss(false);
-              gui.Shell.openExternal('https://github.com/FPGAwars/icestudio/releases');
+              gui.Shell.openExternal('https://github.com/JdeRobot/VisualCircuit/releases');
             }
           };
         return false;
@@ -400,16 +400,16 @@ angular.module('icestudio')
 
       // Sort Constant/Memory cells by x-coordinate
       cells = _.sortBy(cells, function (cell) {
-        if (cell.get('type') === 'ice.Constant' ||
-          cell.get('type') === 'ice.Memory') {
+        if (cell.get('type') === 'vz.Constant' ||
+          cell.get('type') === 'vz.Memory') {
           return cell.get('position').x;
         }
       });
 
       // Sort I/O cells by y-coordinate
       cells = _.sortBy(cells, function (cell) {
-        if (cell.get('type') === 'ice.Input' ||
-          cell.get('type') === 'ice.Output') {
+        if (cell.get('type') === 'vz.Input' ||
+          cell.get('type') === 'vz.Output') {
           return cell.get('position').y;
         }
       });
@@ -608,7 +608,7 @@ angular.module('icestudio')
         this.name = name;
         graph.resetBreadcrumbs(name);
       }
-      var title = (this.changed ? '*' : '') + this.name + ' ─ Icestudio';
+      var title = (this.changed ? '*' : '') + this.name + ' ─ VisualCircuit';
       utils.updateWindowTitle(title);
     };
 

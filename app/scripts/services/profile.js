@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .service('profile', function (utils,
     common,
     _package,
@@ -76,8 +76,8 @@ angular.module('icestudio')
     };
 
     this.save = function () {
-      if (!nodeFs.existsSync(common.ICESTUDIO_DIR)) {
-        nodeFs.mkdirSync(common.ICESTUDIO_DIR);
+      if (!nodeFs.existsSync(common.VISUALCIRCUIT_DIR)) {
+        nodeFs.mkdirSync(common.VISUALCIRCUIT_DIR);
       }
       utils.saveFile(common.PROFILE_PATH, this.data)
         .then(function () {

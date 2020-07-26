@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('icestudio')
+angular.module('visualcircuit')
   .service('utils', function ($rootScope,
     gettextCatalog,
     common,
@@ -152,8 +152,8 @@ angular.module('icestudio')
     };
 
     this.createVirtualenv = function (callback) {
-      if (!nodeFs.existsSync(common.ICESTUDIO_DIR)) {
-        nodeFs.mkdirSync(common.ICESTUDIO_DIR);
+      if (!nodeFs.existsSync(common.VISUALCICRUIT_DIR)) {
+        nodeFs.mkdirSync(common.VISUALCIRCUIT_DIR);
       }
       if (!nodeFs.existsSync(common.ENV_DIR)) {
         nodeFs.mkdirSync(common.ENV_DIR);
@@ -248,7 +248,7 @@ angular.module('icestudio')
     this.toolchainDisabled = false;
 
     this.getApioExecutable = function () {
-      var candidateApio = process.env.ICESTUDIO_APIO ? process.env.ICESTUDIO_APIO : _package.apio.external;
+      var candidateApio = process.env.VISUALCIRCUIT_APIO ? process.env.VISUALCIRCUIT_APIO : _package.apio.external;
       if (nodeFs.existsSync(candidateApio)) {
         if (!this.toolchainDisabled) {
           // Show message only on start
@@ -311,10 +311,10 @@ angular.module('icestudio')
 
                 let name = basename(filepath);
                 let test = true;
-                if (test && typeof ICEpm !== 'undefined' &&
-                  ICEpm.isFactory(name)) {
+                if (test && typeof VZpm !== 'undefined' &&
+                  VZpm.isFactory(name)) {
 
-                  ICEpm.factory(name, content, function (data) {
+                  VZpm.factory(name, content, function (data) {
                     if (data) {
                       // JSON data
                       resolve(data);
@@ -426,7 +426,7 @@ angular.module('icestudio')
 
     function getFilesRecursive(folder, level) {
       var fileTree = [];
-      var validator = /.*\.(ice|json|md)$/;
+      var validator = /.*\.(vz|json|md)$/;
 
       try {
         var content = nodeFs.readdirSync(folder);
@@ -980,7 +980,7 @@ angular.module('icestudio')
 
       var cells = selectionToCells(selection, graph);
       var clipboard = {
-        icestudio: this.cellsToProject(cells, graph)
+        visualcircuit: this.cellsToProject(cells, graph)
       };
 
       // Send the clipboard object the global clipboard as a string
@@ -1026,8 +1026,8 @@ angular.module('icestudio')
         } else {
           // Parse the global clipboard
           var clipboard = JSON.parse(text);
-          if (callback && clipboard && clipboard.icestudio) {
-            callback(clipboard.icestudio);
+          if (callback && clipboard && clipboard.visualcircuit) {
+            callback(clipboard.visualcircuit);
           }
         }
       });
@@ -1080,26 +1080,26 @@ angular.module('icestudio')
       for (var c = 0; c < cells.length; c++) {
         var cell = cells[c];
 
-        if (cell.type === 'ice.Generic' ||
-          cell.type === 'ice.Input' ||
-          cell.type === 'ice.Output' ||
-          cell.type === 'ice.Code' ||
-          cell.type === 'ice.Info' ||
-          cell.type === 'ice.Constant' ||
-          cell.type === 'ice.Memory') {
+        if (cell.type === 'vz.Generic' ||
+          cell.type === 'vz.Input' ||
+          cell.type === 'vz.Output' ||
+          cell.type === 'vz.Code' ||
+          cell.type === 'vz.Info' ||
+          cell.type === 'vz.Constant' ||
+          cell.type === 'vz.Memory') {
           var block = {};
           block.id = cell.id;
           block.type = cell.blockType;
           block.data = cell.data;
           block.position = cell.position;
-          if (cell.type === 'ice.Generic' ||
-            cell.type === 'ice.Code' ||
-            cell.type === 'ice.Info' ||
-            cell.type === 'ice.Memory') {
+          if (cell.type === 'vz.Generic' ||
+            cell.type === 'vz.Code' ||
+            cell.type === 'vz.Info' ||
+            cell.type === 'vz.Memory') {
             block.size = cell.size;
           }
           blocks.push(block);
-        } else if (cell.type === 'ice.Wire') {
+        } else if (cell.type === 'vz.Wire') {
           var wire = {};
           wire.source = {
             block: cell.source.id,
