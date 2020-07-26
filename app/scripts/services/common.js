@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .service('common', function (nodePath,
     nodeTmp) {
 
@@ -56,13 +56,13 @@ angular.module('visualcircuit')
 
 
     this.BASE_DIR = process.env.HOME || process.env.USERPROFILE;
-    this.LOGFILE = nodePath.join(this.BASE_DIR, 'visualcircuit.log');
-    this.VISUALCIRCUIT_DIR = safeDir(nodePath.join(this.BASE_DIR, '.visualcircuit'), this);
-    this.INTERNAL_COLLECTIONS_DIR = nodePath.join(this.VISUALCIRCUIT_DIR, 'collections');
-    this.APIO_HOME_DIR = nodePath.join(this.VISUALCIRCUIT_DIR, 'apio');
-    this.PROFILE_PATH = nodePath.join(this.VISUALCIRCUIT_DIR, 'profile.json');
-    this.CACHE_DIR = nodePath.join(this.VISUALCIRCUIT_DIR, '.cache');
-    this.OLD_BUILD_DIR = nodePath.join(this.VISUALCIRCUIT_DIR, '.build');
+    this.LOGFILE = nodePath.join(this.BASE_DIR, 'icestudio.log');
+    this.ICESTUDIO_DIR = safeDir(nodePath.join(this.BASE_DIR, '.icestudio'), this);
+    this.INTERNAL_COLLECTIONS_DIR = nodePath.join(this.ICESTUDIO_DIR, 'collections');
+    this.APIO_HOME_DIR = nodePath.join(this.ICESTUDIO_DIR, 'apio');
+    this.PROFILE_PATH = nodePath.join(this.ICESTUDIO_DIR, 'profile.json');
+    this.CACHE_DIR = nodePath.join(this.ICESTUDIO_DIR, '.cache');
+    this.OLD_BUILD_DIR = nodePath.join(this.ICESTUDIO_DIR, '.build');
 
     this.VENV = 'virtualenv-16.7.10';
     this.VENV_DIR = nodePath.join(this.CACHE_DIR, this.VENV);
@@ -82,14 +82,14 @@ angular.module('visualcircuit')
     this.DEFAULT_APIO_PACKAGES = 'default-apio-packages';
     this.DEFAULT_APIO_PACKAGES_ZIP = nodePath.join(this.TOOLCHAIN_DIR, this.DEFAULT_APIO_PACKAGES + '.zip');
 
-    this.ENV_DIR = nodePath.join(this.VISUALCIRCUIT_DIR, 'venv');
+    this.ENV_DIR = nodePath.join(this.ICESTUDIO_DIR, 'venv');
     this.ENV_BIN_DIR = nodePath.join(this.ENV_DIR, this.WIN32 ? 'Scripts' : 'bin');
     this.ENV_PIP = nodePath.join(this.ENV_BIN_DIR, 'pip');
     this.ENV_APIO = nodePath.join(this.ENV_BIN_DIR, this.WIN32 ? 'apio.exe' : 'apio');
     this.APIO_CMD = (this.WIN32 ? 'set' : 'export') + ' APIO_HOME_DIR=' + this.APIO_HOME_DIR + (this.WIN32 ? '& ' : '; ') + '"' + this.ENV_APIO + '"';
 
     this.BUILD_DIR_OBJ = new nodeTmp.dirSync({
-      prefix: 'visualcircuit-',
+      prefix: 'icestudio-',
       unsafeCleanup: true
     });
     this.BUILD_DIR = this.BUILD_DIR_OBJ.name;
@@ -110,8 +110,8 @@ angular.module('visualcircuit')
             return nodePath.format({
               root: _dirFormat.root,
               dir: _dirFormat.root,
-              base: '.visualcircuit',
-              name: '.visualcircuit',
+              base: '.icestudio',
+              name: '.icestudio',
             });
           }
         }

@@ -1,6 +1,6 @@
 'use strict';
 
-joint.connectors.vz = function (sourcePoint, targetPoint, vertices) {
+joint.connectors.ice = function (sourcePoint, targetPoint, vertices) {
   var points = [];
 
   points.push({ x: sourcePoint.x, y: sourcePoint.y });

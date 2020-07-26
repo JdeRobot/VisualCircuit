@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
     .service('graph', function ($rootScope,
         joint,
         boards,
@@ -129,7 +129,7 @@ angular.module('visualcircuit')
                 embeddingMode: false,
                 //markAvailable: true,
                 getState: this.getState,
-                defaultLink: new joint.shapes.vz.Wire(),
+                defaultLink: new joint.shapes.ice.Wire(),
                 // guard: function(evt, view) vg
                 //   // FALSE means the event isn't guarded.
                 //   return false;
@@ -512,8 +512,8 @@ angular.module('visualcircuit')
             }
 
             function findLowerBlock(upperBlock) {
-                if (upperBlock.get('type') === 'vz.Wire' ||
-                    upperBlock.get('type') === 'vz.Info') {
+                if (upperBlock.get('type') === 'ice.Wire' ||
+                    upperBlock.get('type') === 'ice.Info') {
                     return;
                 }
                 var blocks = graph.findModelsUnderElement(upperBlock);
@@ -523,17 +523,17 @@ angular.module('visualcircuit')
                 }
                 // Get the first model found
                 var lowerBlock = blocks[0];
-                if (lowerBlock.get('type') === 'vz.Wire' ||
-                    lowerBlock.get('type') === 'vz.Info') {
+                if (lowerBlock.get('type') === 'ice.Wire' ||
+                    lowerBlock.get('type') === 'ice.Info') {
                     return;
                 }
                 var validReplacements = {
-                    'vz.Generic': ['vz.Generic', 'vz.Code', 'vz.Input', 'vz.Output'],
-                    'vz.Code': ['vz.Generic', 'vz.Code', 'vz.Input', 'vz.Output'],
-                    'vz.Input': ['vz.Generic', 'vz.Code'],
-                    'vz.Output': ['vz.Generic', 'vz.Code'],
-                    'vz.Constant': ['vz.Constant', 'vz.Memory'],
-                    'vz.Memory': ['vz.Constant', 'vz.Memory']
+                    'ice.Generic': ['ice.Generic', 'ice.Code', 'ice.Input', 'ice.Output'],
+                    'ice.Code': ['ice.Generic', 'ice.Code', 'ice.Input', 'ice.Output'],
+                    'ice.Input': ['ice.Generic', 'ice.Code'],
+                    'ice.Output': ['ice.Generic', 'ice.Code'],
+                    'ice.Constant': ['ice.Constant', 'ice.Memory'],
+                    'ice.Memory': ['ice.Constant', 'ice.Memory']
                 }[lowerBlock.get('type')];
                 // Check if the upper block is a valid replacement
                 if (validReplacements.indexOf(upperBlock.get('type')) === -1) {
@@ -560,21 +560,21 @@ angular.module('visualcircuit')
                     var upperBlockSize = upperBlock.get('size');
                     var lowerBlockType = lowerBlock.get('type');
                     var lowerBlockPosition = lowerBlock.get('position');
-                    if (lowerBlockType === 'vz.Constant' || lowerBlockType === 'vz.Memory') {
+                    if (lowerBlockType === 'ice.Constant' || lowerBlockType === 'ice.Memory') {
                         // Center x, Bottom y
                         upperBlock.set('position', {
                             x: lowerBlockPosition.x + (lowerBlockSize.width - upperBlockSize.width) / 2,
                             y: lowerBlockPosition.y + lowerBlockSize.height - upperBlockSize.height
                         });
                     }
-                    else if (lowerBlockType === 'vz.Input') {
+                    else if (lowerBlockType === 'ice.Input') {
                         // Right x, Center y
                         upperBlock.set('position', {
                             x: lowerBlockPosition.x + lowerBlockSize.width - upperBlockSize.width,
                             y: lowerBlockPosition.y + (lowerBlockSize.height - upperBlockSize.height) / 2
                         });
                     }
-                    else if (lowerBlockType === 'vz.Output') {
+                    else if (lowerBlockType === 'ice.Output') {
                         // Left x, Center y
                         upperBlock.set('position', {
                             x: lowerBlockPosition.x,
@@ -881,7 +881,7 @@ angular.module('visualcircuit')
             _.each(cells, function (cell) {
                 var cellView = paper.findViewByModel(cell.id);
                 cellView.options.interactive = value;
-                if (cell.get('type') !== 'vz.Generic') {
+                if (cell.get('type') !== 'ice.Generic') {
                     if (value) {
                         cellView.$el.removeClass('disable-graph');
                     }
@@ -889,7 +889,7 @@ angular.module('visualcircuit')
                         cellView.$el.addClass('disable-graph');
                     }
                 }
-                else if (cell.get('type') !== 'vz.Wire') {
+                else if (cell.get('type') !== 'ice.Wire') {
                     if (value) {
                         cellView.$el.find('.port-body').removeClass('disable-graph');
                     }
@@ -1432,7 +1432,7 @@ angular.module('visualcircuit')
                         // - if conversion from one board to other is in progress,
                         //   now is based on pin names, an improvement could be
                         //   through hash tables with assigned pins previously
-                        //   selected by visualcircuit developers
+                        //   selected by icestudio developers
                         var replaced = false;
                         for (var i in pins) {
                             replaced = false;
@@ -1621,20 +1621,20 @@ angular.module('visualcircuit')
             return new Promise(function (resolve) {
                 _.each(cells, function (cell) {
                     var cellView;
-                    if (cell.get('type') === 'vz.Code') {
+                    if (cell.get('type') === 'ice.Code') {
                         cellView = paper.findViewByModel(cell);
                         cellView.$box.find('.code-content').removeClass('highlight-error');
                         $('.sticker-error', cellView.$box).remove();
                         cellView.clearAnnotations();
                     }
-                    else if (cell.get('type') === 'vz.Generic') {
+                    else if (cell.get('type') === 'ice.Generic') {
                         cellView = paper.findViewByModel(cell);
 
                         $('.sticker-error', cellView.$box).remove();
                         cellView.$box.remove('.sticker-error').removeClass('highlight-error');
 
                     }
-                    else if (cell.get('type') === 'vz.Constant') {
+                    else if (cell.get('type') === 'ice.Constant') {
                         cellView = paper.findViewByModel(cell);
 
                         $('.sticker-error', cellView.$box).remove();
@@ -1650,17 +1650,17 @@ angular.module('visualcircuit')
             var cells = graph.getCells();
             _.each(cells, function (cell) {
                 var blockId, cellView;
-                if ((codeError.blockType === 'code' && cell.get('type') === 'vz.Code') ||
-                    (codeError.blockType === 'constant' && cell.get('type') === 'vz.Constant')) {
+                if ((codeError.blockType === 'code' && cell.get('type') === 'ice.Code') ||
+                    (codeError.blockType === 'constant' && cell.get('type') === 'ice.Constant')) {
                     blockId = utils.digestId(cell.id);
                 }
-                else if (codeError.blockType === 'generic' && cell.get('type') === 'vz.Generic') {
+                else if (codeError.blockType === 'generic' && cell.get('type') === 'ice.Generic') {
                     blockId = utils.digestId(cell.attributes.blockType);
                 }
                 if (codeError.blockId === blockId) {
                     cellView = paper.findViewByModel(cell);
                     if (codeError.type === 'error') {
-                        if (cell.get('type') === 'vz.Code') {
+                        if (cell.get('type') === 'ice.Code') {
 
                             $('.sticker-error', cellView.$box).remove();
                             cellView.$box.find('.code-content').addClass('highlight-error').append('<div class="sticker-error error-code-editor"></div>');
@@ -1673,7 +1673,7 @@ angular.module('visualcircuit')
 
                         }
                     }
-                    if (cell.get('type') === 'vz.Code') {
+                    if (cell.get('type') === 'ice.Code') {
                         cellView.setAnnotation(codeError);
                     }
                 }

@@ -18,8 +18,8 @@ else {
 
 // Model element
 
-joint.shapes.vz = {};
-joint.shapes.vz.Model = joint.shapes.basic.Generic.extend({
+joint.shapes.ice = {};
+joint.shapes.ice.Model = joint.shapes.basic.Generic.extend({
 
   markup: '<g class="rotatable">\
              <g class="scalable">\
@@ -40,7 +40,7 @@ joint.shapes.vz.Model = joint.shapes.basic.Generic.extend({
                </g>',
 
   defaults: joint.util.deepSupplement({
-    type: 'vz.Model',
+    type: 'ice.Model',
     size: {
       width: 1,
       height: 1
@@ -244,7 +244,7 @@ joint.shapes.vz.Model = joint.shapes.basic.Generic.extend({
   }
 });
 
-joint.shapes.vz.ModelView = joint.dia.ElementView.extend({
+joint.shapes.ice.ModelView = joint.dia.ElementView.extend({
 
   template: '',
 
@@ -317,7 +317,7 @@ joint.shapes.vz.ModelView = joint.dia.ElementView.extend({
     var state = self.model.get('state');
     var gridstep = 8;
     var minSize = { width: 64, height: 32 };
-    if (type === 'vz.Code' || type === 'vz.Memory') {
+    if (type === 'ice.Code' || type === 'ice.Memory') {
       minSize = { width: 96, height: 64 };
     }
 
@@ -413,13 +413,13 @@ joint.shapes.vz.ModelView = joint.dia.ElementView.extend({
 
 // Generic block
 
-joint.shapes.vz.Generic = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Generic = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Generic'
-  }, joint.shapes.vz.Model.prototype.defaults)
+    type: 'ice.Generic'
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.GenericView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.GenericView = joint.shapes.ice.ModelView.extend({
 
   // Image comments:
   // - img: fast load, no interactive
@@ -486,7 +486,7 @@ joint.shapes.vz.GenericView = joint.shapes.vz.ModelView.extend({
   },
 
   initialize: function () {
-    joint.shapes.vz.ModelView.prototype.initialize.apply(this, arguments);
+    joint.shapes.ice.ModelView.prototype.initialize.apply(this, arguments);
 
     this.tooltip = this.model.get('tooltip');
     this.tooltiptext = this.$box.find('.tooltiptext');
@@ -662,27 +662,27 @@ joint.shapes.vz.GenericView = joint.shapes.vz.ModelView.extend({
 
 // I/O blocks
 
-joint.shapes.vz.Input = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Input = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Input',
+    type: 'ice.Input',
     size: {
       width: 96,
       height: 64
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.Output = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Output = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Output',
+    type: 'ice.Output',
     size: {
       width: 96,
       height: 64
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.InputLabel = joint.shapes.vz.Model.extend({
+joint.shapes.ice.InputLabel = joint.shapes.ice.Model.extend({
   markup: '<g class="rotatable">\
              <g class="scalable">\
                <rect class="body" />\
@@ -703,16 +703,16 @@ joint.shapes.vz.InputLabel = joint.shapes.vz.Model.extend({
 
   //<polygon  class="input-virtual-terminator" points="0 -5,0 34,20 16" style="fill:white;stroke:<%= port.fill %>;stroke-width:3" transform="translate(100 -15)"/>\
   defaults: joint.util.deepSupplement({
-    type: 'vz.Output',
+    type: 'ice.Output',
     size: {
       width: 96,
       height: 64
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
 
-joint.shapes.vz.OutputLabel = joint.shapes.vz.Model.extend({
+joint.shapes.ice.OutputLabel = joint.shapes.ice.Model.extend({
   markup: '<g class="rotatable">\
              <g class="scalable">\
                <rect class="body"/>\
@@ -733,16 +733,16 @@ joint.shapes.vz.OutputLabel = joint.shapes.vz.Model.extend({
 
   //<polygon points="1 0,15 15,0 30,30 30,30 0" style="fill:lime;stroke-width:1" transform="translate(-122 -15)"/>\
   defaults: joint.util.deepSupplement({
-    type: 'vz.Input',
+    type: 'ice.Input',
     size: {
       width: 96,
       height: 64
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 
 });
 
-joint.shapes.vz.IOView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.IOView = joint.shapes.ice.ModelView.extend({
 
   initialize: function () {
     _.bindAll(this, 'updateBox');
@@ -1079,24 +1079,24 @@ joint.shapes.vz.IOView = joint.shapes.vz.ModelView.extend({
   }
 });
 
-joint.shapes.vz.InputView = joint.shapes.vz.IOView;
-joint.shapes.vz.OutputView = joint.shapes.vz.IOView;
+joint.shapes.ice.InputView = joint.shapes.ice.IOView;
+joint.shapes.ice.OutputView = joint.shapes.ice.IOView;
 
 
 // Constant block
 
-joint.shapes.vz.Constant = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Constant = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Constant',
+    type: 'ice.Constant',
     size: {
       width: 96,
       height: 64
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
 
-joint.shapes.vz.ConstantView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.ConstantView = joint.shapes.ice.ModelView.extend({
 
   initialize: function () {
     _.bindAll(this, 'updateBox');
@@ -1144,7 +1144,7 @@ joint.shapes.vz.ConstantView = joint.shapes.vz.ModelView.extend({
     });
     this.inputSelector.on('paste', function (event) {
       var data = event.originalEvent.clipboardData.getData('text');
-      if (data.startsWith('{"visualcircuit":')) {
+      if (data.startsWith('{"icestudio":')) {
         // Prevent paste blocks
         event.preventDefault();
       }
@@ -1240,17 +1240,17 @@ joint.shapes.vz.ConstantView = joint.shapes.vz.ModelView.extend({
 
 // Memory block
 
-joint.shapes.vz.Memory = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Memory = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Memory',
+    type: 'ice.Memory',
     size: {
       width: 96,
       height: 104
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.MemoryView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.MemoryView = joint.shapes.ice.ModelView.extend({
 
   initialize: function () {
     _.bindAll(this, 'updateBox');
@@ -1356,7 +1356,7 @@ joint.shapes.vz.MemoryView = joint.shapes.vz.ModelView.extend({
       self.editor.renderer.$cursorLayer.element.style.opacity = 0;
     });
     this.editor.on('paste', function (e) {
-      if (e.text.startsWith('{"visualcircuit":')) {
+      if (e.text.startsWith('{"icestudio":')) {
         // Prevent paste blocks
         e.text = '';
       }
@@ -1538,17 +1538,17 @@ joint.shapes.vz.MemoryView = joint.shapes.vz.ModelView.extend({
 
 // Code block
 
-joint.shapes.vz.Code = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Code = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Code',
+    type: 'ice.Code',
     size: {
       width: 384,
       height: 256
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.CodeView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.CodeView = joint.shapes.ice.ModelView.extend({
 
   initialize: function () {
     _.bindAll(this, 'updateBox');
@@ -1655,7 +1655,7 @@ joint.shapes.vz.CodeView = joint.shapes.vz.ModelView.extend({
       self.editor.renderer.$cursorLayer.element.style.opacity = 0;
     });
     this.editor.on('paste', function (e) {
-      if (e.text.startsWith('{"visualcircuit":')) {
+      if (e.text.startsWith('{"icestudio":')) {
         // Prevent paste blocks
         e.text = '';
       }
@@ -1918,17 +1918,17 @@ joint.shapes.vz.CodeView = joint.shapes.vz.ModelView.extend({
 
 // Info block
 
-joint.shapes.vz.Info = joint.shapes.vz.Model.extend({
+joint.shapes.ice.Info = joint.shapes.ice.Model.extend({
   defaults: joint.util.deepSupplement({
-    type: 'vz.Info',
+    type: 'ice.Info',
     size: {
       width: 400,
       height: 256
     }
-  }, joint.shapes.vz.Model.prototype.defaults)
+  }, joint.shapes.ice.Model.prototype.defaults)
 });
 
-joint.shapes.vz.InfoView = joint.shapes.vz.ModelView.extend({
+joint.shapes.ice.InfoView = joint.shapes.ice.ModelView.extend({
 
   initialize: function () {
     _.bindAll(this, 'updateBox');
@@ -2023,7 +2023,7 @@ joint.shapes.vz.InfoView = joint.shapes.vz.ModelView.extend({
       self.editor.renderer.$cursorLayer.element.style.opacity = 0;
     });
     this.editor.on('paste', function (e) {
-      if (e.text.startsWith('{"visualcircuit":')) {
+      if (e.text.startsWith('{"icestudio":')) {
         // Prevent paste blocks
         e.text = '';
       }
@@ -2246,7 +2246,7 @@ joint.shapes.vz.InfoView = joint.shapes.vz.ModelView.extend({
 
 // Custom wire
 
-joint.shapes.vz.Wire = joint.dia.Link.extend({
+joint.shapes.ice.Wire = joint.dia.Link.extend({
 
   markup: [
     '<path class="connection" d="M 0 0 0 0"/>',
@@ -2301,7 +2301,7 @@ joint.shapes.vz.Wire = joint.dia.Link.extend({
 
   defaults: joint.util.deepSupplement({
 
-    type: 'vz.Wire',
+    type: 'ice.Wire',
 
     labels: [{
       position: 0.5,
@@ -2323,14 +2323,14 @@ joint.shapes.vz.Wire = joint.dia.Link.extend({
       }
     },
 
-    router: { name: 'vz' },
-    connector: { name: 'vz' }
+    router: { name: 'ice' },
+    connector: { name: 'ice' }
 
   }, joint.dia.Link.prototype.defaults)
 
 });
 
-joint.shapes.vz.WireView = joint.dia.LinkView.extend({
+joint.shapes.ice.WireView = joint.dia.LinkView.extend({
 
   options: {
     shortLinkLength: 64,

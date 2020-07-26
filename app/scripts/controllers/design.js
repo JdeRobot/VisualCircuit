@@ -2,7 +2,7 @@
 
 var subModuleActive = false;
 
-angular.module('visualcircuit')
+angular.module('icestudio')
         .controller('DesignCtrl', function ($rootScope,
                 $scope,
                 project,

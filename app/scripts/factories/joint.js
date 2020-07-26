@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('visualcircuit')
+angular.module('icestudio')
   .factory('joint', function($window) {
     return $window.joint;
   });
