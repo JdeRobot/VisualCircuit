@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "LaserROS",
+    "version": "1.0.0",
+    "description": "Outputs Laser Data from Simulated ROS Laser Sensor",
+    "author": "Muhammad Taha Suhail",
+    "image": ""
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+       {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "100"
+                }
+              ],
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        }
+        
+      ],
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "200",
+            "port": "out"
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}
