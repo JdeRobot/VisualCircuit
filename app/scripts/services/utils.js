@@ -426,7 +426,7 @@ angular.module('icestudio')
 
     function getFilesRecursive(folder, level) {
       var fileTree = [];
-      var validator = /.*\.(ice|json|md)$/;
+      var validator = /.*\.(vc|json|md)$/;
 
       try {
         var content = nodeFs.readdirSync(folder);

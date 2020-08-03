@@ -5,7 +5,7 @@ angular.module('icestudio')
                               common,
                               nodeFs,
                               nodePath) {
-    const DEFAULT = 'icezum';
+    const DEFAULT = 'Python3-Noetic';
 
     this.loadBoards = function() {
       var boards = [];
@@ -16,13 +16,13 @@ angular.module('icestudio')
           var contentPath = nodePath.join(path, name);
           if (nodeFs.statSync(contentPath).isDirectory()) {
             var info = readJSONFile(contentPath, 'info.json');
-            var pinout = readJSONFile(contentPath, 'pinout.json');
-            var rules = readJSONFile(contentPath, 'rules.json');
+            //var pinout = readJSONFile(contentPath, 'pinout.json');
+            //var rules = readJSONFile(contentPath, 'rules.json');
             boards.push({
               name: name,
               info: info,
-              pinout: pinout,
-              rules: rules,
+              //pinout: pinout,
+              //rules: rules,
               type: section.type,
             });
           }
@@ -61,9 +61,9 @@ angular.module('icestudio')
         }
       }
       common.selectedBoard = selectedBoard;
-      common.pinoutInputHTML = generateHTMLOptions(common.selectedBoard.pinout, 'input');
-      common.pinoutOutputHTML = generateHTMLOptions(common.selectedBoard.pinout, 'output');
-      utils.rootScopeSafeApply();
+      //common.pinoutInputHTML = generateHTMLOptions(common.selectedBoard.pinout, 'input');
+      //common.pinoutOutputHTML = generateHTMLOptions(common.selectedBoard.pinout, 'output');
+      //utils.rootScopeSafeApply();
       return common.selectedBoard;
     };
 

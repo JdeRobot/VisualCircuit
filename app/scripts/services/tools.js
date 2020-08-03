@@ -1216,11 +1216,11 @@ angular.module('icestudio')
           };
         }
 
-        addCollectionItem('blocks', 'ice', _collections, zipEntry);
+        addCollectionItem('blocks', 'vc', _collections, zipEntry);
         addCollectionItem('blocks', 'v', _collections, zipEntry);
         addCollectionItem('blocks', 'vh', _collections, zipEntry);
         addCollectionItem('blocks', 'list', _collections, zipEntry);
-        addCollectionItem('examples', 'ice', _collections, zipEntry);
+        addCollectionItem('examples', 'vc', _collections, zipEntry);
         addCollectionItem('examples', 'v', _collections, zipEntry);
         addCollectionItem('examples', 'vh', _collections, zipEntry);
         addCollectionItem('examples', 'list', _collections, zipEntry);

@@ -191,7 +191,7 @@ angular.module('icestudio')
     };
 
     $scope.openProjectDialog = function () {
-      utils.openDialog('#input-open-project', '.ice', function (filepath) {
+      utils.openDialog('#input-open-project', '.vc', function (filepath) {
         if (zeroProject) {
           // If this is the first action, open
           // the projec in the same window
@@ -246,7 +246,7 @@ angular.module('icestudio')
 
     $scope.doSaveProjectAs = function (localCallback) {
 
-      utils.saveDialog('#input-save-project', '.ice', function (filepath) {
+      utils.saveDialog('#input-save-project', '.vc', function (filepath) {
         updateWorkingdir(filepath);
         project.save(filepath, function () {
           reloadCollectionsIfRequired(filepath);
@@ -301,7 +301,7 @@ angular.module('icestudio')
 
     $scope.addAsBlock = function () {
       var notification = true;
-      utils.openDialog('#input-add-as-block', '.ice', function (filepaths) {
+      utils.openDialog('#input-add-as-block', '.vc', function (filepaths) {
         filepaths = filepaths.split(';');
         for (var i in filepaths) {
           project.addBlockFile(filepaths[i], notification);
@@ -365,7 +365,7 @@ angular.module('icestudio')
     }
 
     function equalWorkingFilepath(filepath) {
-      return $scope.workingdir + project.name + '.ice' === filepath;
+      return $scope.workingdir + project.name + '.vc' === filepath;
     }
 
     $scope.quit = function () {
