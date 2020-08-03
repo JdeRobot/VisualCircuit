@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "Camera",
+    "version": "1.0.0",
+    "description": "Captures Video Stream from Camera",
+    "author": "Muhammad Taha Suhail",
+    "image": "%3Csvg%20height=%22472pt%22%20viewBox=%220%20-87%20472%20472%22%20width=%22472pt%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d=%22M462%2035.121v227.82l-121.879-66.55h-1.21v-94.72h1.21zm0%200%22%20fill=%22#00acea%22/%3E%3Cpath%20d=%22M338.91%20196.39v51.032c0%2022.09-17.91%2040-40%2040H50c-22.09%200-40-17.91-40-40V50c0-22.09%2017.91-40%2040-40h248.91c22.09%200%2040%2017.91%2040%2040zm0%200%22%20fill=%22#00efd1%22/%3E%3Cpath%20d=%22M467.102%2026.52a10.009%2010.009%200%200%200-9.899-.176L348.906%2085.477V50c-.031-27.602-22.398-49.969-50-50H50C22.398.031.031%2022.398%200%2050v197.422c.031%2027.598%2022.398%2049.965%2050%2050h248.91c27.602-.035%2049.969-22.402%2050-50v-34.84l108.3%2059.133a9.994%209.994%200%200%200%209.892-.176%2010.008%2010.008%200%200%200%204.898-8.602V35.121c0-3.531-1.863-6.8-4.898-8.601zM328.91%20247.422c-.02%2016.558-13.437%2029.98-30%2030H50c-16.562-.02-29.98-13.442-30-30V50c.02-16.563%2013.438-29.98%2030-30h248.91c16.563.02%2029.98%2013.438%2030%2030zM452%20246.086l-103.09-56.29v-81.53L452%2051.973zm0%200%22%20fill=%22#083863%22/%3E%3C/svg%3E"
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+        {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import cv2\r\nimport numpy as np\r\nfrom time import sleep\r\nfrom wires.wire_img import Wire_Write\r\n\r\ndef Camera(input_wires, output_wires, parameters):\r\n\r\n    cap = cv2.VideoCapture(0)\r\n\r\n    shm_w = Wire_Write(output_wires[0])\r\n\r\n    try:\r\n        while True:\r\n            ret, frame = cap.read()\r\n            shm_w.add(frame)\r\n    except KeyboardInterrupt:\r\n        pass\r\n\r\n    shm_w.release()",
+            "params": [],
+            "ports": {
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        }
+        
+      ],
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "200",
+            "port": "out"
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}

@@ -4,55 +4,62 @@ import numpy as np
 import multiprocessing
 from block import Block
 
+def loginfo(to_display):
+    text.insert(tkinter.END, to_display+'\n')
 
-# Reads path from provided arguments and loads files
+#------------------- Reads path from provided arguments and loads files --------------------------#
 def initialize():
 
     import argparse
     parser = argparse.ArgumentParser(description='Python Synthesizer')
-    parser.add_argument('--path', help='Enter path to mapping.vz', default="backend/examples/mapping.vz")
+    parser.add_argument('--path', help='Enter path to mapping.vz', default="examples/sample.ice")
     args = parser.parse_args()
-
+    
+    loginfo("Creating Project at: "+ args.path)
     data = load_JSON(args.path)
 
     return data
+#-------------------------------------------------------------------------------------------------#
 
-# Loads JSON object created by NodeJS frontend
+#---- Loads .vc JSON object ----#
 def load_JSON(file_path):
 
     import json
     with open(file_path) as obj:
         data = json.load(obj)
     return data
+#-------------------------------#
 
-# Program exit
+#----- Program exit Logic ------#
 def end_progam():
-    quit_program.destroy()
+    root.destroy()
 
     for process in processes:
         process.terminate()
         process.join()
 
     exit(0)
-
-#Driver Code
-if __name__ == "__main__":
+#-------------------------------#
 
 
-    quit_program = tkinter.Tk()
-    button = tkinter.Button(quit_program, text = "Your Application is Running!\n Press this Button to Exit!", command = end_progam)
-    button.pack()
+#--------------------------- Creates Python Application from .vc File -------------------------#
+def build():
 
     # Reading Front-End File
     data = initialize()
 
     # Creating dictionary of block types and their names
+    # Example: (d62a6403-2db3-4832-9f4f-0f2dc8ac407d, Camera)
     info = data['dependencies']
     keys = info.keys()
     type_names = []
 
     for key in keys:
-        type_names.append((key, info[key]['package']['name']))
+    
+        name = info[key]['package']['name']
+        type_names.append((key, name))
+        loginfo("Creating Block: "+ name)
+        
 
     # Creating dictionary of block types and their ID's
     identifiers = data['design']['graph']['blocks']
@@ -66,6 +73,26 @@ if __name__ == "__main__":
         blocks.append(new_block)
 
 
+    ########### Generating Scripts for User Code & Setting Parameters ##################
+    for key in keys:
+        
+        components = info[key]['design']['graph']['blocks']
+            
+        for element in components:
+                
+            if element['type'] == 'basic.code':
+                script = element['data']['code']
+                f = open("backend/modules/"+info[key]['package']['name']+".py", "w")
+                f.write(script)
+                f.close()
+            
+            elif element['type'] == 'basic.constant':
+                
+                for block in blocks:
+                    if block.id_type == key:
+                        block.add_parameter(element['data']['value'])
+    #####################################################################################
+
     # Reading Wires Mapping
     wires = data['design']['graph']['wires']
 
@@ -75,7 +102,8 @@ if __name__ == "__main__":
             dictionary[wire['source']['block']] = str(i)
 
 
-    # Setting up communication between blocks
+    ###################### Setting up communication between blocks ######################
+    loginfo("Setting up connections...")
     for wire in wires:
 
         wire_id = dictionary[wire['source']['block']]+wire['source']['port']
@@ -91,9 +119,28 @@ if __name__ == "__main__":
             if output_terminal['block'] == block.id:
                 block.connect_output_wire(wire_id)
                 break
+    ######################################################################################
+    
+    return blocks
+    
+#-----------------------------------------------------------------------------------------------------#
 
+#Driver Code
+if __name__ == "__main__":
+
+
+    # Creating Exit Button
+    root = tkinter.Tk()
+    text = tkinter.Text(root)
+    button = tkinter.Button(root, text = "Click here to Exit!", command = end_progam)
+    text.pack()
+    button.pack()
+
+    loginfo("Building Application...")
+    blocks = build()
 
     # Creating processes and assigning blocks. 
+    loginfo("Creating Processes...")
     processes = []
     for i, element in enumerate(blocks):
 
@@ -114,8 +161,7 @@ if __name__ == "__main__":
 
         processes[i].start()
 
-    quit_program.mainloop()
-
-
-
-
+    loginfo("Starting Application")
+    root.mainloop()
+        
+    
