@@ -3,7 +3,7 @@ layout: splash
 permalink: /
 header:
   overlay_color: "#5e616c"
-  overlay_image: /assets/images/cover/jderobot.png
+  overlay_image: /assets/images/cover/bg.jpg
   actions:
     #- label: "<i class='fas fa-download'></i> Install now"
     #  url: "/installation/"
