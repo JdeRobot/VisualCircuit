@@ -1,7 +1,7 @@
 ---
 title: Documentation
 layout: posts
-permalink: /about/
+permalink: /documentation/
 
 collection: posts
 
