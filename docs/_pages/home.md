@@ -30,7 +30,7 @@ feature_row:
     alt: "Documentation"
     title: "Documentation"
     excerpt: "Detailed description on how the project is organized and how to contribute."
-    url: "/about/"
+    url: "/documentation/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
 ---
