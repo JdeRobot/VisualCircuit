@@ -13,8 +13,7 @@ sidebar:
 
 # Visual Circuit
 
-
-<img src="app/resources/images/jderobot-logo.png" align="center">
+![alt_text]({{ "assets/images/logo.png" | absolute_url }})
 
 [![License](http://img.shields.io/:license-gpl-blue.svg)](http://opensource.org/licenses/GPL-2.0)
 
