@@ -49,7 +49,6 @@ Extension: .vc
 
 ### Wire Instances
 
-
 ```
 {
   "source": {
@@ -76,8 +75,157 @@ Extension: .vc
     Description
     Author
     Image (SVG)
-    
-# Insert Image Here.
+
+
+# Block Library
+
+
+### Camera
+
+![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+
+- Description: Captures Video Stream from Camera
+- Input: None
+- Output: BGR Image
+- Parameters: None
+
+### Color Filter
+
+![alt_text]({{ "assets/images/icons/colorfilter.png" | absolute_url }})
+
+- Description: Filters a Color in an Image
+- Input: BGR Image
+- Output: BGR Image Filtered
+- Parameters: Lower Color Range, Upper Color Range
+
+### Contour Detector
+
+![alt_text]({{ "assets/images/icons/contourdetector.png" | absolute_url }})
+
+- Description: Draws Contours in an Image
+- Input: BGR Image
+- Output: Contour Info(x,y,width,height,angle of rotation), BGR Image.
+- Parameters: None
+
+### Blur
+
+![alt_text]({{ "assets/images/icons/blur.png" | absolute_url }})
+
+- Description: Blurs an Image
+- Input: BGR Image
+- Output: BGR Image Blurred
+- Parameters: Type (Averaging, Median, Gaussian), Kernel
+
+### Cropper
+
+![alt_text]({{ "assets/images/icons/cropper.png" | absolute_url }})
+
+- Description: Crops an Image.
+- Input: BGR Image.
+- Output: BGR Image Resized.
+- Parameters: x,y,width,height
+
+### Edge Detector
+
+![alt_text]({{ "assets/images/icons/edgedetector.png" | absolute_url }})
+
+- Description: Performs Edge Detection on an Image.
+- Input: BGR Image
+- Output: BGR Image
+- Parameters: Lower Thresh, Upper Thresh
+
+### Face Detector
+
+![alt_text]({{ "assets/images/icons/facedetector.png" | absolute_url }})
+
+- Description: Detects Faces in an Image.
+- Input: BGR Image
+- Output: BGR Image with Detections.
+- Parameters: Bounding Box Info ('box') / Image with Detections ('image')
+
+### Image Read
+
+![alt_text]({{ "assets/images/icons/imageread.png" | absolute_url }})
+
+- Description: Reads an image from a Path.
+- Input: None
+- Output: BGR Image
+- Parameters: Image Path
+
+### Screen
+
+![alt_text]({{ "assets/images/icons/screen.png" | absolute_url }})
+
+- Description: Displays an Image.
+- Input: BGR Image
+- Output: None
+- Parameters: None
+
+### Threshold
+
+![alt_text]({{ "assets/images/icons/threshold.png" | absolute_url }})
+
+- Description: Thresholds an Image.
+- Input: BGR Image
+- Output: BGR Image Threshed
+- Parameters: Thresh Value
+
+
+### CameraROS 
+
+![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+
+- Description: Captures Video Stream from Simulated ROS Camera
+- Input: None
+- Output: BGR Image
+- Parameters: ROS Topic Name
+
+### LaserROS
+
+![alt_text]({{ "assets/images/icons/laser.png" | absolute_url }})
+
+- Description: Outputs Laser Data from Simulated ROS Laser Sensor
+- Input: None
+- Output: Laser Data
+- Parameters: ROS Topic Name
+
+###  Odometer
+
+![alt_text]({{ "assets/images/icons/odometer.png" | absolute_url }})
+
+- Description: Gets Robot's Position
+- Input: None
+- Output: Robot Odometry Information
+- Parameters: ROS Topic Name
+
+### Teleoperator 
+
+![alt_text]({{ "assets/images/icons/teleop.png" | absolute_url }})
+
+- Description: Teleoperation using center offset
+- Input: Bounding Box (x,y,width,height)
+- Output: cmd_vel (linear velocity, angular velocity)
+- Parameters: Linear Velocity
+
+### Motor Driver
+
+![alt_text]({{ "assets/images/icons/motordriver.png" | absolute_url }})
+
+- Description: Controls Robot's Movement.
+- Input: cmd_vel (linear velocity, angular velocity)
+- Output: None
+- Parameters: ROS Topic Name
+
+### PID
+
+![alt_text]({{ "assets/images/icons/pid.png" | absolute_url }})
+
+- Description: Navigation using PID
+- Input: Contour Info (x, y, width, height, angle of rotation)
+- Output: cmd_vel (linear velocity, angular velocity)
+- Parameters: Kp, Ki, Kd
+
+ROS Topic based communation blocks can be found [here](https://github.com/JdeRobot/VisualCircuit/tree/master/app/resources/collection/blocks/Blocks/ROS-Topics). They are working but not currently a part of the current VisualCircuit roadmap.
 
 
 ## Samples
@@ -87,7 +235,7 @@ Extension: .vc
 <details><summary>Camera.vc</summary>
 <p>
 
-```
+
 {
   "version": "1.0",
   "package": {
@@ -163,12 +311,10 @@ Extension: .vc
   },
   "dependencies": {}
 }
-```
+
 
 </p>
 </details>
-
-
 
 
 ### Screen
@@ -176,7 +322,7 @@ Extension: .vc
 <details><summary>Screen.vc</summary>
 <p>
 
-```
+
 {
   "version": "1.0",
   "package": {
@@ -257,7 +403,8 @@ Extension: .vc
   },
   "dependencies": {}
 }
-```
+
+
 </p>
 </details>
 
@@ -268,7 +415,7 @@ Extension: .vc
 <details><summary>EdgeDetector.vc</summary>
 <p>
   
-```
+
 {
   "version": "1.0",
   "package": {
@@ -408,7 +555,6 @@ Extension: .vc
   },
   "dependencies": {}
 }
-```
 
 </p>
 </details>
@@ -416,99 +562,3 @@ Extension: .vc
 ## Templates
 
 For more information about how to create your own blocks from scratch, head over to this [link](https://github.com/JdeRobot/VisualCircuit/tree/master/samples)
-
-
-# Block Library
-
-
-### Camera
-
-![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
-
-- Description: Captures Video Stream from Camera
-- Input: None
-- Output: BGR Image
-- Parameters: None
-
-### Color Filter
-
-![alt_text]({{ "assets/images/icons/colorfilter.png" | absolute_url }})
-
-- Description: Filters a Color in an Image
-- Input: BGR Image
-- Output: BGR Image Filtered
-- Parameters: Lower Color Range, Upper Color Range
-
-### Contour Detector
-
-![alt_text]({{ "assets/images/icons/contourdetector.png" | absolute_url }})
-
-- Description: Draws Contours in an Image
-- Input: BGR Image
-- Output: Contour Info(x,y,width,height,angle of rotation), BGR Image.
-- Parameters: None
-
-### Blur
-
-![alt_text]({{ "assets/images/icons/blur.png" | absolute_url }})
-
-- Description: Blurs an Image
-- Input: BGR Image
-- Output: BGR Image Blurred
-- Parameters: Type (Averaging, Median, Gaussian), Kernel
-
-### Cropper
-
-![alt_text]({{ "assets/images/icons/cropper.png" | absolute_url }})
-
-- Description: Crops an Image.
-- Input: BGR Image.
-- Output: BGR Image Resized.
-- Parameters: x,y,width,height
-
-### Edge Detector
-
-![alt_text]({{ "assets/images/icons/edgedetector.png" | absolute_url }})
-
-- Description: Performs Edge Detection on an Image.
-- Input: BGR Image
-- Output: BGR Image
-- Parameters: Lower Thresh, Upper Thresh
-
-### Face Detector
-
-![alt_text]({{ "assets/images/icons/facedetector.png" | absolute_url }})
-
-- Description: Detects Faces in an Image.
-- Input: BGR Image
-- Output: BGR Image with Detections.
-- Parameters: Bounding Box Info ('box') / Image with Detections ('image')
-
-### Image Read
-
-![alt_text]({{ "assets/images/icons/imageread.png" | absolute_url }})
-
-- Description: Reads an image from a Path.
-- Input: None
-- Output: BGR Image
-- Parameters: Image Path
-
-### Screen
-
-![alt_text]({{ "assets/images/icons/screen.png" | absolute_url }})
-
-- Description: Displays an Image.
-- Input: BGR Image
-- Output: None
-- Parameters: None
-
-### Threshold
-
-![alt_text]({{ "assets/images/icons/threshold.png" | absolute_url }})
-
-- Description: Thresholds an Image.
-- Input: BGR Image
-- Output: BGR Image Threshed
-- Parameters: Thresh Value
-
-
