@@ -423,12 +423,16 @@ For more information about how to create your own blocks from scratch, head over
 
 ### Camera
 
+![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+
 - Description: Captures Video Stream from Camera
 - Input: None
 - Output: BGR Image
 - Parameters: None
 
 ### Color Filter
+
+![alt_text]({{ "assets/images/icons/colorfilter.png" | absolute_url }})
 
 - Description: Filters a Color in an Image
 - Input: BGR Image
@@ -437,12 +441,16 @@ For more information about how to create your own blocks from scratch, head over
 
 ### Contour Detector
 
+![alt_text]({{ "assets/images/icons/contourdetector.png" | absolute_url }})
+
 - Description: Draws Contours in an Image
 - Input: BGR Image
 - Output: Contour Info(x,y,width,height,angle of rotation), BGR Image.
 - Parameters: None
 
 ### Blur
+
+![alt_text]({{ "assets/images/icons/blur.png" | absolute_url }})
 
 - Description: Blurs an Image
 - Input: BGR Image
@@ -451,12 +459,16 @@ For more information about how to create your own blocks from scratch, head over
 
 ### Cropper
 
+![alt_text]({{ "assets/images/icons/cropper.png" | absolute_url }})
+
 - Description: Crops an Image.
 - Input: BGR Image.
 - Output: BGR Image Resized.
 - Parameters: x,y,width,height
 
 ### Edge Detector
+
+![alt_text]({{ "assets/images/icons/edgedetector.png" | absolute_url }})
 
 - Description: Performs Edge Detection on an Image.
 - Input: BGR Image
@@ -465,12 +477,16 @@ For more information about how to create your own blocks from scratch, head over
 
 ### Face Detector
 
+![alt_text]({{ "assets/images/icons/facedetector.png" | absolute_url }})
+
 - Description: Detects Faces in an Image.
 - Input: BGR Image
 - Output: BGR Image with Detections.
 - Parameters: Bounding Box Info ('box') / Image with Detections ('image')
 
 ### Image Read
+
+![alt_text]({{ "assets/images/icons/imageread.png" | absolute_url }})
 
 - Description: Reads an image from a Path.
 - Input: None
@@ -479,12 +495,16 @@ For more information about how to create your own blocks from scratch, head over
 
 ### Screen
 
+![alt_text]({{ "assets/images/icons/screen.png" | absolute_url }})
+
 - Description: Displays an Image.
 - Input: BGR Image
 - Output: None
 - Parameters: None
 
 ### Threshold
+
+![alt_text]({{ "assets/images/icons/threshold.png" | absolute_url }})
 
 - Description: Thresholds an Image.
 - Input: BGR Image
