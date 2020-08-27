@@ -1,3 +1,16 @@
+---
+title: About
+layout: posts
+permalink: /about/
+
+collection: posts
+
+classes: wide
+
+sidebar:
+  nav: "docs"
+---
+
 # Visual Circuit
 
 
