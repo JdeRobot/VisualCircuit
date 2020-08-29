@@ -1,4 +1,3 @@
-import ctypes
 import tkinter
 import numpy as np
 import multiprocessing
@@ -12,7 +11,7 @@ def initialize():
 
     import argparse
     parser = argparse.ArgumentParser(description='Python Synthesizer')
-    parser.add_argument('--path', help='Enter path to mapping.vz', default="examples/sample.ice")
+    parser.add_argument('--path', help='Enter path to mapping.vc', default="main_test/mapping.vc")
     args = parser.parse_args()
     
     loginfo("Creating Project at: "+ args.path)
@@ -30,8 +29,17 @@ def load_JSON(file_path):
     return data
 #-------------------------------#
 
+#----- Generates Python Scripts -----#
+def generate_py_script(script, script_name):
+
+    generator = open("backend/modules/"+script_name+".py", "w")
+    generator.write(script)
+    generator.close()
+#------------------------------------#
+
 #----- Program exit Logic ------#
 def end_progam():
+
     root.destroy()
 
     for process in processes:
@@ -65,15 +73,37 @@ def build():
     identifiers = data['design']['graph']['blocks']
 
     blocks = []
-
+    parameters_list = []
+    count = 1
     for block in identifiers:
 
-        new_block = Block(block['id'], block['type'])
-        new_block.set_name(type_names)
-        blocks.append(new_block)
+        hex_id, block_type = block['id'], block['type']
+
+        if block_type == 'basic.code':
+            
+            code_name = "Code_"+str(count)
+            count += 1
+
+            script = block['data']['code']
+            generate_py_script(script, code_name)
+
+            new_block = Block(hex_id, block_type)
+            new_block.name = code_name
+            blocks.append(new_block)           
+
+        elif block_type == 'basic.constant':
+            parameters_list.append((hex_id, block['data']['value']))
+
+        elif block_type == 'basic.info':
+            pass
+
+        else:
+            new_block = Block(hex_id, block_type)
+            new_block.set_name(type_names)
+            blocks.append(new_block)
 
 
-    ########### Generating Scripts for User Code & Setting Parameters ##################
+    ############# Generating Scripts for User Code & Setting Parameters #################
     for key in keys:
         
         components = info[key]['design']['graph']['blocks']
@@ -81,10 +111,10 @@ def build():
         for element in components:
                 
             if element['type'] == 'basic.code':
+
                 script = element['data']['code']
-                f = open("backend/modules/"+info[key]['package']['name']+".py", "w")
-                f.write(script)
-                f.close()
+                scr_name = info[key]['package']['name']
+                generate_py_script(script, scr_name)
             
             elif element['type'] == 'basic.constant':
                 
@@ -96,36 +126,52 @@ def build():
     # Reading Wires Mapping
     wires = data['design']['graph']['wires']
 
-    dictionary = {}
-    for i, wire in enumerate(wires):
-        if wire['source']['block'] not in dictionary:
-            dictionary[wire['source']['block']] = str(i)
-
 
     ###################### Setting up communication between blocks ######################
     loginfo("Setting up connections...")
+
+    wire_id = 0
     for wire in wires:
 
-        wire_id = dictionary[wire['source']['block']]+wire['source']['port']
+        src_block, src_port = wire['source']['block'], wire['source']['port']
+        tgt_block, tgt_port = wire['target']['block'], wire['target']['port']
 
-        input_terminal = wire['target']
-        for block in blocks:
-            if input_terminal['block'] == block.id:
-                block.connect_input_wire(wire_id)
-                break
 
-        output_terminal = wire['source']
-        for block in blocks:
-            if output_terminal['block'] == block.id:
-                block.connect_output_wire(wire_id)
-                break
+        # Connecting Paramters to Blocks
+        if src_port == 'constant-out':
+
+            param_value = None
+            for param in parameters_list:
+                if param[0] == src_block:
+                    param_value = param[1]
+                    break
+
+            for block in blocks:
+                if tgt_block == block.id:
+                    block.add_parameter(param_value, tgt_port)
+                    break
+
+        # Connecting Wires to Blocks
+        else:
+            wire_name = "wire_"+str(wire_id)
+            wire_id += 1
+
+            for block in blocks:
+                if tgt_block == block.id:
+                    block.connect_input_wire(wire_name, tgt_port)
+                    break
+
+            for block in blocks:
+                if src_block == block.id:
+                    block.connect_output_wire(wire_name, src_port)
+                    break
     ######################################################################################
     
     return blocks
     
 #-----------------------------------------------------------------------------------------------------#
-
 #Driver Code
+
 if __name__ == "__main__":
 
 
@@ -145,8 +191,14 @@ if __name__ == "__main__":
     for i, element in enumerate(blocks):
 
         from importlib import import_module
+
         block_name = element.name
-        method_name = 'modules.' + block_name + '.' + block_name
+
+        if element.id_type == 'basic.code':
+            method_name = 'modules.' + block_name + '.loop'
+        else:
+            method_name = 'modules.' + block_name + '.' + block_name
+
         module, function = method_name.rsplit('.',1)
         mod = import_module(module)
         method = getattr(mod, function)
@@ -163,5 +215,3 @@ if __name__ == "__main__":
 
     loginfo("Starting Application")
     root.mainloop()
-        
-    
