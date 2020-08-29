@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "ImageRead",
+    "version": "1.0.0",
+    "description": "Reads an Image from a Directory.",
+    "author": "Muhammad Taha Suhail",
+    "image": "%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20468.293%20468.293%22%3E%3Cpath%20fill=%22#64798a%22%20d=%22M0%2015.822h468.293v436.649H0z%22/%3E%3Cpath%20fill=%22#e1e6e9%22%20d=%22M50.032%2062.495H418.26v343.352H50.032z%22/%3E%3Ccircle%20cx=%22310.634%22%20cy=%22133.407%22%20r=%2264.069%22%20fill=%22#fcd462%22/%3E%3Ccircle%20cx=%22310.634%22%20cy=%22133.407%22%20r=%2250.388%22%20fill=%22#f6c358%22/%3E%3Cpath%20fill=%22#3ea69b%22%20d=%22M171.945%20405.846l126.89-181.994%20116.938%20181.994z%22/%3E%3Cpath%20fill=%22#44c4a1%22%20d=%22M50.031%20405.846l126.89-181.994%20116.938%20181.994z%22/%3E%3C/svg%3E"
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+        {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import cv2 as cv\r\nimport numpy as np\r\nfrom time import sleep\r\nfrom wires.wire_img import Wire_Write\r\n\r\ndef ImageRead(input_wires, output_wires, parameters):\r\n\r\n    image = cv.imread(parameters[0], 1)\r\n\r\n    shm_w = Wire_Write(output_wires[0])\r\n\r\n    try:\r\n        while True:\r\n            shm_w.add(image)\r\n            sleep(100)\r\n            \r\n    except KeyboardInterrupt:\r\n        pass\r\n\r\n    shm_w.release()",
+            "params": [],
+            "ports": {
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        },
+        
+        {
+          "id": "400",
+          "type": "basic.constant",
+          "data": {
+            "name": "Image Path", 
+            "value": "/home/Desktop/img.jpg",
+            "local": true
+          },
+          "position": {
+            "x": 378,
+            "y": 10
+          }
+        }        
+        
+      ],
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "200",
+            "port": "out"
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}

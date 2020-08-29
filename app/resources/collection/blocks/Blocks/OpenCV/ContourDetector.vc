@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "ContourDetector",
+    "version": "1.0.0",
+    "description": "Draws Contours in an Image.",
+    "author": "Muhammad Taha Suhail",
+    "image": "%3Csvg%20height=%22512%22%20viewBox=%220%200%20512%20512%22%20width=%22512%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d=%22M497%20241h-29.68C459.95%20136.12%20375.88%2052.06%20271%2044.68V15c0-8.28-6.72-15-15-15s-15%206.72-15%2015v29.68C136.12%2052.06%2052.05%20136.12%2044.68%20241H15c-8.28%200-15%206.72-15%2015%200%208.29%206.72%2015%2015%2015h29.68C52.05%20375.88%20136.12%20459.95%20241%20467.32V497c0%208.29%206.72%2015%2015%2015s15-6.71%2015-15v-29.68c104.88-7.37%20188.95-91.44%20196.32-196.32H497c8.28%200%2015-6.71%2015-15%200-8.28-6.72-15-15-15zM256%20437.84c-100.27%200-181.84-81.57-181.84-181.84S155.73%2074.16%20256%2074.16%20437.84%20155.73%20437.84%20256%20356.27%20437.84%20256%20437.84z%22%20fill=%22#454554%22/%3E%3Cpath%20d=%22M355.12%20193.91L256%20344.56l-99.09-150.69c1.08-1.72%202.51-3.23%204.22-4.4l86.71-59.4c2.46-1.69%205.3-2.57%208.16-2.62%203.08-.07%206.18.82%208.83%202.65l86.04%2059.37c1.72%201.18%203.16%202.7%204.25%204.44z%22%20fill=%22#fff16b%22/%3E%3Cpath%20d=%22M355.12%20193.91L256%20344.56V127.45c3.08-.07%206.18.82%208.83%202.65l86.04%2059.37c1.72%201.18%203.16%202.7%204.25%204.44z%22%20fill=%22#ffd845%22/%3E%3Cpath%20d=%22M256%20256l20%2061.556-20%2067.004c-2.97%200-5.93-.89-8.48-2.63l-86.37-59.17a14.984%2014.984%200%200%201-6.52-12.37V201.83c0-2.87.82-5.62%202.28-7.96z%22%20fill=%22#ffd845%22/%3E%3Cpath%20d=%22M357.37%20201.83v108.56c0%204.95-2.44%209.58-6.52%2012.37l-86.37%2059.17-.01.01c-.47.32-.96.62-1.48.89a14.911%2014.911%200%200%201-6.99%201.73V256l99.08-62.13.04.04a15.08%2015.08%200%200%201%202.25%207.92z%22%20fill=%22#ffb454%22/%3E%3Cpath%20d=%22M512%20256c0%208.29-6.72%2015-15%2015h-29.68C459.95%20375.88%20375.88%20459.95%20271%20467.32V497c0%208.29-6.72%2015-15%2015v-74.16c100.27%200%20181.84-81.57%20181.84-181.84S356.27%2074.16%20256%2074.16V0c8.28%200%2015%206.72%2015%2015v29.68C375.88%2052.06%20459.95%20136.12%20467.32%20241H497c8.28%200%2015%206.72%2015%2015z%22%20fill=%22#2e2e2e%22/%3E%3C/svg%3E"
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "100",
+          "type": "basic.input",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 134
+          }
+        },
+        
+        {
+          "id": "201",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 154
+          }
+        },
+        
+       {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import cv2 as cv\nimport math\nimport numpy as np\nfrom time import sleep\nfrom wires.wire_img import Wire_Read, Wire_Write\nfrom wires.wire_str import Wire_Write as Wire_Write_Str\n\ndef ContourDetector(input_wires, output_wires, parameters):\n\n    shm_r = Wire_Read(input_wires[0])\n    shm_w = Wire_Write_Str(output_wires[0])\n    shm_w2 = Wire_Write(output_wires[1])\n\n    while True:\n\n        img = shm_r.get()\n        sleep(0.03)\n        img2 = cv.cvtColor(img, cv.COLOR_BGR2GRAY)\n        ret, thresh = cv.threshold(img2,60,255,cv.THRESH_BINARY)\n        contours, hierarchy = cv.findContours(thresh, 1, 2)\n\n        # Find the biggest contour (if detected)\n        if len(contours) > 0:\n        \n            cnt = max(contours, key=cv.contourArea)\n            rect = cv.minAreaRect(cnt) # ( center (x,y), (width, height), angle of rotation )\n            \n            M = cv.moments(cnt)\n            cx = int(M['m10']/M['m00'])\n            cy = int(M['m01']/M['m00'])\n            \n            cv.circle(img, (cx,cy), 5, (0,255,0), -1)\n            shm_w2.add(img)\n            \n            data = [cx, cy, rect[1][0], rect[1][1], rect[2]]\n            to_write = np.array(data, dtype='<U6')\n            # (x, y, width, height, angle of rotation)\n            shm_w.add(to_write)\n            \n\n    shm_r.release()\n    shm_w.release()\n    shm_w2.release()",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "100"
+                }
+              ],
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        }      
+        
+      ],
+
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        },
+
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}
