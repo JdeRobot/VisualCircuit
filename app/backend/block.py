@@ -8,7 +8,7 @@ class Block:
         self.input_ports = []
         self.port_map = []
         self.output_ports = []
-        self.parameters = None
+        self.parameters = []
 
     def set_name(self, name_dict):
 
@@ -17,19 +17,32 @@ class Block:
                 self.name = name[1]
                 break
 
-    def connect_input_wire(self, wire):
-        if int(wire) not in self.input_ports:
-            self.input_ports.append(int(wire))
+    def connect_input_wire(self, wire_id, port):
+        self.input_ports.append({'port':port, 'wire':wire_id})
 
-    def connect_output_wire(self, wire):
-        if int(wire) not in self.output_ports:
-            self.output_ports.append(int(wire))
+    def connect_output_wire(self, wire_id, port):
+        self.output_ports.append({'port':port, 'wire':wire_id})
+
+    def add_parameter(self, parameter, port):
+        self.parameters.append({'port':port, 'parameter':parameter})
 
     def sort_ports(self):
-        self.input_ports.sort()
-        self.input_ports = [str(i) for i in self.input_ports]
-        self.output_ports.sort()
-        self.output_ports = [str(i) for i in self.output_ports]
 
-    def set_parameters(self, parameters):
-        self.parameters = parameters
+        sorter = sorted(self.input_ports, key=lambda k: k['port'])
+        self.input_ports = []
+
+        for element in sorter:
+            self.input_ports.append(element['wire'])
+
+        sorter = sorted(self.output_ports, key=lambda k: k['port'])
+        self.output_ports = []
+
+        for element in sorter:
+            self.output_ports.append(element['wire'])
+
+        sorter = sorted(self.parameters, key=lambda k: k['port'])
+        self.parameters = []
+
+        for element in sorter:
+            self.parameters.append(element['parameter'])
+
