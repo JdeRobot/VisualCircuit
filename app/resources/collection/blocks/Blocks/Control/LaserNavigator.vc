@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "LaserNavigator",
+    "version": "1.0.0",
+    "description": "Navigates Robot on basis of laser data.",
+    "author": "Muhammad Taha Suhail",
+    "image": ""
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": 
+   [
+
+        {
+          "id": "100",
+          "type": "basic.input",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+        
+       {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "#! /usr/bin/env python\n\nimport rospy\nfrom sensor_msgs.msg import LaserScan\nimport numpy as np\nfrom wires.wire_str import Wire_Read\n\n\ndef LaserNavigator(input_wires, output_wires, parameters):\n\n    while True:\n        shm_r = Wire_Read(input_wires[0])\n        laser_ranges = np.asarray(shm_r.get(), dtype=np.int32)\n        print(laser_ranges)\n        print(\"Closest Object at Angle: \", "90")\n        print(\"Distance to Object: \", np.min(laser_ranges))\n    \n    shm_r.release()",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "100"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        }
+
+   ],
+
+      "wires": 
+    [
+
+        {
+          "source": {
+            "block": "100",
+            "port": "in"
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        }
+
+      ]
+    }
+  },
+  "dependencies": {}
+}
