@@ -21,7 +21,7 @@ title_separator          : "-"
 subtitle                 : Visual Editor for Robotics
 name                     : "JdeRobot"
 description              : "Visual Editor for Programming Robotics Applications"
-url                      : https://jderobot.github.io/VisualCircuit/
+url                      : # https://jderobot.github.io/VisualCircuit/
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : JdeRobot
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
