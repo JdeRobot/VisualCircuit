@@ -82,7 +82,7 @@ Extension: .vc
 
 ### Camera
 
-![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/camera.png" | absolute_url }})
 
 - Description: Captures Video Stream from Camera
 - Input: None
@@ -91,7 +91,7 @@ Extension: .vc
 
 ### Color Filter
 
-![alt_text]({{ "assets/images/icons/colorfilter.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/colorfilter.png" | absolute_url }})
 
 - Description: Filters a Color in an Image
 - Input: BGR Image
@@ -100,7 +100,7 @@ Extension: .vc
 
 ### Contour Detector
 
-![alt_text]({{ "assets/images/icons/contourdetector.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/contourdetector.png" | absolute_url }})
 
 - Description: Draws Contours in an Image
 - Input: BGR Image
@@ -109,7 +109,7 @@ Extension: .vc
 
 ### Blur
 
-![alt_text]({{ "assets/images/icons/blur.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/blur.png" | absolute_url }})
 
 - Description: Blurs an Image
 - Input: BGR Image
@@ -118,7 +118,7 @@ Extension: .vc
 
 ### Cropper
 
-![alt_text]({{ "assets/images/icons/cropper.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/cropper.png" | absolute_url }})
 
 - Description: Crops an Image.
 - Input: BGR Image.
@@ -127,7 +127,7 @@ Extension: .vc
 
 ### Edge Detector
 
-![alt_text]({{ "assets/images/icons/edgedetector.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/edgedetector.png" | absolute_url }})
 
 - Description: Performs Edge Detection on an Image.
 - Input: BGR Image
@@ -136,7 +136,7 @@ Extension: .vc
 
 ### Face Detector
 
-![alt_text]({{ "assets/images/icons/facedetector.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/facedetector.png" | absolute_url }})
 
 - Description: Detects Faces in an Image.
 - Input: BGR Image
@@ -145,7 +145,7 @@ Extension: .vc
 
 ### Image Read
 
-![alt_text]({{ "assets/images/icons/imageread.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/imageread.png" | absolute_url }})
 
 - Description: Reads an image from a Path.
 - Input: None
@@ -154,7 +154,7 @@ Extension: .vc
 
 ### Screen
 
-![alt_text]({{ "assets/images/icons/screen.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/screen.png" | absolute_url }})
 
 - Description: Displays an Image.
 - Input: BGR Image
@@ -163,7 +163,7 @@ Extension: .vc
 
 ### Threshold
 
-![alt_text]({{ "assets/images/icons/threshold.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/threshold.png" | absolute_url }})
 
 - Description: Thresholds an Image.
 - Input: BGR Image
@@ -173,7 +173,7 @@ Extension: .vc
 
 ### CameraROS 
 
-![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/camera.png" | absolute_url }})
 
 - Description: Captures Video Stream from Simulated ROS Camera
 - Input: None
@@ -182,7 +182,7 @@ Extension: .vc
 
 ### LaserROS
 
-![alt_text]({{ "assets/images/icons/laser.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/laser.png" | absolute_url }})
 
 - Description: Outputs Laser Data from Simulated ROS Laser Sensor
 - Input: None
@@ -191,7 +191,7 @@ Extension: .vc
 
 ###  Odometer
 
-![alt_text]({{ "assets/images/icons/odometer.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/odometer.png" | absolute_url }})
 
 - Description: Gets Robot's Position
 - Input: None
@@ -200,7 +200,7 @@ Extension: .vc
 
 ### Teleoperator 
 
-![alt_text]({{ "assets/images/icons/teleop.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/teleop.png" | absolute_url }})
 
 - Description: Teleoperation using center offset
 - Input: Bounding Box (x,y,width,height)
@@ -209,7 +209,7 @@ Extension: .vc
 
 ### Motor Driver
 
-![alt_text]({{ "assets/images/icons/motordriver.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/motordriver.png" | absolute_url }})
 
 - Description: Controls Robot's Movement.
 - Input: cmd_vel (linear velocity, angular velocity)
@@ -218,7 +218,7 @@ Extension: .vc
 
 ### PID
 
-![alt_text]({{ "assets/images/icons/pid.png" | absolute_url }})
+![alt_text]({{ "/assets/images/icons/pid.png" | absolute_url }})
 
 - Description: Navigation using PID
 - Input: Contour Info (x, y, width, height, angle of rotation)
@@ -232,10 +232,7 @@ ROS Topic based communation blocks can be found [here](https://github.com/JdeRob
 
 ### Camera
 
-<details><summary>Camera.vc</summary>
-<p>
-
-
+```
 {
   "version": "1.0",
   "package": {
@@ -311,18 +308,11 @@ ROS Topic based communation blocks can be found [here](https://github.com/JdeRob
   },
   "dependencies": {}
 }
-
-
-</p>
-</details>
-
+```
 
 ### Screen
 
-<details><summary>Screen.vc</summary>
-<p>
-
-
+```
 {
   "version": "1.0",
   "package": {
@@ -403,19 +393,13 @@ ROS Topic based communation blocks can be found [here](https://github.com/JdeRob
   },
   "dependencies": {}
 }
-
-
-</p>
-</details>
+```
 
 
 
 ### Edge Detector
 
-<details><summary>EdgeDetector.vc</summary>
-<p>
-  
-
+```
 {
   "version": "1.0",
   "package": {
@@ -555,9 +539,8 @@ ROS Topic based communation blocks can be found [here](https://github.com/JdeRob
   },
   "dependencies": {}
 }
+```
 
-</p>
-</details>
 
 ## Templates
 
