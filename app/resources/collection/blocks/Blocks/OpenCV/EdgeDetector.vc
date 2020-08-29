@@ -56,7 +56,7 @@
           "id": "300",
           "type": "basic.code",
           "data": {
-            "code": "import cv2 as cv\nimport numpy as np\nfrom time import sleep\nfrom wires.wire_img import Wire_Read, Wire_Write\n\ndef EdgeDetector(input_wires, output_wires, parameters):\n\n    shm_r = Wire_Read(input_wires[0])\n    shm_w = Wire_Write(output_wires[0])\n    #aperture = float(parameters[0])\n\n    while True:\n\n        sleep(0.03)\n\n        frame = shm_r.get()\n        frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)\n        edge_img = cv.Canny(frame, 100, 200)\n        edge_img = cv.cvtColor(edge_img, cv.COLOR_GRAY2BGR)\n\n        shm_w.add(edge_img)\n\n    shm_r.release()\n    shm_w.release()",
+            "code": "import cv2 as cv\nimport numpy as np\nfrom time import sleep\nfrom wires.wire_img import Wire_Read, Wire_Write\n\ndef EdgeDetector(input_wires, output_wires, parameters):\n\n    shm_r = Wire_Read(input_wires[0])\n    shm_w = Wire_Write(output_wires[0])\n    #aperture = float(parameters[0])\n\n    while True:\n\n        sleep(0.03)\n\n        frame = shm_r.get()\n        frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)\n        edge_img = cv.Canny(frame, int(parameters[0]), int(parameters[1]))\n        edge_img = cv.cvtColor(edge_img, cv.COLOR_GRAY2BGR)\n\n        shm_w.add(edge_img)\n\n    shm_r.release()\n    shm_w.release()",
             "params": [],
             "ports": {
               "in": [
@@ -86,12 +86,12 @@
           "type": "basic.constant",
           "data": {
             "name": "Lower Thresh",
-            "value": "100",
+            "value": "85",
             "local": true
           },
           "position": {
-            "x": 192,
-            "y": 112
+            "x": 328,
+            "y": 10
           }
         },
         {
@@ -99,12 +99,12 @@
           "type": "basic.constant",
           "data": {
             "name": "Upper Thresh",
-            "value": "200",
+            "value": "255",
             "local": true
           },
           "position": {
-            "x": 328,
-            "y": 112
+            "x": 428,
+            "y": 10
           }
         }
         
