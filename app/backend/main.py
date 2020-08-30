@@ -11,7 +11,7 @@ def initialize():
 
     import argparse
     parser = argparse.ArgumentParser(description='Python Synthesizer')
-    parser.add_argument('--path', help='Enter path to mapping.vc', default="main_test/mapping.vc")
+    parser.add_argument('--path', help='Enter path to mapping.vc', default="project_directory/mapping.vc")
     args = parser.parse_args()
     
     loginfo("Creating Project at: "+ args.path)

@@ -1,6 +1,6 @@
 {
   "label": "Python-3",
-  "datasheet": "http://tinyfpga.com/b-series-guide.html",
+  "datasheet": "",
   "interface": "Serial",
   "FPGAResources": {
     "ffs": 7680,
