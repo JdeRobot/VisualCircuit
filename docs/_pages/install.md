@@ -60,7 +60,7 @@ npm --version
 
 ### Download Direct .zip Package:
 
-You can download the .zip package from [here](insertlink)
+You can download the .zip package from [here](https://github.com/JdeRobot/VisualCircuit/releases)
 
 
 ### Alternative Method:
