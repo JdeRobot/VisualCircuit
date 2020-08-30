@@ -59,7 +59,7 @@
     "glob": "^7.1.4",
     "is-online": "~5.2.0",
     "jexcel": "^3.9.1",
-    "jquery": "~3.0.0",
+    "jquery": "~3.5.0",
     "jsuites": "^2.7.1",
     "lodash.debounce": "~4.0.8",
     "marked": "~0.3.19",
