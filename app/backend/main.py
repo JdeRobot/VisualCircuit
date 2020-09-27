@@ -120,7 +120,7 @@ def build():
                 
                 for block in blocks:
                     if block.id_type == key:
-                        block.add_parameter(element['data']['value'])
+                        block.add_parameter(element['id'], element['data']['value'])
     #####################################################################################
 
     # Reading Wires Mapping
