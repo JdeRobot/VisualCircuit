@@ -2,6 +2,7 @@ import tkinter
 import numpy as np
 import multiprocessing
 from block import Block
+from wires.wire_str import Wire_Read
 
 def loginfo(to_display):
     text.insert(tkinter.END, to_display+'\n')
@@ -11,7 +12,7 @@ def initialize():
 
     import argparse
     parser = argparse.ArgumentParser(description='Python Synthesizer')
-    parser.add_argument('--path', help='Enter path to mapping.vc', default="project_directory/mapping.vc")
+    parser.add_argument('--path', help='Enter path to mapping.vc', default="main_test/mapping.vc")
     args = parser.parse_args()
     
     loginfo("Creating Project at: "+ args.path)
@@ -47,6 +48,26 @@ def end_progam():
         process.join()
 
     exit(0)
+#-------------------------------#
+
+#----- Frequency Monitor ------#
+
+def monitor_frequency(memories):
+
+    from time import sleep
+
+    no_of_lines = len(memories)
+    for lines in range(no_of_lines):
+    	text.delete("1.0", tkinter.END)
+    
+    loginfo("<---------- Frequency Monitor ---------->\n\n")
+    for memory in memories:
+        message = memory.get()
+        message = "Block Name: " + message[0] + " ---> Frequency: " + message[1]
+        loginfo(message)
+        
+    sleep(0.2)
+
 #-------------------------------#
 
 
@@ -120,7 +141,7 @@ def build():
                 
                 for block in blocks:
                     if block.id_type == key:
-                        block.add_parameter(element['id'], element['data']['value'])
+                        block.add_parameter(element['data']['value'], element['id'])
     #####################################################################################
 
     # Reading Wires Mapping
@@ -188,6 +209,7 @@ if __name__ == "__main__":
     # Creating processes and assigning blocks. 
     loginfo("Creating Processes...")
     processes = []
+    
     for i, element in enumerate(blocks):
 
         from importlib import import_module
@@ -212,6 +234,15 @@ if __name__ == "__main__":
         args=(input_args, output_args, parameters,)))
 
         processes[i].start()
+    
+    memories = []    
+    for process in processes:
+        memories.append(Wire_Read(str(process.pid)))
 
     loginfo("Starting Application")
-    root.mainloop()
+    
+    while True:
+    
+    	monitor_frequency(memories)
+    	root.update_idletasks()
+    	root.update()
