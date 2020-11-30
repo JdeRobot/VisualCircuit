@@ -1,0 +1,64 @@
+Blocks  
+ 
+You have set of blocks from which you can choose according to your desire output.  
+Just say that you want to capture a scene  from a  camera and  apply filter and then present it to a screen. 
+ 
+Example  
+ 
+Drag and Drop 
+ 
+You will head towards the top right corner and click on blocks and head towards opencv and select the camera block. 
+You will head again to the blocks section and select the color filter block and screen block. 
+
+ 
+ 
+Connecting them with wire 
+  
+You can see in the  above image a camera block. 
+Now have a look on a pin extended from the block, this is wire. Click on this and extend it towards color filter block. 
+ 
+
+ 
+Now extend the color filter wire to the screen. 
+ 
+
+Now your image will be captured by your device camera then color filter will process that image and screen will show the desired output. 
+ 
+ 
+Clone  
+  
+This feature is for limited blocks. 
+Let's take an example of color filter. Just in case you want to use red color in your color filter. 
+If you do not apply clone to color filter before changing default color then whenever you apply color filter it will use red color. In order to avoid this select color filter and go to the left top corner of your screen and click on edit and click clone. 
+ 
+
+ 
+ 
+Build  
+After making your desired application you need to build it. 
+top-left corner of your screen click on file then click build and then select python+ROS+Noetic.  
+
+ 
+Add as Block 
+You can also add a custom python code to an individual new block. 
+Go to top-left corner of your screen and click file and  select add as block. 
+You can name it as you like and you can use in your solution. 
+ 
+Save & Open 
+ 
+If you want to work on the same project let's say tomorrow then you can save your solution to your system and reopen it tomorrow . You will start working from where you left all your blocks will be there  with connected wires. 
+Save 
+For saving go to top-left corner of your screen and click file and then select save as from the drop-down menu. 
+Open 
+For opening your saved file go the top-left corner of your screen and click file and  then select open a window will be opened browse and select your desire file.  
+ 
+
+ 
+ 
+ 
+Quit  
+After you have saved your application go to top-left corner of your screen and click file and select quit.  
+
+As shown in above screen shot  
+Do not click on top-right corner cross it will close the interface but it will continue to run in back-end. 
+If you mistakenly clicked on above mentioned cross go to terminal and press ctrl and type c. 
