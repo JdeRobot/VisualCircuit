@@ -1,7 +1,7 @@
 ---
 permalink: /install/
 
-title: "Installation"
+title: "User Manual"
 
 sidebar:
   nav: "docs"
