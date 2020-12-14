@@ -99,14 +99,14 @@ cd visualcircuit
 npm start
 ```
 
-##### Well Done! you have Successfully Installed the VisualCircuit
+#### Well Done! you have Successfully Installed the VisualCircuit
 
 ![alt_text]({{ "assets/images/icons/Vc.png" | absolute_url }})
 
 
 Now it's time to play with it.
 
-## Run first application:
+## Build first application:
 
 We are now going to create our first running robotics application using Visual Circuit.
 
