@@ -1,17 +1,31 @@
 import cv2
 import numpy as np
 from time import sleep
-from wires.wire_img import Wire_Read
+from utils.wires.wire_img import read_image
+from utils.tools.freq_monitor import monitor_frequency
 
-def Screen(input_wires, output_wires, parameters):
+def loop(block_name, input_wires, output_wires, parameters, flags):
 
-    shm_r = Wire_Read(input_wires[0])
+    # To monitor block frequency
+    ticks = np.array([0])
+    if flags[0] == 1:
+        monitor_frequency(block_name, ticks)
 
-    while True:
-        
-        img = shm_r.get()
-        cv2.imshow('Screen', img)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-             break
+    input_0 = read_image(input_wires[0])
+    
+    try:
+        while True:
+            
+            ticks[0] += 1
 
-    shm_r.release()
+            img = input_0.get()
+
+            '''
+            Write program logic here
+            img contains the shared image which was read.
+            Use sleep(sleep_value) to control frequency
+            '''
+            
+    # Process Destructor        
+    except KeyboardInterrupt:
+        shm_r.release()
