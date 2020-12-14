@@ -147,7 +147,7 @@ After doing that click on the files from the top left corner and following menu 
 Go to build and press Python-ROS-Neotic
 ![alt_text]({{ "assets/images/icons/running app.png" | absolute_url }})
 
-Here you go your application is setted up. Congratulations buddy.
+#### Here you go your application is setted up. Congratulations buddy.
 
 
 
