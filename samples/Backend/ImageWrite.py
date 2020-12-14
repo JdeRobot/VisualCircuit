@@ -1,19 +1,34 @@
+import cv2
 import numpy as np
 from time import sleep
-from wires.wire_img import Wire_Write
+from utils.wires.wire_img import share_image
+from utils.tools.freq_monitor import monitor_frequency
 
-def ImageWrite(input_wires, output_wires, parameters):
+def loop(block_name, input_wires, output_wires, parameters, flags):
 
-    # Your Image Goes Here
-    img = np.array((640,480,3), dtype=np.uint8)
+    if flags[0] == 1:
+        ticks = np.array([0])
+        monitor_frequency(block_name, ticks)
 
-    shm_w = Wire_Write(output_wires[0])
+    output_0 = share_image(output_wires[0])
 
+    
     try:
         while True:
-            shm_w.add(img)
+            
+            '''
+            Write program logic here
+            img contains the image which is to be shared.
+            Use sleep(sleep_value) to control frequency
+
+            Your Image Goes Below (Any Resolution)
+            '''   
+            
+            img = np.array((640,480,3), dtype=np.uint8)
+            output_0.add(img)
             
     except KeyboardInterrupt:
-        pass
+        shm_w.release()
 
-    shm_w.release()
+
+    
