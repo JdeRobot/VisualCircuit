@@ -101,7 +101,7 @@ npm start
 
 #### Well Done! you have Successfully Installed the VisualCircuit
 
-![alt_text]({{ "assets/images/icons/Vc.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc.png" | absolute_url }})
 
 
 Now it's time to play with it.
@@ -112,40 +112,41 @@ We are now going to create our first running robotics application using Visual C
 
 First of all, on the top right corner you will find some options like Basic, Block, and etc.
 
-![alt_text]({{ "assets/images/icons/right top.png" | absolute_url }})
+![alt_text]({{ "assets/images/right top.png" | absolute_url }})
 
 Click on the Blocks and following menu will be poped up.
 
-![alt_text]({{ "assets/images/icons/blocks.png" | absolute_url }})
+![alt_text]({{ "assets/images/blocks.png" | absolute_url }})
 
 Expand the openCV.
 
-![alt_text]({{ "assets/images/icons/openCV.png" | absolute_url }})
+![alt_text]({{ "assets/images/openCV.png" | absolute_url }})
 
 
 
 Select the camera and place it.
 
 
-![alt_text]({{ "assets/images/icons/camera.png" | absolute_url }})
+![alt_text]({{ "assets/images/camera.png" | absolute_url }})
 
 Again go to openCV. This time select the screen and place it.
 
-![alt_text]({{ "assets/images/icons/screen.png" | absolute_url }})
+![alt_text]({{ "assets/images/screen.png" | absolute_url }})
 
 Now connect the camera to screen. click and hold on the out going edge of camera and join it to the in comming edge of screen.
+![alt_text]({{ "assets/images/gif/connection.gif" | absolute_url }})
 
 #### Your application has been setted up. It's time to execute your first application.
 To do so, first saved your application by pressing ctrl+s. It will ask you to name your application. 
 
-![alt_text]({{ "assets/images/icons/saving.png" | absolute_url }})
+![alt_text]({{ "assets/images/saving.png" | absolute_url }})
 
 After doing that click on the files from the top left corner and following menu will be poped up.
 
-![alt_text]({{ "assets/images/icons/left top.png" | absolute_url }})
+![alt_text]({{ "assets/images/left top.png" | absolute_url }})
 
 Go to build and press Python-ROS-Neotic
-![alt_text]({{ "assets/images/icons/running app.png" | absolute_url }})
+![alt_text]({{ "assets/images/running app.png" | absolute_url }})
 
 #### Here you go your application is setted up. Congratulations buddy.
 
