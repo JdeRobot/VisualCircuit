@@ -99,11 +99,56 @@ cd visualcircuit
 npm start
 ```
 
-#####Well Done! you have Successfully Installed the VisualCircuit
+##### Well Done! you have Successfully Installed the VisualCircuit
 
 ![alt_text]({{ "assets/images/icons/Vc.png" | absolute_url }})
 
 
 Now it's time to play with it.
+
+## Run first application:
+
+We are now going to create our first running robotics application using Visual Circuit.
+
+On the top right corner you will find some options like Basic, Block, and etc.
+
+![alt_text]({{ "assets/images/icons/right top.png" | absolute_url }})
+
+Click on the Blocks and following menu will be poped up.
+
+![alt_text]({{ "assets/images/icons/blocks.png" | absolute_url }})
+
+Expand the openCV.
+
+
+
+
+Select the camera and place it.
+
+
+
+
+Again go to openCV. This time select the screen and place it.
+
+
+
+Now connect the camera to screen. click and hold on the out going edge of camera and join it to the in comming edge of screen.
+
+Your application has been setted up. It's time to execute your first application.
+To do so, first saved your application by pressing ctrl+s. It will ask you to name your application. After doing that click on the files from the top left corner and following menu will be poped up.
+
+![alt_text]({{ "assets/images/icons/left top.png" | absolute_url }})
+
+Go to build and press Python-ROS-Neotic
+
+
+Here you go your application is setted up. Congratulations buddy.
+
+
+
+
+
+
+
 
 
