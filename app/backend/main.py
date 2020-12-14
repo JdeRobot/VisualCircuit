@@ -1,8 +1,8 @@
 import tkinter
 import numpy as np
 import multiprocessing
-from block import Block
-from wires.wire_str import Wire_Read
+from lib.block import Block
+from utils.wires.wire_str import read_string
 
 def loginfo(to_display):
     text.insert(tkinter.END, to_display+'\n')
@@ -63,8 +63,10 @@ def monitor_frequency(memories):
     loginfo("<---------- Frequency Monitor ---------->\n\n")
     for memory in memories:
         message = memory.get()
-        message = "Block Name: " + message[0] + " ---> Frequency: " + message[1]
-        loginfo(message)
+        
+        for msg in message:
+            loginfo(msg)
+        loginfo("--------------------")
         
     sleep(0.2)
 
@@ -86,6 +88,7 @@ def build():
     for key in keys:
     
         name = info[key]['package']['name']
+        name += info[key]['package']['version'].replace('.', '')
         type_names.append((key, name))
         loginfo("Creating Block: "+ name)
         
@@ -135,6 +138,7 @@ def build():
 
                 script = element['data']['code']
                 scr_name = info[key]['package']['name']
+                scr_name += info[key]['package']['version'].replace('.', '')
                 generate_py_script(script, scr_name)
             
             elif element['type'] == 'basic.constant':
@@ -209,18 +213,15 @@ if __name__ == "__main__":
     # Creating processes and assigning blocks. 
     loginfo("Creating Processes...")
     processes = []
-    
-    for i, element in enumerate(blocks):
+       
 
-        from importlib import import_module
+    from importlib import import_module
+    for i, element in enumerate(blocks):
 
         block_name = element.name
 
-        if element.id_type == 'basic.code':
-            method_name = 'modules.' + block_name + '.loop'
-        else:
-            method_name = 'modules.' + block_name + '.' + block_name
 
+        method_name = 'modules.' + block_name + '.loop'
         module, function = method_name.rsplit('.',1)
         mod = import_module(module)
         method = getattr(mod, function)
@@ -230,16 +231,22 @@ if __name__ == "__main__":
         output_args = element.output_ports
         parameters = element.parameters
 
+        flags = [1,0,0]
         processes.append(multiprocessing.Process(target=method,
-        args=(input_args, output_args, parameters,)))
+        args=(block_name, input_args, output_args, parameters, flags,)))
 
-        processes[i].start()
-    
-    memories = []    
-    for process in processes:
-        memories.append(Wire_Read(str(process.pid)))
-
+        
     loginfo("Starting Application")
+    
+    root.update_idletasks()
+    root.update()
+    
+    for process in processes:
+        process.start()
+
+    memories = []
+    for process in processes:
+        memories.append(read_string(str(process.pid)))
     
     while True:
     
