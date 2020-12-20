@@ -143,6 +143,15 @@ Extension: .vc
 - Output: BGR Image with Detections.
 - Parameters: Bounding Box Info ('box') / Image with Detections ('image')
 
+### Object Detector
+
+![alt_text]({{ "assets/images/icons/objectDetector.png" | absolute_url }})
+
+- Description: Detects objects in an Image using YOLOv3.
+- Input: BGR Image
+- Output: BGR Image with Detections.
+- Parameters: Bounding Box Info ('box') / Image with Detections ('image')
+
 ### Image Read
 
 ![alt_text]({{ "assets/images/icons/imageread.png" | absolute_url }})

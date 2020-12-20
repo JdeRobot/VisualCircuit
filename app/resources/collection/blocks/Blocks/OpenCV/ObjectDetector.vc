@@ -1,0 +1,139 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "ObjectDetector",
+    "version": "1.0.0",
+    "description": "Performs Object Detection on Image",
+    "author": "Faizan Ahmed",
+    "image": ""
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "100",
+          "type": "basic.input",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+
+       {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "# import required packages\nimport cv2\nimport argparse\nimport numpy as np\nfrom time import sleep\nfrom wires.wire_img import Wire_Read, Wire_Write\n\nclassName = []\n#Target Classes name\nclassesFile = 'backend/modules/yolov3.txt'\n\nwith open(classesFile,'rt') as f:\n        className = f.read().rstrip('\\n').split('\\n')\n\ndef findObjects(outputs, img):\n    confThreshold = 0.5\n    nmsThreshold = 0.3\n    hT, wT, cT = img.shape\n    bbox = []\n    classIds = []\n    confs = []\n\n    for output in outputs:\n        for det in output:\n            scores = det[5:]\n            classId = np.argmax(scores)\n            confidence = scores[classId]\n            if confidence > confThreshold:\n                #get height and weight of box\n                w,h = int(det[2] * wT), int(det[3] * hT)\n                #as det[0] and det[1] are x,y of center of box so these are converted to starting\n                #x and y\n                x,y = int((det[0]*wT) - w/2), int((det[1]*hT) - h/2)\n                bbox.append([x,y,w,h])\n                classIds.append(classId)\n                confs.append(float(confidence))\n    #print(len(bbox))\n    \n    indices = cv2.dnn.NMSBoxes(bbox, confs, confThreshold, nmsThreshold)\n    for i in indices:\n        i = i[0]\n        box = bbox[i]\n        x,y,w,h = box[0],box[1],box[2],box[3]\n        cv2.rectangle(img,(x,y),(x+w, y+h),(255,0,255),2)\n        #print(len(className))\n        cv2.putText(img,f'{className[classIds[i]].upper()} {int(confs[i]*100)}%',\n                    (x,y-10),cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,0,255),2)\n                    \ndef ObjectDetector( input_wires, output_wires, parameters ):\n    shm_r = Wire_Read(input_wires[0])\n    shm_w = Wire_Write(output_wires[0])                 \n    #loading video cam\n    \n    #width and height of Target Frame\n    whT = 320\n    #confidence threshold \n    \n    #lower it is more aggrestive it will\n    \n\n    \n    \n    \n    print(\"className:\", className)\n    \n    #print(len(className))\n    modelConfiguration = 'backend/modules/yolov3.cfg'\n    modelWeights = 'backend/modules/yolov3.weights'\n\n    #loading YOLO Model from Darknet\n    net = cv2.dnn.readNetFromDarknet(modelConfiguration,modelWeights)\n    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)\n    net.setPreferableTarget(cv2.dnn. DNN_TARGET_CPU)\n\n\n\n        \n    while True:\n        img = shm_r.get()\n        #converting img to blob\n        blob = cv2.dnn.blobFromImage(img, 1/255,(whT,whT),[0,0,0],1, crop = False)\n\n        #Passing blob to network\n        net.setInput(blob)\n\n        #geting Layers Name\n        layerNames = net.getLayerNames()\n        #print(layerNames)\n        #print(net.getUnconnectedOutLayers())\n        outputNames = [layerNames[i[0]-1] for i in net.getUnconnectedOutLayers()]\n        #print(outputNames)\n\n        #forward Pass\n        outputs = net.forward(outputNames)\n        #print(outputs[0].shape)\n        #print(outputs[1].shape)\n        #print(outputs[2].shape)\n\n        findObjects(outputs,img) \n        shm_w.add(img)\n        ",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "100"
+                }
+              ],
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        },
+        
+        {
+          "id": "400",
+          "type": "basic.constant",
+          "data": {
+            "name": "Lower Thresh",
+            "value": "85",
+            "local": true
+          },
+          "position": {
+            "x": 328,
+            "y": 10
+          }
+        },
+        {
+          "id": "401",
+          "type": "basic.constant",
+          "data": {
+            "name": "Upper Thresh",
+            "value": "255",
+            "local": true
+          },
+          "position": {
+            "x": 428,
+            "y": 10
+          }
+        }
+        
+      ],
+
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        },
+
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}
