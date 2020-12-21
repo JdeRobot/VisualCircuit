@@ -1,0 +1,115 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "Detector",
+    "version": "1.0.0",
+    "description": "Detects Objects in an Image",
+    "author": "Muhammad Taha Suhail",
+    "image": ""
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "100",
+          "type": "basic.input",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+        
+        {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import numpy as np\nimport cv2\nimport time\nfrom wires.wire_img import Wire_Read\nfrom wires.wire_img import Wire_Write\n\nimport tensorflow.compat.v1 as tf\ntf.disable_v2_behavior()\n\nclass DetectorAPI:\n    def __init__(self, path_to_ckpt):\n        self.path_to_ckpt = path_to_ckpt\n\n        self.detection_graph = tf.Graph()\n        with self.detection_graph.as_default():\n            od_graph_def = tf.GraphDef()\n            with tf.gfile.GFile(self.path_to_ckpt, 'rb') as fid:\n                serialized_graph = fid.read()\n                od_graph_def.ParseFromString(serialized_graph)\n                tf.import_graph_def(od_graph_def, name='')\n\n        self.default_graph = self.detection_graph.as_default()\n        self.sess = tf.Session(graph=self.detection_graph)\n\n        # Definite input and output Tensors for detection_graph\n        self.image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')\n        # Each box represents a part of the image where a particular object was detected.\n        self.detection_boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')\n        # Each score represent how level of confidence for each of the objects.\n        # Score is shown on the result image, together with the class label.\n        self.detection_scores = self.detection_graph.get_tensor_by_name('detection_scores:0')\n        self.detection_classes = self.detection_graph.get_tensor_by_name('detection_classes:0')\n        self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')\n\n    def processFrame(self, image):\n        # Expand dimensions since the trained_model expects images to have shape: [1, None, None, 3]\n        image_np_expanded = np.expand_dims(image, axis=0)\n        # Actual detection.\n        start_time = time.time()\n        (boxes, scores, classes, num) = self.sess.run(\n            [self.detection_boxes, self.detection_scores, self.detection_classes, self.num_detections],\n            feed_dict={self.image_tensor: image_np_expanded})\n        end_time = time.time()\n\n        print(\"Elapsed Time:\", end_time-start_time)\n\n        im_height, im_width,_ = image.shape\n        boxes_list = [None for i in range(boxes.shape[1])]\n        for i in range(boxes.shape[1]):\n            boxes_list[i] = (int(boxes[0,i,0] * im_height),\n                        int(boxes[0,i,1]*im_width),\n                        int(boxes[0,i,2] * im_height),\n                        int(boxes[0,i,3]*im_width))\n\n        return boxes_list, scores[0].tolist(), [int(x) for x in classes[0].tolist()], int(num[0])\n\n    def close(self):\n        self.sess.close()\n        self.default_graph.close()\n\n\ndef Detector(input_wires, output_wires, parameters):\n\n    model_path = 'backend/models/frozen_inference_graph.pb'\n    odapi = DetectorAPI(path_to_ckpt=model_path)\n    threshold = 0.7\n    cap = cv2.VideoCapture(0)\n\n    shm_r = Wire_Read(input_wires[0])\n    shm_w = Wire_Write(output_wires[0])\n\n    while True:\n    \n        img = shm_r.get()\n        boxes, scores, classes, num = odapi.processFrame(img)\n\n        for i in range(len(boxes)):\n            # Class 1 represents human\n            if classes[i] == 1 and scores[i] > threshold:\n                box = boxes[i]\n                cv2.rectangle(img,(box[1],box[0]),(box[3],box[2]),(255,0,0),2)\n        \n        shm_w.add(img)\n        \n    shm_r.release()\n    shm_w.release()",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "100"
+                }
+              ],
+              "out": [
+                {
+                  "name": "200"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 248,
+            "y": 88
+          },
+          "size": {
+            "width": 384,
+            "height": 256
+          }
+        }
+        
+        
+      ],
+
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        },
+
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}
