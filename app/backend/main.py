@@ -155,11 +155,13 @@ def build():
     ###################### Setting up communication between blocks ######################
     loginfo("Setting up connections...")
 
-    wire_id = 0
+    
     for wire in wires:
 
         src_block, src_port = wire['source']['block'], wire['source']['port']
         tgt_block, tgt_port = wire['target']['block'], wire['target']['port']
+        
+        wire_id = src_block+str(src_port)
 
 
         # Connecting Paramters to Blocks
@@ -178,17 +180,16 @@ def build():
 
         # Connecting Wires to Blocks
         else:
-            wire_name = "wire_"+str(wire_id)
-            wire_id += 1
+            #wire_name = "wire_"+str(wire_id)
 
             for block in blocks:
                 if tgt_block == block.id:
-                    block.connect_input_wire(wire_name, tgt_port)
+                    block.connect_input_wire(wire_id, tgt_port)
                     break
 
             for block in blocks:
                 if src_block == block.id:
-                    block.connect_output_wire(wire_name, src_port)
+                    block.connect_output_wire(wire_id, src_port)
                     break
     ######################################################################################
     
