@@ -58,45 +58,22 @@ npm --version
 ## Setup
 
 
-### Download Direct .zip Package:
+### Download Direct .AppImage Package:
 
-You can download the .zip package from [here](https://github.com/JdeRobot/VisualCircuit/releases)
-
-
-### Alternative Method:
-
-Clone and install IceStudio from icestudio repository:
-
-```
-git clone https://github.com/FPGAwars/icestudio.git
-```
-
-Check if installation is successful. If it is successful, the application will succesfully start.
-
-```
-cd icestudio
-npm install
-npm start
-```
-
-Clone VisualCircuit Repository:
-
-```
-git clone https://github.com/JdeRobot/VisualCircuit.git
-```
-
-Go to the downloaded VisualCircuit repository and copy app folder and package.json file. Navigate to the icestudio directory and paste the files in that directory. Merge all the files that are conflicting.
-
-Once the merge operation is done, rename icestudio directory to anything you want. I will rename it to 'visualcircuit'.
-
+You can download the VisualCircuit-2.1-linux64.AppImage package from [here](https://github.com/JdeRobot/VisualCircuit/releases)
 
 ## Running the Tool:
 
 Run VisualCircuit:
 
+if you downloaded .AppImage file sucessfully then 
+downlad and run [requirements.sh](github.com/JdeRobot/VisualCircuit/blob/master/requirements.sh) file from https://github.com/JdeRobot/VisualCircuit/blob/master/requirements.sh
+
+to install the dependencies.
+
+Next go to folder containing the ApppImage and in terminal run
 ```
-cd visualcircuit
-npm start
+./VisualCircuit-2.1-linux64.AppImage
 ```
 
 #### Well Done! you have Successfully Installed the VisualCircuit
@@ -158,3 +135,4 @@ Go to build and press Python-ROS-Neotic
 
 
 
+    
