@@ -1,0 +1,148 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "ObjectDetector",
+    "version": "1.0.0",
+    "description": "Detects Objects in an Image",
+    "author": "Faizan Ahmed",
+    "image": "%3Csvg%20height=%22512%22%20viewBox=%220%200%20510%20510%22%20width=%22512%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d=%22M240%200v75.62l7.5%206.297L255%2075l3.673-36.106L255%200h-15z%22%20fill=%22#e63950%22/%3E%3Cpath%20d=%22M270%200h-15v75l7.5%206.916%207.5-6.297V0z%22%20fill=%22#cd0000%22/%3E%3Cpath%20d=%22M240%20434.378V510h15l5.833-35.333L255%20435l-7.5-7.667z%22%20fill=%22#e63950%22/%3E%3Cpath%20d=%22M270%20434.378l-7.5-7.045L255%20435v75h15v-75.622zM434.381%20270H510v-30h-75.619L420%20255z%22%20fill=%22#cd0000%22/%3E%3Cpath%20d=%22M75.622%20270H0v-30h75.621L90%20255z%22%20fill=%22#e63950%22/%3E%3Cpath%20d=%22M75%20255c0%2099.25%2080.745%20180%20180%20180l15-180-15-180c-99.25%200-180%2080.745-180%20180z%22%20fill=%22#ff637b%22/%3E%3Cpath%20d=%22M435%20255c0-99.249-80.745-180-180-180v360c99.249%200%20180-80.745%20180-180z%22%20fill=%22#e63950%22/%3E%3Cpath%20d=%22M105%20255c0%2082.707%2067.287%20150%20150%20150l15-150-15-150c-82.708%200-150%2067.287-150%20150z%22%20fill=%22#e6f2ff%22/%3E%3Cpath%20d=%22M405%20255c0-82.708-67.287-150-150-150v300c82.707%200%20150-67.288%20150-150zM480%2030v90h30V0H390v30z%22%20fill=%22#cdf%22/%3E%3Cpath%20d=%22M30%20120H0V0h120v30H30z%22%20fill=%22#e6f2ff%22/%3E%3Cpath%20d=%22M480%20480h-90v30h120V390h-30z%22%20fill=%22#cdf%22/%3E%3Cpath%20d=%22M120%20510H0V390h30v90h90z%22%20fill=%22#e6f2ff%22/%3E%3Cpath%20d=%22M213.677%20234.824c-14.505%207.206-24.746%2016.72-31.954%2026.202-14.379%2018.914-16.691%2037.698-16.723%2037.766V330h90l15-37.501-15-37.501z%22%20fill=%22#6cf%22/%3E%3Cpath%20d=%22M345%20298.792c-.103-.224-2.034-18.927-16.555-37.871-7.188-9.377-17.46-18.813-32.122-26.096L255%20254.998V330h90v-31.208z%22%20fill=%22#4596e6%22/%3E%3Cpath%20d=%22M202.5%20202.5c0%2028.948%2023.55%2052.5%2052.5%2052.5l15-52.5-15-52.5c-28.948%200-52.5%2023.55-52.5%2052.5z%22%20fill=%22#fdc%22/%3E%3Cpath%20d=%22M307.5%20202.5c0-28.947-23.55-52.5-52.5-52.5v105c28.947%200%2052.5-23.55%2052.5-52.5z%22%20fill=%22#ffbfb3%22/%3E%3C/svg%3E"
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "100",
+          "type": "basic.input",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+        {
+          "id": "Inp-1",
+          "type": "basic.input",
+          "data": {
+            "name": "E",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+
+        {
+          "id": "200",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+        
+        {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import cv2\nimport time\nimport numpy as np\nfrom time import sleep\nfrom utils.wires.wire_img import share_image, read_image\nfrom utils.wires.wire_str import read_string\nfrom utils.tools.freq_monitor import monitor_frequency\n\nclassName = []\nclassesFile = 'resources/backend/utils/models/yolov3/yolov3.txt'\n\nwith open(classesFile,'rt') as f:\n        className = f.read().rstrip('\\n').split('\\n')\n\ndef findObjects(outputs, img):\n\n    confThreshold = 0.3\n    nmsThreshold = 0.3\n    hT, wT, cT = img.shape\n    bbox = []\n    classIds = []\n    confs = []\n\n    for output in outputs:\n    \n        for det in output:\n            scores = det[5:]\n            classId = np.argmax(scores)\n            confidence = scores[classId]\n            if confidence > confThreshold:\n                w,h = int(det[2] * wT), int(det[3] * hT)\n                x,y = int((det[0]*wT) - w/2), int((det[1]*hT) - h/2)\n                bbox.append([x,y,w,h])\n                classIds.append(classId)\n                confs.append(float(confidence))\n    \n    indices = cv2.dnn.NMSBoxes(bbox, confs, confThreshold, nmsThreshold)\n    for i in indices:\n        i = i[0]\n        box = bbox[i]\n        x,y,w,h = box[0],box[1],box[2],box[3]\n        cv2.rectangle(img,(x,y),(x+w, y+h),(255,0,255),2)\n        cv2.putText(img,f'{className[classIds[i]].upper()} {int(confs[i]*100)}%',\n                    (x,y-10),cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,0,255),2)\n                \ndef loop(block_name, input_wires, output_wires, parameters, flags):\n\n    input_0 = read_image(input_wires[0])\n    output_0 = share_image(output_wires[0])\n\n    enabled = False\n    try:\n        enable_wire = read_string(input_wires[1])\n    except IndexError:\n        enabled = True\n    \n    required_frequency, update = float(parameters[0]), 1\n    control_data = np.array([0.0,0.03])\n    \n    if flags[0] == 1:\n        monitor_frequency(block_name, control_data, required_frequency, update)\n    \n    whT = 320\n\n    modelConfiguration = 'resources/backend/utils/models/yolov3/yolov3-tiny.cfg'\n    modelWeights = 'resources/backend/utils/models/yolov3/yolov3-tiny.weights'\n\n    net = cv2.dnn.readNetFromDarknet(modelConfiguration,modelWeights)\n    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)\n    net.setPreferableTarget(cv2.dnn. DNN_TARGET_CPU)\n\n    try:\n    \n        while True:\n        \n            if enabled or (update := bool(enable_wire.get()[0])):\n\n                frame = input_0.get()\n                \n                if frame is not None:    \n\n                    #converting img to blob\n                    blob = cv2.dnn.blobFromImage(frame, 1/255,(whT,whT),[0,0,0],1, crop = False)\n            \n                    #Passing blob to network\n                    net.setInput(blob)\n\n                    layerNames = net.getLayerNames()\n                    outputNames = [layerNames[i[0]-1] for i in net.getUnconnectedOutLayers()]\n            \n                    #forward Pass\n                    outputs = net.forward(outputNames)\n                    findObjects(outputs,frame)\n\n                    output_0.add(frame)\n                    control_data[0] += 1\n\n            sleep(control_data[1])\n            \n    except KeyboardInterrupt: \n    \n        input_0.release()\n        enable_wire.release()\n        output_0.release()",
+            "params": [],
+            "ports": {
+              "in": [
+                {
+                  "name": "Inp-0"
+                }
+              ],
+              "out": [
+                {
+                  "name": "Out-0"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 50,
+            "y": 100
+          },
+          "size": {
+            "width": 800,
+            "height": 600
+          }
+        },
+        
+        {
+          "id": "400",
+          "type": "basic.constant",
+          "data": {
+            "name": "Frequency", 
+            "value": "10.0",
+            "local": true
+          },
+          "position": {
+            "x": 400,
+            "y": 10
+          }
+        }        
+        
+      ],
+
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        },
+
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "",
+            "port": ""
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}

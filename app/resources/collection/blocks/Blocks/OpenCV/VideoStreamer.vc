@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "package": {
+    "name": "VideoStreamer",
+    "version": "1.0.0",
+    "description": "Captures Video Stream from File",
+    "author": "Muhammad Taha Suhail",
+    "image": "%3Csvg%20height=%22512pt%22%20viewBox=%22-31%200%20512%20512%22%20width=%22512pt%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill-rule=%22evenodd%22%3E%3Cpath%20d=%22M440.59%20216.676v239.672c0%2025.109-20.543%2045.652-45.652%2045.652H74.613c-25.11%200-45.652-20.543-45.652-45.652V216.676zm0%200%22%20fill=%22#d0d7df%22/%3E%3Cpath%20d=%22M11.813%20157.477l17.148%2059.199L424.336%20102.14l-17.149-59.2c-6.988-24.117-32.433-38.132-56.55-31.144l-307.68%2089.129c-24.117%206.988-38.129%2032.433-31.145%2056.55zm0%200M28.96%20216.676h411.63v93.586H28.96zm0%200%22%20fill=%22#49aaee%22/%3E%3Cpath%20d=%22M293.922%20405.113l-43.926-25.36-43.93-25.362v101.445l43.93-25.363zm0%200%22%20fill=%22#fa5c66%22/%3E%3Cpath%20d=%22M440.59%20206.676H99.418l327.7-94.93a10.018%2010.018%200%200%200%205.976-4.781%209.989%209.989%200%200%200%20.847-7.606L416.793%2040.16C409.941%2016.516%20387.926%200%20363.253%200c-5.198%200-10.378.738-15.401%202.191L40.176%2091.321c-14.23%204.12-26.024%2013.581-33.215%2026.632-7.188%2013.05-8.875%2028.078-4.754%2042.305l16.754%2057.836v238.254C18.96%20487.035%2043.926%20512%2074.609%20512h120.164c5.524%200%2010-4.477%2010-10s-4.476-10-10-10H74.613c-19.66%200-35.652-15.992-35.652-35.652V320.262H430.589v136.086c0%2019.66-15.991%2035.652-35.651%2035.652H274.773c-5.52%200-10%204.477-10%2010s4.48%2010%2010%2010h120.165c30.687%200%2055.652-24.965%2055.652-55.652V216.676c0-5.524-4.477-10-10-10zm-176.332%2093.586l42.488-73.586h55.262l-42.485%2073.586zm-78.36%200l42.489-73.586h55.261l-42.484%2073.586zm-78.355%200l42.484-73.586h55.266l-42.488%2073.586zm37.18-129.457l-71.149-68.336%2053.309-15.442a9.92%209.92%200%200%200%201.312%201.543l71.149%2068.336-53.309%2015.442a9.951%209.951%200%200%200-1.312-1.543zm134-125.84L349.87%20113.3l-53.308%2015.441a9.742%209.742%200%200%200-1.313-1.543l-71.148-68.336%2053.308-15.441a9.92%209.92%200%200%200%201.313%201.543zM203.457%2066.77l71.148%2068.332-53.308%2015.445a9.742%209.742%200%200%200-1.313-1.543l-71.148-68.336%2053.309-15.441c.378.543.816%201.062%201.312%201.543zm149.961-45.368c3.21-.93%206.52-1.402%209.836-1.402%2015.824%200%2029.937%2010.578%2034.328%2025.727l14.367%2049.59-40.12%2011.62a10.165%2010.165%200%200%200-1.317-1.542l-71.145-68.333zM24.48%20127.602c4.61-8.372%2012.16-14.434%2021.262-17.07l5.875-1.704a10.17%2010.17%200%200%200%201.313%201.543l71.148%2068.336-88.293%2025.578-14.367-49.59c-2.637-9.097-1.547-18.718%203.062-27.093zm14.48%2099.074h87.974l-42.485%2073.586H38.961zm303.657%2073.586l42.485-73.586h45.488v73.586zm0%200%22/%3E%3Cpath%20d=%22M303.922%20405.113a9.997%209.997%200%200%200-5-8.66l-87.856-50.723a10.006%2010.006%200%200%200-10%200%209.997%209.997%200%200%200-5%208.66v101.446a9.995%209.995%200%200%200%205%208.656%209.983%209.983%200%200%200%2010%200l87.856-50.719a9.997%209.997%200%200%200%205-8.66zm-87.856%2033.403V371.71l57.856%2033.402zm0%200M234.773%20492c-5.507%200-10%204.492-10%2010s4.493%2010%2010%2010c5.512%200%2010-4.492%2010-10s-4.488-10-10-10zm0%200%22/%3E%3C/g%3E%3C/svg%3E"
+  },
+  "design": {
+    "board": "Python3-Noetic",
+    "graph": {
+      "blocks": [
+
+        {
+          "id": "Inp-0",
+          "type": "basic.input",
+          "data": {
+            "name": "E",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+
+        {
+          "id": "Out-0",
+          "type": "basic.output",
+          "data": {
+            "name": "",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 752,
+            "y": 144
+          }
+        },
+        
+        {
+          "id": "300",
+          "type": "basic.code",
+          "data": {
+            "code": "import cv2\r\nimport numpy as np\r\nfrom time import sleep\r\nfrom utils.wires.wire_img import share_image\r\nfrom utils.wires.wire_str import read_string\r\nfrom utils.tools.freq_monitor import monitor_frequency\r\n\r\ndef loop(block_name, input_wires, output_wires, parameters, flags):\r\n\r\n    output_0 = share_image(output_wires[0])\r\n    path_to_file = parameters[1]\r\n\r\n    enabled = False\r\n    try:\r\n        enable_wire = read_string(input_wires[0])\r\n    except IndexError:\r\n        enabled = True\r\n\r\n    required_frequency, update = float(parameters[0]), 1\r\n    control_data = np.array([0.0,0.03])\r\n    \r\n    if flags[0] == 1:\r\n        monitor_frequency(block_name, control_data, required_frequency, update)\r\n\r\n    cap = cv2.VideoCapture(path_to_file)\r\n    \r\n    try:\r\n    \r\n        while (cap.isOpened()):\r\n    \r\n            if enabled or (update := bool(enable_wire.get()[0])):\r\n            \r\n                ret, frame = cap.read()\r\n\t           \r\n                if ret:\r\n                    output_0.add(frame)\r\n\r\n                else:\r\n                    cap.set(cv2.CAP_PROP_POS_FRAMES, 0)\r\n                \r\n                control_data[0] += 1\r\n\r\n            sleep(control_data[1])\r\n                    \r\n    except KeyboardInterrupt:\r\n    \r\n        cap.release()\r\n        input_0.release()\r\n        output_0.release()",
+            "params": [],
+            "ports": {
+              "out": [
+                {
+                  "name": "Out-0"
+                }
+              ]
+            }
+          },
+          "position": {
+            "x": 50,
+            "y": 100
+          },
+          "size": {
+            "width": 800,
+            "height": 600
+          }
+        },
+        
+        {
+          "id": "400",
+          "type": "basic.constant",
+          "data": {
+            "name": "Frequency", 
+            "value": "30.0",
+            "local": true
+          },
+          "position": {
+            "x": 400,
+            "y": 10
+          }
+        },
+        
+        {
+          "id": "401",
+          "type": "basic.constant",
+          "data": {
+            "name": "Path to File", 
+            "value": "/home/Desktop/video.mp4",
+            "local": true
+          },
+          "position": {
+            "x": 500,
+            "y": 10
+          }
+        }        
+        
+      ],
+      "wires": [
+        {
+          "source": {
+            "block": "",
+            "port": ""
+          },
+          "target": {
+            "block": "Out-0",
+            "port": "out"
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {}
+}

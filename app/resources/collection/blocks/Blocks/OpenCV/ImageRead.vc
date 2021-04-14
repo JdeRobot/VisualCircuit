@@ -13,7 +13,27 @@
       "blocks": [
 
         {
-          "id": "200",
+          "id": "Inp-0",
+          "type": "basic.input",
+          "data": {
+            "name": "E",
+            "pins": [
+              {
+                "index": "0",
+                "name": "",
+                "value": "0"
+              }
+            ],
+            "virtual": true
+          },
+          "position": {
+            "x": 64,
+            "y": 144
+          }
+        },
+
+        {
+          "id": "Out-0",
           "type": "basic.output",
           "data": {
             "name": "",
@@ -36,23 +56,23 @@
           "id": "300",
           "type": "basic.code",
           "data": {
-            "code": "import cv2 as cv\r\nimport numpy as np\r\nfrom time import sleep\r\nfrom wires.wire_img import Wire_Write\r\n\r\ndef ImageRead(input_wires, output_wires, parameters):\r\n\r\n    image = cv.imread(parameters[0], 1)\r\n\r\n    shm_w = Wire_Write(output_wires[0])\r\n\r\n    try:\r\n        while True:\r\n            shm_w.add(image)\r\n            sleep(100)\r\n            \r\n    except KeyboardInterrupt:\r\n        pass\r\n\r\n    shm_w.release()",
+            "code": "import cv2 as cv\r\nimport numpy as np\r\nfrom time import sleep\r\nfrom utils.wires.wire_img import share_image\r\nfrom utils.wires.wire_str import read_string\r\nfrom utils.tools.freq_monitor import monitor_frequency\r\n\r\ndef loop(block_name, input_wires, output_wires, parameters, flags):\r\n\r\n    output_0 = share_image(output_wires[0])\r\n    image = cv.imread(parameters[1], 1)\r\n\r\n    enabled = False\r\n    try:\r\n        enable_wire = read_string(input_wires[0])\r\n    except IndexError:\r\n        enabled = True\r\n\r\n    required_frequency, update = float(parameters[0]), 1\r\n    control_data = np.array([0.0,0.05])\r\n    \r\n    if flags[0] == 1:\r\n        monitor_frequency(block_name, control_data, required_frequency, update)\r\n\r\n    try:\r\n    \r\n        while True:\r\n    \r\n            if enabled or (update := bool(enable_wire.get()[0])):\r\n            \r\n                output_0.add(image)\r\n                control_data[0] += 1\r\n                \r\n            sleep(control_data[1])\r\n                    \r\n    except KeyboardInterrupt:\r\n    \r\n        input_0.release()\r\n        enable_wire.release()\r\n        output_0.release()",
             "params": [],
             "ports": {
               "out": [
                 {
-                  "name": "200"
+                  "name": "Out-0"
                 }
               ]
             }
           },
           "position": {
-            "x": 248,
-            "y": 88
+            "x": 50,
+            "y": 100
           },
           "size": {
-            "width": 384,
-            "height": 256
+            "width": 800,
+            "height": 600
           }
         },
         
@@ -60,12 +80,26 @@
           "id": "400",
           "type": "basic.constant",
           "data": {
+            "name": "Frequency", 
+            "value": "30.0",
+            "local": true
+          },
+          "position": {
+            "x": 300,
+            "y": 10
+          }
+        },    
+        
+        {
+          "id": "401",
+          "type": "basic.constant",
+          "data": {
             "name": "Image Path", 
             "value": "/home/Desktop/img.jpg",
             "local": true
           },
           "position": {
-            "x": 378,
+            "x": 400,
             "y": 10
           }
         }        
