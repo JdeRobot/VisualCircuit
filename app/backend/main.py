@@ -1,3 +1,4 @@
+import os
 import tkinter
 import numpy as np
 import multiprocessing
@@ -6,6 +7,7 @@ from utils.wires.wire_str import read_string
 
 def loginfo(to_display):
     text.insert(tkinter.END, to_display+'\n')
+    text.pack()
 
 #------------------- Reads path from provided arguments and loads files --------------------------#
 def initialize():
@@ -31,9 +33,10 @@ def load_JSON(file_path):
 #-------------------------------#
 
 #----- Generates Python Scripts -----#
-def generate_py_script(script, script_name):
+def generate_py_script(working_dir, script, script_name):
 
-    generator = open("backend/modules/"+script_name+".py", "w")
+    os.chdir(working_dir)
+    generator = open('modules/'+script_name+".py", "w")
     generator.write(script)
     generator.close()
 #------------------------------------#
@@ -66,7 +69,7 @@ def monitor_frequency(memories):
         
         for msg in message:
             loginfo(msg)
-        loginfo("--------------------")
+        loginfo("----------------------------------------")
         
     sleep(0.2)
 
@@ -74,7 +77,7 @@ def monitor_frequency(memories):
 
 
 #--------------------------- Creates Python Application from .vc File -------------------------#
-def build():
+def build(working_dir):
 
     # Reading Front-End File
     data = initialize()
@@ -109,7 +112,7 @@ def build():
             count += 1
 
             script = block['data']['code']
-            generate_py_script(script, code_name)
+            generate_py_script(working_dir, script, code_name)
 
             new_block = Block(hex_id, block_type)
             new_block.name = code_name
@@ -139,7 +142,7 @@ def build():
                 script = element['data']['code']
                 scr_name = info[key]['package']['name']
                 scr_name += info[key]['package']['version'].replace('.', '')
-                generate_py_script(script, scr_name)
+                generate_py_script(working_dir, script, scr_name)
             
             elif element['type'] == 'basic.constant':
                 
@@ -180,7 +183,6 @@ def build():
 
         # Connecting Wires to Blocks
         else:
-            #wire_name = "wire_"+str(wire_id)
 
             for block in blocks:
                 if tgt_block == block.id:
@@ -208,22 +210,36 @@ if __name__ == "__main__":
     text.pack()
     button.pack()
 
+    root_dir = os.getcwd() 
+    # Configuring path for working directory
+    from pathlib import Path
+    working_dir = str(Path.home()) + '/vc_workspace'
+    Path(working_dir).mkdir(parents=True, exist_ok=True)
+    Path(working_dir+'/modules').mkdir(parents=True, exist_ok=True)
+    
     loginfo("Building Application...")
-    blocks = build()
+    blocks = build(working_dir)
 
     # Creating processes and assigning blocks. 
     loginfo("Creating Processes...")
     processes = []
-       
+    
+    os.chdir(working_dir)
+    mkpkg = open("modules/__init__.py", "w")
+    mkpkg.close()
 
+    os.chdir(root_dir)
+    
     from importlib import import_module
+    import sys
+    sys.path.append(working_dir)
     for i, element in enumerate(blocks):
 
         block_name = element.name
 
-
         method_name = 'modules.' + block_name + '.loop'
         module, function = method_name.rsplit('.',1)
+
         mod = import_module(module)
         method = getattr(mod, function)
 
