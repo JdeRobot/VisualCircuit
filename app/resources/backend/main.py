@@ -246,8 +246,8 @@ class MyHandler(LoggingEventHandler):
 if __name__ == "__main__":
 
 #creating global queue for frequency 
-    queue = Queue()
-
+    fmqueue = Queue()
+    msgQueue = Queue()
 #creating logger for logging errors to log file
     logger = setLogging()
 
@@ -256,9 +256,9 @@ if __name__ == "__main__":
 
     def initiate():
         app = QApplication([])
-        win = Console(queue)
+        win = Console(fmqueue,msgQueue)
         win.show()
-        worker = Worker(queue)
+        worker = Worker(fmqueue)
         thread = QThread()
         worker.signal.connect(win.loginfo_fm)
         worker.moveToThread(thread)
@@ -278,7 +278,7 @@ if __name__ == "__main__":
 
     #function to put freq data in global queue for freq monitor
     def log_freq(txt):
-        queue.put(txt+"\n")
+        fmqueue.put(txt+"\n")
 
     p1 = multiprocessing.Process(target=initiate)
     p1.daemon=True
@@ -349,9 +349,12 @@ if __name__ == "__main__":
     def on_closing():
         end_progam
     
-    
     while True:
         monitor_frequency(memories)
+        if not msgQueue.empty():
+            if msgQueue.get() == "#QUIT":
+                p1.terminate()
+                p1.join()
 
 
 
