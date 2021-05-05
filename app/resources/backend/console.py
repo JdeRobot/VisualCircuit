@@ -31,7 +31,7 @@ class Console(QMainWindow,QWidget,QObject):
 
    
     def __init__(self,fmqueue,msgQueue):
-        def Iquit(self):
+        def quitfn(self):
             msgQueue.put("#QUIT")  
         super(Console, self).__init__()
              
@@ -45,7 +45,7 @@ class Console(QMainWindow,QWidget,QObject):
         self.quitBtn.move(50, 50)  
         self.quitBtn.setText("Quit!")
         self.ToolBar.addWidget(self.quitBtn)
-        self.quitBtn.clicked.connect(Iquit)
+        self.quitBtn.clicked.connect(quitfn)
 #------------------------------------------------------------------------------------#       
         self.console = QVBoxLayout()
         self.toolbar = QToolBar()
