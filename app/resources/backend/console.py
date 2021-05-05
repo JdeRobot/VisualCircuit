@@ -29,11 +29,15 @@ class Worker(QObject):
 
 class Console(QMainWindow,QWidget,QObject):
 
-
-    def __init__(self,queue):
+   
+    def __init__(self,fmqueue,msgQueue):
+        def Iquit(self):
+            msgQueue.put("#QUIT")  
         super(Console, self).__init__()
+             
+
         self.resize(800, 600)
-        self.queue = queue
+        self.queue = fmqueue
 
         self.ToolBar = self.addToolBar(" ")
         self.addToolBar(Qt.BottomToolBarArea, self.ToolBar)
@@ -41,6 +45,7 @@ class Console(QMainWindow,QWidget,QObject):
         self.quitBtn.move(50, 50)  
         self.quitBtn.setText("Quit!")
         self.ToolBar.addWidget(self.quitBtn)
+        self.quitBtn.clicked.connect(Iquit)
 #------------------------------------------------------------------------------------#       
         self.console = QVBoxLayout()
         self.toolbar = QToolBar()
@@ -95,6 +100,9 @@ class Console(QMainWindow,QWidget,QObject):
         msg= msg.strip()
         if msg == end:
                 self.text_freq.setText(" ")
+    
+
+
 
 
 
