@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt,QObject, QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QSplitter, QWidget, QVBoxLayout, QMainWindow, QGridLayout, QLayout,QLabel,QToolBar
+from PyQt5.QtWidgets import QApplication, QSplitter,QPushButton, QWidget, QVBoxLayout, QMainWindow, QGridLayout, QLayout,QLabel,QToolBar,QToolButton
 from PyQt5.QtGui import QPalette, QColor
 from multiprocessing import Process,Queue,Pipe
 
@@ -34,6 +34,13 @@ class Console(QMainWindow,QWidget,QObject):
         super(Console, self).__init__()
         self.resize(800, 600)
         self.queue = queue
+
+        self.ToolBar = self.addToolBar(" ")
+        self.addToolBar(Qt.BottomToolBarArea, self.ToolBar)
+        self.quitBtn = QPushButton()
+        self.quitBtn.move(50, 50)  
+        self.quitBtn.setText("Quit!")
+        self.ToolBar.addWidget(self.quitBtn)
 #------------------------------------------------------------------------------------#       
         self.console = QVBoxLayout()
         self.toolbar = QToolBar()
@@ -74,6 +81,7 @@ class Console(QMainWindow,QWidget,QObject):
         self.splitter.addWidget(self.right)
 
         self.setCentralWidget(self.splitter)
+     
 #------------------------------------------------------------------------------------#        
 
     def loginfo_console(self, msg):
@@ -87,6 +95,31 @@ class Console(QMainWindow,QWidget,QObject):
         msg= msg.strip()
         if msg == end:
                 self.text_freq.setText(" ")
+
+
+
+
+StyleSheet = '''
+
+/* QPushButton --------------------------------------------------------------- */
+QPushButton {
+    spacing: 30px;           
+    padding: 10px 50px;
+    background-color: rgb(133, 131, 131);
+    color: rgb(255,255,255);  
+    border-radius: 3px;
+    margin-right:50px;
+    subcontrol-position: right center;
+}
+QPushButton:selected {    
+    background-color: rgb(128, 128, 128);
+}
+QPushButton:pressed {
+    background: rgb(255, 179, 179);
+    color: rgb(255,0,0)
+}
+'''
+
 
 def set_theme():
     palette = QPalette()
