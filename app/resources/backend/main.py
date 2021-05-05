@@ -3,7 +3,7 @@ import numpy as np
 from lib.block import Block
 from utils.wires.wire_str import read_string,share_string
 from multiprocessing import Process,Queue,Pipe
-from console import Worker, Console,set_theme
+from console import Worker, Console,set_theme,StyleSheet
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
 import multiprocessing
@@ -272,6 +272,7 @@ if __name__ == "__main__":
         thread.start()
   
         app.setPalette(set_theme())
+        app.setStyleSheet(StyleSheet)
         app.exec_()
 #_____________________________________________________________________________________#
 
