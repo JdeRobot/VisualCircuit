@@ -251,9 +251,9 @@ if __name__ == "__main__":
 #creating logger for logging errors to log file
     logger = setLogging()
 
+    
     #function to pass to multiprocessing target to initialize console gui 
     #and start worker thread for updating gui
-
     def initiate():
         app = QApplication([])
         win = Console(fmqueue,msgQueue)
@@ -355,6 +355,7 @@ if __name__ == "__main__":
             if msgQueue.get() == "#QUIT":
                 p1.terminate()
                 p1.join()
+                end_progam() 
 
 
 
