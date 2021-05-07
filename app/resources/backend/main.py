@@ -222,7 +222,9 @@ class MyHandler(LoggingEventHandler):
             path = working_dir+'/logs/console.log' 
         with open(path) as f:
             content = f.readlines()
-            self.w.loginfo_console(content.pop())
+            #check if content is empty before logging else .pop will give error
+            if content:
+                self.w.loginfo_console(content.pop())
         
 
 
