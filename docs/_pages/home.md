@@ -33,6 +33,14 @@ feature_row:
     url: "/documentation/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
+    
+  - image_path: /assets/images/cover/follow_road.jpg
+    alt: "Getting Started"
+    title: "Getting Started"
+    excerpt: "Solve the Follow Road Exercise using VisualCircuit."
+    url: "/follow_road/"
+    btn_class: "btn--primary"
+    btn_label: "Learn more"    
 ---
 
 {% include feature_row %}
