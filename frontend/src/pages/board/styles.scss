@@ -1,0 +1,16 @@
+#board {
+    flex: 1;
+
+    #toolbar {
+        display: flex;
+        padding: 2em;
+        width: 100%;
+        box-sizing: border-box;
+        position: absolute;
+
+        button.toolbar-button {
+            z-index: 1000;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,48 @@
+#board {
+    .block-package {
+        width: 130px;
+        height: 100px;
+
+        .grid-container {
+            display: flex;
+            flex-direction: row;
+
+            .block-package-inputs,
+            .block-package-outputs {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+
+                .package-output-ports {
+                    margin-right: -10px;
+                }
+            }
+
+            .block-package-image-container {
+                flex: 1;
+                margin: 5px;
+                overflow-y: auto;
+
+                .block-package-image {
+                    max-width: 40px;
+                    width: 90%;
+                    position: relative;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+
+            }
+
+            
+        }
+    }
+}
+
+// .theme-dark {
+//     #board {
+//         .block-basic-code {
+//             background-color: whitesmoke;
+//         }
+//     }
+// }

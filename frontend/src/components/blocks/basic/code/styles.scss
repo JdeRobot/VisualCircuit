@@ -1,0 +1,56 @@
+#board {
+    .block-basic-code {
+
+
+        .block-basic-code-parameters {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+            .code-parameter-port {
+                margin: auto;
+            }
+        }
+
+        .grid-container {
+            display: flex;
+            flex-direction: row;
+
+            .block-basic-code-inputs,
+            .block-basic-code-outputs {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                max-width: 50px;
+                word-break: break-all;
+
+                .code-output-ports {
+                    margin-right: -10px;
+                }
+            }
+
+            .block-basic-code-textarea-container {
+                flex: 1;
+                margin: 5px;
+                overflow-y: auto;
+
+                .block-basic-code-textarea {
+                    max-height: 400px;
+                    border-radius: 5px;
+                }
+
+            }
+
+
+        }
+    }
+}
+
+.theme-dark {
+    #board {
+        .block-basic-code {
+            // background-color: whitesmoke;
+            // color: black;
+        }
+    }
+}
