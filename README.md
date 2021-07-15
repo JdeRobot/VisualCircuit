@@ -10,3 +10,8 @@ Visual editor for programming robotic applications.
     Graphic design -> JSON -> Python-3 + ROS -> Application
 
 For more information visit our site [VisualCircuit](https://jderobot.github.io/VisualCircuit/)
+
+
+## Setup
+
+**Front-end** : [Instructions](./frontend/README.md)
