@@ -7,6 +7,14 @@ export type CollectionBlockType = {
 
 export const collectionBlocks: { 'blocks': CollectionBlockType } = {
     'blocks': {
+        'control': {
+            'label': 'Control',
+            'children': {
+                'motorDriver': {'label': 'MotorDriver'},
+                'pid': {'label': 'PID'},
+                'teleoperator': {'label': 'Teleoperator'}
+            }
+        },
         'opencv': {
             'label': 'OpenCV',
             'children': {
@@ -25,6 +33,13 @@ export const collectionBlocks: { 'blocks': CollectionBlockType } = {
                 'videoStreamer': {'label': 'Video Streamer'}
             }
         },
+        'rossensors': {
+            'label': 'ROS-Sensors',
+            'children': {
+                'cameraRos': {'label': 'CameraROS'},
+                'odometer': {'label': 'Odometer'}
+            }
+        },
         'tensorflow': {
             'label': 'TensorFlow',
             'children': {
@@ -38,6 +53,12 @@ export const collectionBlocks: { 'blocks': CollectionBlockType } = {
 export function getCollectionBlock(name: string) {
 
     switch (name) {
+        case 'blocks.control.motorDriver':
+            return import('./control/MotorDriver.json');
+        case 'blocks.control.pid':
+            return import('./control/PID.json');
+        case 'blocks.control.teleoperator':
+            return import('./control/Teleoperator.json');
         case 'blocks.opencv.blur':
             return import('./opencv/Blur.json');
         case 'blocks.opencv.camera':
@@ -64,6 +85,10 @@ export function getCollectionBlock(name: string) {
             return import('./opencv/Threshold.json');
         case 'blocks.opencv.videoStreamer':
             return import('./opencv/VideoStreamer.json');
+        case 'blocks.rossensors.cameraRos':
+            return import('./ros-sensors/ROSCamera.json');
+        case 'blocks.rossensors.odometer':
+            return import('./ros-sensors/Odometer.json');
         case 'blocks.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
         default:
