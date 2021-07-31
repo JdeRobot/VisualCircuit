@@ -323,7 +323,7 @@ angular.module('icestudio')
 	{
 		var exec = require('child_process').exec, child;
 
-		var pyScript = "python3 backend/main.py --path " + project.path;
+		var pyScript = "python3 resources/backend/main.py --path " + project.path;
 
 		child = exec(pyScript,
 		    function (error, stdout, stderr) {
