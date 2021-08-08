@@ -5,6 +5,9 @@ import { CodeBlockModel, CodeBlockModelOptions } from './code-model';
 import { CodeBlockWidget } from './code-widget';
 
 
+/**
+ * Factory for Code block
+ */
 export class CodeBlockFactory extends AbstractReactFactory<CodeBlockModel, DiagramEngine> {
 
     constructor() {

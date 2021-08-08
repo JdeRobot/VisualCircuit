@@ -6,7 +6,14 @@ import { create, InstanceProps } from 'react-modal-promise';
 import { ConstantBlockModelOptions } from '../blocks/basic/constant/constant-model';
 
 
-
+/**
+ * 
+ * @param {
+ *          isOpen: True if modal needs to be opened.
+ *          onResolve: Will be called to indicate success / completion.
+ *          onReject: Will be called to indicate failure.
+ *        }
+ */
 const ConstantBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<ConstantBlockModelOptions>) => {
 
 
@@ -16,17 +23,27 @@ const ConstantBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<Cons
   const [errorMsg, setErrorMsg] = useState('');
 
 
+  /**
+   * Callback when constant input field changes.
+   * @param event Constant input field change event
+   */
   const handleInput = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // If there was error previously, clear the error message.
     if (errorMsg) {
       setErrorMsg('')
     }
     setName(event.target.value)
   }
 
+  /**
+   * Callback for 'Ok' button of the dialog
+   */
   const handleSubmit = () => {
+    // If name is defined, send the data back indicating success.
     if (name) {
       onResolve({ name: name, local: local })
     } else {
+      // If name is not defined, show an error message.
       setErrorMsg('Block name is mandatory')
     }
   }

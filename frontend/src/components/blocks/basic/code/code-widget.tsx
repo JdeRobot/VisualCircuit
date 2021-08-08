@@ -9,15 +9,25 @@ import { CodeBlockModel } from './code-model';
 import './styles.scss';
 
 
+/**
+ * Interface for code block widget props
+ */
 export interface CodeBlockWidgetProps {
     node: CodeBlockModel;
     engine: DiagramEngine;
 }
 
+/**
+ * Interface for code block widget state
+ */
 export interface CodeBlockWidgetState {
+    // For code text
     code: string
 }
 
+/**
+ * Widget for the code block
+ */
 export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeBlockWidgetState> {
 
     static contextType = GlobalState;
@@ -104,19 +114,37 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
         );
     }
 
+    /**
+     * Callback when code input field changes
+     * @param event Change event from Code text area
+     */
     handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({ code: event.target.value });
         this.props.node.data.code = event.target.value;
     }
 
+    /**
+     * Block all mouse click events, so that its not handled by the editor.
+     * This is to make sure that dragging or selecting inside the text area is handled within the text area.
+     * @param event Mouse click events
+     */
     blockMouseEvents: MouseEventHandler<HTMLTextAreaElement> = (event) => {
         event.stopPropagation();
     }
 
+    /**
+     * Block all mouse scroll events from code text area, so that its not handled by the editor.
+     * This is to make sure that scrolling on the text area doesnt scroll the whole window.
+     * @param event Mouse scroll events
+     */
     blockScrollEvents: WheelEventHandler<HTMLTextAreaElement> = (event) => {
         event.stopPropagation();
     }
 
+    /**
+     * Callback for text area resize. When the size of block changes, store it so that it can be serialised.
+     * @param event Text area resize event
+     */
     handleResize: MouseEventHandler<HTMLTextAreaElement> = (event) => {
         const element = event.target as HTMLTextAreaElement;
         this.props.node.setSize(element.clientWidth, element.clientHeight);

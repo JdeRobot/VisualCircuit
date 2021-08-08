@@ -5,6 +5,9 @@ import { AbstractReactFactory, GenerateModelEvent, GenerateWidgetEvent } from '@
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 
 
+/**
+ * Factory for Constant block
+ */
 export class ConstantBlockFactory extends AbstractReactFactory<ConstantBlockModel, DiagramEngine> {
 
     constructor() {

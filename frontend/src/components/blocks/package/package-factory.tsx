@@ -7,6 +7,9 @@ import { PackageBlockWidget } from './package-widget';
 import Editor from '../../../core/editor';
 
 
+/**
+ * Factory for Package block
+ */
 export class PackageBlockFactory extends AbstractReactFactory<PackageBlockModel, DiagramEngine> {
 
     private editor: Editor;

@@ -17,6 +17,10 @@ interface BoardProps {
 }
 
 
+/**
+ * Board component containing editor canvas.
+ * @param props 
+ */
 function Board(props: BoardProps) {
 
     const { editor } = props;
@@ -30,17 +34,24 @@ function Board(props: BoardProps) {
     </div>
 }
 
+/**
+ * Transparent toolbar with only Lock and Go Back buttons visible.
+ * @param props {editor: Editor} 
+ */
 const Toolbar: React.FC<{ editor: Editor }> = (props) => {
 
     const { state, setState } = useGlobalState();
 
     const setLock = (lock: boolean) => {
+        // Lock the editor to prevent any modifications
         props.editor.setLock(lock);
         setState({ ...state, locked: lock });
     }
 
     const goBack = () => {
+        // Go up one level in the stack (to previous circuit model)
         props.editor.goToPreviousModel()
+        // Set whether it is still showing a package block
         setState({...state, showingPackage: props.editor.showingPackage()});
     }
 

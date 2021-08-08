@@ -2,6 +2,9 @@ import { DiagramEngine } from "@projectstorm/react-diagrams";
 import { AbstractModelFactory } from '@projectstorm/react-canvas-core';
 import { BaseInputPortModel, BaseOutputPortModel, BaseParameterPortModel } from "./port-model";
 
+/**
+ * Factory for Input port
+ */
 export class BaseInputPortFactory extends AbstractModelFactory<BaseInputPortModel, DiagramEngine> {
     constructor() {
 		super('port.input');
@@ -14,6 +17,9 @@ export class BaseInputPortFactory extends AbstractModelFactory<BaseInputPortMode
 	}
 }
 
+/**
+ * Factory for Output port
+ */
 export class BaseOutputPortFactory extends AbstractModelFactory<BaseOutputPortModel, DiagramEngine> {
     constructor() {
 		super('port.output');
@@ -26,6 +32,9 @@ export class BaseOutputPortFactory extends AbstractModelFactory<BaseOutputPortMo
 	}
 }
 
+/**
+ * Factory for Parameter port
+ */
 export class BaseParameterPortFactory extends AbstractModelFactory<BaseParameterPortModel, DiagramEngine> {
     constructor() {
 		super('port.parameter');

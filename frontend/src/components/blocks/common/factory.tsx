@@ -15,7 +15,9 @@ import { getCollectionBlock } from '../collection/collection-factory';
 import { PackageBlockModel } from '../package/package-model';
 import { BaseInputPortModel, BaseOutputPortModel, BaseParameterPortModel, BasePortModelOptions } from './base-port/port-model';
 
-
+/**
+ * Port model for wires which bend at 90 degrees. Unused as of now.
+ */
 export class RightAnglePortModel extends DefaultPortModel {
 	createLinkModel(_factory?: AbstractModelFactory<LinkModel>): LinkModel {
 		return new RightAngleLinkModel();
@@ -29,8 +31,12 @@ export class RightAnglePortModel extends DefaultPortModel {
 	}
 }
 
+/**
+ * Create port model of either input or output or parameter type.
+ * @param options Port options based on which different Port model is created
+ * @returns Port model
+ */
 export const createPortModel = (options: BasePortModelOptions) => {
-    // return new RightAnglePortModel(options);
     switch (options.type) {
         case PortTypes.INPUT:
             return new BaseInputPortModel(options);
@@ -44,6 +50,13 @@ export const createPortModel = (options: BasePortModelOptions) => {
     
 } 
 
+/**
+ * Helper function to create a block of specified type. For constant blocks the ID is modified to
+ * make it semi determinate so that first added block gets lower ID
+ * @param name Name / type of the block
+ * @param blockCount count of blocks placed (Used as unique ID for constant blocks)
+ * @returns block model
+ */
 export const createBlock = async (name: string, blockCount: number) => {
     var block;
     var data;
@@ -78,6 +91,18 @@ export const createBlock = async (name: string, blockCount: number) => {
     return block;
 }
 
+/**
+ * Load a project as Package block
+ * @param jsonModel object conforming to the project structure
+     * Project Structure: {
+     *      "editor": {...},
+     *      "version": "3.0",
+     *      "package": {...},
+     *      "design": {...},
+     *      "dependencies": {...}
+     * }
+ * @returns Package block
+ */
 export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
     const design = jsonModel.design as ProjectDesign;
@@ -89,7 +114,11 @@ export const loadPackage = (jsonModel: any) => {
     });
 }
 
-
+/**
+ * Fixed initial position for all blocks.
+ * TODO: Better way to pick a position dynamically.
+ * @returns Position x, y
+ */
 export const getInitialPosition = (): [number, number] => {
     return [100, 100]
 }

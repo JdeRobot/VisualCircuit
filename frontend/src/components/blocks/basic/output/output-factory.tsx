@@ -5,6 +5,9 @@ import { OutputBlockModel, OutputBlockModelOptions } from './output-model';
 import { OutputBlockWidget } from './output-widget';
 
 
+/**
+ * Factory for Output block
+ */
 export class OutputBlockFactory extends AbstractReactFactory<OutputBlockModel, DiagramEngine> {
 
     constructor() {
