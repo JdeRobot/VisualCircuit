@@ -4,14 +4,23 @@ import { PortTypes } from '../../../../core/constants';
 import BaseModel from '../../common/base-model';
 import { createPortModel } from '../../common/factory';
 
+/**
+ * Options for Input block
+ */
 export interface InputBlockModelOptions extends BaseModelOptions {
     name: string;
 }
 
+/**
+ * Interface for Input block data
+ */
 interface InputBlockData {
     name: string;
 }
 
+/**
+ * Data model for Input block
+ */
 export class InputBlockModel extends BaseModel<InputBlockData, NodeModelGenerics & InputBlockModelOptions> {
 
     constructor(options: InputBlockModelOptions) {
@@ -20,9 +29,11 @@ export class InputBlockModel extends BaseModel<InputBlockData, NodeModelGenerics
             type: 'basic.input'
         });
 
+        // Initialise data
         this.data = {
             name: options.name
         }
+        // Create an output port
         this.addPort(
             createPortModel({
                 in: false,
@@ -34,10 +45,18 @@ export class InputBlockModel extends BaseModel<InputBlockData, NodeModelGenerics
         );
     }
 
+    /**
+     * Getter for the default port of input block
+     * @returns Input block output port
+     */
     getPort(): PortModel {
         return super.getPort('input-out')!;
     }
 
+    /**
+     * Serialise data and model
+     * @returns Serialised model and data
+     */
     serialize() {
         return {
             ...super.serialize(),
@@ -45,6 +64,10 @@ export class InputBlockModel extends BaseModel<InputBlockData, NodeModelGenerics
         }
     }
 
+    /**
+     * Deserialise model and data
+     * @param event Event which indicates model to deserialise data
+     */
     deserialize(event: DeserializeEvent<this>): void {
         super.deserialize(event);
         this.data = event.data.data;

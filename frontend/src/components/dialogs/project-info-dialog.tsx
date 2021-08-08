@@ -5,14 +5,31 @@ import { ProjectInfo } from '../../core/constants';
 
 interface ProjectInfoDialogProps extends InstanceProps<ProjectInfo>, Partial<ProjectInfo> { };
 
+/**
+ * 
+ * @param {
+ *          isOpen: True if modal needs to be opened.
+ *          onResolve: Will be called to indicate success / completion.
+ *          onReject: Will be called to indicate failure.
+ *          name: Name of project
+ *          version: Version of block / package
+ *          description: Description of project / package
+ *          author: Author of project
+ *          image: Icon for the project
+ *        }
+ */
 const ProjectInfoDialog = ({ isOpen, onResolve, onReject,
     name, version, description, author, image }: ProjectInfoDialogProps) => {
 
-
+    // Name of package. Use empty string if not defined
     const [nameInput, setName] = useState(name || '');
+    // Version of package. Use empty string if not defined
     const [versionInput, setVersion] = useState(version || '');
+    // Description of package. Use empty string if not defined
     const [descriptionInput, setDescription] = useState(description || '');
+    // Author of package. Use empty string if not defined
     const [authorInput, setAuthor] = useState(author || '');
+    // Icon of package. Use empty string if not defined
     const [imageInput, setImage] = useState(image || '');
 
     const fileReader = new FileReader();
@@ -22,6 +39,11 @@ const ProjectInfoDialog = ({ isOpen, onResolve, onReject,
         }
     };
 
+    /**
+     * Callback for file uploading.
+     * It reads the file blob as data URI
+     * @param event File input event
+     */
     const onFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.length ? event.target.files[0] : null;
 
@@ -30,7 +52,11 @@ const ProjectInfoDialog = ({ isOpen, onResolve, onReject,
         }
     }
 
+    /**
+     * Callback for 'Ok' button of the dialog
+     */
     const handleSubmit = () => {
+        // Send the filled data back
         onResolve({
             name: nameInput,
             version: versionInput,

@@ -7,16 +7,25 @@ import BasePort from '../../common/base-port';
 import { ConstantBlockModel } from './constant-model';
 import './styles.scss';
 
-
+/**
+ * Interface for constant block widget props
+ */
 export interface ConstantBlockWidgetProps {
     node: ConstantBlockModel;
     engine: DiagramEngine;
 }
 
+/**
+ * Interface for constant block widget state
+ */
 export interface ConstantBlockWidgetState {
+    // Text field value of constant block
     value: any
 }
 
+/**
+ * Widget for the constant block
+ */
 export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProps, ConstantBlockWidgetState> {
 
     static contextType = GlobalState;
@@ -63,6 +72,10 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
         );
     }
 
+    /**
+     * Callback when constant input field changes
+     * @param event Change event from constant input field
+     */
     handleInput = (event: ChangeEvent<HTMLInputElement>) => {
         this.setState({ value: event.target.value });
         if (this.props.node.data) {

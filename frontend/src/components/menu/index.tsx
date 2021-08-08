@@ -14,6 +14,11 @@ export interface MenuBarProps {
     editor: Editor;
 }
 
+/**
+ * 
+ * MenuBar component
+ * It offers 'File', 'Edit', 'Basic' and 'Blocks' menus
+ */
 function MenuBar(props: MenuBarProps) {
 
     const theme = useTheme();
@@ -22,33 +27,66 @@ function MenuBar(props: MenuBarProps) {
     const blockReader = new FileReader();
     const { editor } = props;
 
+    /**
+     * Callback for when a block is selected.
+     * It adds the block to the current project through the editor.
+     * @param type Name / type of block selected
+     */
     const setBlock = (type: string) => {
         editor.addBlock(type);
     }
 
 
+    /**
+     * Callback for 'New File' option under 'File' menu.
+     * It clears the current project and shows an empty project.
+     * @param _event Mouse click event. Unused
+     */
     const newProject = (_event: ClickEvent) => {
         editor.clearProject();
     }
 
+    /**
+     * Callback for 'Open' option under 'File' menu.
+     * It simulates clicking on an File input field to open a file selection dialog box.
+     * Once the file is selected, contents of the file is read and is passed to editor to
+     * load it as a project.
+     * @param _event Mouse click event. Unused
+     */
     const openProject = (_event: ClickEvent) => {
+        // Simulate click to open file selection dialog.
         document.getElementById('openProjectInput')?.click();
         projectReader.onload = (event) => {
             if (event.target?.result) {
+                // Parse file as JSON
                 editor.loadProject(JSON.parse(event.target.result.toString()))
             }
         };
     }
 
+    /**
+     * Callback for 'Save as...' option under 'File' menu.
+     * The serialised data of project is converted to text blob and a data URI to it is obtianed.
+     * This is attached as hidden link to the document. And then a click on link is simulated to
+     * start downloading of file. 
+     * @param _event Mouse click event. Unused
+     */
     const saveProject = (_event: ClickEvent) => {
         const model = editor.serialise();
+        // Get data URI for the blob created using text 
         const url = textFile2DataURL(JSON.stringify(model), 'text/json');
+        // Attach the URI to the hidden link and then simulate a click on it.
         const link = document.getElementById('saveProjectLink');
         link?.setAttribute('href', url);
         link?.setAttribute('download', editor.getName() + PROJECT_FILE_EXTENSION);
         link?.click();
     }
 
+    /**
+     * Callback when file is uploaded.
+     * @param event File field change event.
+     * @param reader Reader to open the uploaded file as text
+     */
     const onFileUpload = (event: ChangeEvent<HTMLInputElement>, reader: FileReader) => {
         const file = event.target.files?.length ? event.target.files[0] : null;
         event.target.value = '';
@@ -57,10 +95,21 @@ function MenuBar(props: MenuBarProps) {
         }
     }
 
+    /**
+     * Callback for 'Edit Project Information' under 'Edit' menu.
+     * @param _event Mouse click event. Unused
+     */
     const editProjectInfo = (_event: ClickEvent) => {
         editor.editProjectInfo();
     }
 
+    /**
+     * Callback for 'Add as block' under 'File' menu.
+     * It simulates clicking on an File input field to open a file selection dialog box.
+     * Once the file is selected, contents of the file is read and is passed to editor to
+     * add it as a Package block.
+     * @param _event Mouse click event. Unused
+     */
     const addAsBlock = (_event: ClickEvent) => {
         document.getElementById('addAsBlockInput')?.click();
         blockReader.onload = (event) => {
@@ -70,6 +119,12 @@ function MenuBar(props: MenuBarProps) {
         };
     }
 
+    /**
+     * Recursive helper function to generate menu options for the Blocks menu.
+     * @param blocks Map containing Blocks menu structure
+     * @param key Prefix to be used while constructing block name.
+     * @returns Menu / submenu components in order similar to blocks structure
+     */
     const blocksEntries = (blocks: CollectionBlockType, key: string = '') => {
         return Object.entries(blocks).map(([name, block]) => {
             var items;
@@ -87,6 +142,7 @@ function MenuBar(props: MenuBarProps) {
 
     const blocks = blocksEntries(collectionBlocks.blocks, 'blocks');
 
+    // TODO: Localise string instead of hardcoding it. 
     return (
         <AppBar position="static" className='menu-bar' id='menu-bar'>
             <Toolbar >
@@ -121,9 +177,10 @@ function MenuBar(props: MenuBarProps) {
                     {blocks}
                 </Menu>
             </Toolbar>
-
+            {/* Hidden file input field for opening project file selection dialog. */}
             <input type='file' id='openProjectInput' accept={PROJECT_FILE_EXTENSION}
                 onChange={(event) => onFileUpload(event, projectReader)} hidden />
+            {/* Hidden file input field for opening file selection dialog to be added as a block. */}
             <input type='file' id='addAsBlockInput' accept={PROJECT_FILE_EXTENSION}
                 onChange={(event) => onFileUpload(event, blockReader)} hidden />
             <a href='/' id='saveProjectLink' hidden download>Download Project</a>

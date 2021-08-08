@@ -4,22 +4,38 @@ import { create, InstanceProps } from 'react-modal-promise';
 import { CodeBlockModelOptions } from '../blocks/basic/code/code-model';
 
 
-
+/**
+ * 
+ * @param {
+ *          isOpen: True if modal needs to be opened.
+ *          onResolve: Will be called to indicate success / completion.
+ *          onReject: Will be called to indicate failure.
+ *        }
+ */
 const CodeBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<CodeBlockModelOptions>) => {
 
-
+    // Comma separated list of inputs for the Code block
     const [inputPorts, setInputPorts] = useState('');
+    // Comma separated list of outputs for the Code block
     const [outputPorts, setOutputPorts] = useState('');
+    // Comma separated list of parameters for the Code block
     const [parameters, setParameters] = useState('');
     const [error, setError] = useState('');
 
 
+    /**
+     * Callback for 'Ok' button of the dialog
+     */
     const handleSubmit = () => {
+        // If neither input or output field is filled, show an error message.
         if (inputPorts.length > 0 || outputPorts.length > 0) {
+            // Clear the previous error if any.
             setError('')
+            // Split the inputs, outputs and parameters by comma 
             const inputs = inputPorts.split(',').filter((port) => Boolean(port)).map((port) => port.trim());
             const outputs = outputPorts.split(',').filter((port) => Boolean(port)).map((port) => port.trim());
             const params = parameters.split(',').filter((port) => Boolean(port)).map((port) => port.trim());
+            // Send data back indicating as success
             onResolve({ inputs: inputs, outputs: outputs, params: params });
         } else {
             setError('Code block needs atleast one Input or one Output')

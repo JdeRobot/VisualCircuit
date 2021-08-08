@@ -9,12 +9,17 @@ import './styles.scss';
 
 
 
-
+/**
+ * Interface for Input block widget props
+ */
 export interface InputBlockWidgetProps {
     node: InputBlockModel;
     engine: DiagramEngine;
 }
 
+/**
+ * Widget for the Input block
+ */
 export class InputBlockWidget extends React.Component<InputBlockWidgetProps> {
 
     render() {

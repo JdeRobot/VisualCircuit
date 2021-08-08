@@ -5,6 +5,9 @@ import { BasePortModel } from "./port-model";
 
 import './styles.scss';
 
+/**
+ * Interface for port widget props
+ */
 export type BasePortProps = {
     port: PortModel<PortModelGenerics>;
     engine: DiagramEngine;
@@ -13,6 +16,9 @@ export type BasePortProps = {
     key?: Key
 }
 
+/**
+ * Abstract base port widget
+ */
 const BasePort: React.FC<BasePortProps> = (props) => {
 
     const port: BasePortModel = props.port as BasePortModel;
@@ -20,6 +26,7 @@ const BasePort: React.FC<BasePortProps> = (props) => {
     let alignmentClass = '';
     let portClass = ''
 
+    // Different classes based on type of port. Different types have different colours.
     switch (port.getType()) {
         case PortTypes.INPUT:
             portClass = 'custom-input-port';
@@ -35,6 +42,7 @@ const BasePort: React.FC<BasePortProps> = (props) => {
             break;
     }
 
+    // Different classes based on alignment type. Position varies depending on this.
     switch (alignment) {
         case PortModelAlignment.RIGHT:
             alignmentClass = 'right-aligned-port'

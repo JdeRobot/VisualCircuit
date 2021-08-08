@@ -1,3 +1,7 @@
+
+/**
+ * Interface for collection block data.
+ */
 export type CollectionBlockType = {
     [k: string]: {
         label: string;
@@ -5,6 +9,10 @@ export type CollectionBlockType = {
     }
 }
 
+/**
+ * All the blocks present in the repository.
+ * This is used by Menu bar to show the block buttons.
+ */
 export const collectionBlocks: { 'blocks': CollectionBlockType } = {
     'blocks': {
         'control': {
@@ -49,7 +57,11 @@ export const collectionBlocks: { 'blocks': CollectionBlockType } = {
     }
 }
 
-
+/**
+ * Import the data of specified block
+ * @param name Name / type of block
+ * @returns Imported json of the specified block
+ */
 export function getCollectionBlock(name: string) {
 
     switch (name) {

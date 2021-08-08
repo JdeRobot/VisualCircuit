@@ -5,16 +5,25 @@ import { ProjectDesign } from "../../../core/serialiser/interfaces";
 import { createPortModel } from "../common/factory";
 import { PortTypes, ProjectInfo } from "../../../core/constants";
 
+/**
+ * Interface for Package block data
+ */
 export interface PackageBlockData {
     name: string;
 }
 
+/**
+ * Options for Package model
+ */
 export interface PackageBlockModelOptions extends BaseModelOptions {
     design: ProjectDesign;
     model: any;
     info: ProjectInfo;
 }
 
+/**
+ * Data model for Package block
+ */
 export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGenerics & PackageBlockModelOptions> {
 
     public model: any;
@@ -31,6 +40,9 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
         this.model = options.model;
         this.info = options.info;
         this.design = options.design;
+        // Generate input port for each Input block present
+        // and output port for each Output block present in the 
+        // internal project (model) structure
         options.design.graph.blocks.forEach((block) => {
             if (block.type === 'basic.input') {
                 this.addPort(
@@ -58,18 +70,34 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
         })
     }
 
+    /**
+     * Generate inputs from list of output port names.
+     * @returns List of input ports
+     */
     getInputs() {
         return this.inputs.map((port) => this.getPort(port));
     }
 
+    /**
+     * Generate outputs from list of output port names.
+     * @returns List of output ports
+     */
     getOutputs() {
         return this.outputs.map((port) => this.getPort(port));
     }
 
+    /**
+     * Getter for the package block icon
+     * @returns Image data URI
+     */
     getImage() {
         return this.info.image;
     }
 
+    /**
+     * Serialise data, model and also internal project (model) structure
+     * @returns Serialised model and data
+     */
     serialize() {
         return {
             ...super.serialize(),
@@ -80,6 +108,10 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
         }
     }
 
+    /**
+     * Deserialise model, data and the internal project (model) structure.
+     * @param event Event which indicates model to deserialise data
+     */
     deserialize(event: DeserializeEvent<this>): void {
         super.deserialize(event);
         this.data = event.data.data;

@@ -13,7 +13,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
+/**
+ * 
+ * Tooltip with an arrow
+ */
 export default function ArrowedTooltip(props: TooltipProps) {
+    // Custom CSS classes
     const classes = useStyles();
 
     return <Tooltip arrow classes={classes} {...props}/>;

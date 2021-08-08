@@ -5,6 +5,9 @@ import { InputBlockModel, InputBlockModelOptions } from './input-model';
 import { InputBlockWidget } from './input-widget';
 
 
+/**
+ * Factory for Input block
+ */
 export class InputBlockFactory extends AbstractReactFactory<InputBlockModel, DiagramEngine> {
 
     constructor() {

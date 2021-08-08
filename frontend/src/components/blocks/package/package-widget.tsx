@@ -11,17 +11,27 @@ import { PackageBlockModel } from "./package-model";
 import './styles.scss';
 
 
+/**
+ * Interface for Package block widget props
+ */
 export interface PackageBlockWidgetProps {
     node: PackageBlockModel;
     engine: DiagramEngine;
     editor: Editor;
 }
 
-
+/**
+ * Widget for the Package block
+ */
 export class PackageBlockWidget extends React.Component<PackageBlockWidgetProps> {
 
     static contextType = GlobalState;
 
+    /**
+     * Callback for when a package block is double clicked.
+     * It opens the package as the model in current editor.
+     * And stores the lockstate and showing package in the widget state.
+     */
     openPackage() {
         const {setState} = this.context;
         this.props.editor.openPackage(this.props.node);

@@ -3,9 +3,12 @@ import { AbstractModelFactory, DeserializeEvent } from '@projectstorm/react-canv
 import { LinkModel, PortModel } from "@projectstorm/react-diagrams";
 
 
-
+/**
+ * Abstract base port model
+ */
 export class BasePortModel extends DefaultPortModel {
 
+    /** If true, does not show any name against the port **/
     public hideLabel: boolean;
 
     constructor(options: BasePortModelOptions) {
@@ -41,24 +44,37 @@ export class BasePortModel extends DefaultPortModel {
     }
 }
 
-
+/**
+ * Options for port model
+ */
 export interface BasePortModelOptions extends DefaultPortModelOptions {
+    /**
+     * If true, does not show any name against the port
+     */
     hideLabel?: boolean
 }
 
-
+/**
+ * Data model Input port 
+ */
 export class BaseInputPortModel extends BasePortModel {
     constructor(options: BasePortModelOptions) {
         super({...options, type: 'port.input'});
     }
 }
 
+/**
+ * Data model Output port 
+ */
 export class BaseOutputPortModel extends BasePortModel {
     constructor(options: BasePortModelOptions) {
         super({...options, type: 'port.output'});
     }
 }
 
+/**
+ * Data model Parameter port 
+ */
 export class BaseParameterPortModel extends BasePortModel {
     constructor(options: BasePortModelOptions) {
         super({...options, type: 'port.parameter'});

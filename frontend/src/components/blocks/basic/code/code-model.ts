@@ -6,12 +6,18 @@ import { PortName } from "../../../../core/serialiser/interfaces";
 import BaseModel from "../../common/base-model";
 import { createPortModel } from "../../common/factory";
 
+/**
+ * Options for Code model
+ */
 export interface CodeBlockModelOptions extends BaseModelOptions {
     inputs?: string[];
     outputs?: string[];
     params?: string[];
 }
 
+/**
+ * Interface for code block data
+ */
 interface CodeBlockData {
     code: string;
     params?: PortName[],
@@ -21,6 +27,9 @@ interface CodeBlockData {
     }
 }
 
+/**
+ * Data model for Code block
+ */
 export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics & CodeBlockModelOptions> {
 
 
@@ -30,6 +39,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
             type: 'basic.code'
         });
 
+        // Initialise data
         this.data = {
             code: '',
             params: options.params?.map((port) => {
@@ -49,7 +59,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
             }
         }
 
-
+        // Create Input ports for each input option
         options.inputs?.forEach((port) => {
             this.addPort(
                 createPortModel({
@@ -61,6 +71,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
             );
         });
 
+        // Create Output ports for each output option
         options.outputs?.forEach((port) => {
             this.addPort(
                 createPortModel({
@@ -72,6 +83,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
             )
         });
 
+        // Create Parameter ports for each parameter option
         options.params?.forEach((port) => {
             this.addPort(
                 createPortModel({
@@ -84,22 +96,43 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         });
     }
 
+    /**
+     * Generate inputs from list of output port names.
+     * @returns List of input ports
+     */
     getInputs() {
         return this.getData().ports.in?.map((port) => this.getPort(port.name)) || [];
     }
 
+    /**
+     * Generate outputs from list of output port names.
+     * @returns List of output ports
+     */
     getOutputs() {
         return this.getData().ports.out?.map((port) => this.getPort(port.name)) || [];
     }
 
+    /**
+     * Generate outputs from list of parameter port names.
+     * @returns List of parameter ports
+     */
     getParameters() {
         return this.getData().params?.map((port) => this.getPort(port.name)) || [];
     }
 
+    /**
+     * Getter for data object
+     * @returns Data object
+     */
     getData(): CodeBlockData {
         return this.data;
     }
 
+    /**
+     * Set the width and height of block
+     * @param width Width of block
+     * @param height Height of block
+     */
     setSize(width: number, height: number): void {
         const size = {
             width: width.toString() + 'px',
@@ -109,6 +142,10 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
 
     }
 
+    /**
+     * Serialise data and model
+     * @returns Serialised model and data
+     */
     serialize() {
         return {
             ...super.serialize(),
@@ -116,6 +153,10 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         }
     }
 
+    /**
+     * Deserialise model and data
+     * @param event Event which indicates model to deserialise data
+     */
     deserialize(event: DeserializeEvent<this>): void {
         super.deserialize(event);
         this.data = event.data.data;

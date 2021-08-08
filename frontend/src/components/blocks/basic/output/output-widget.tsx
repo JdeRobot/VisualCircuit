@@ -8,11 +8,17 @@ import { OutputBlockModel } from "./output-model";
 import './styles.scss';
 
 
+/**
+ * Interface for Output block widget props
+ */
 export interface OutputBlockWidgetProps {
     node: OutputBlockModel;
     engine: DiagramEngine;
 }
 
+/**
+ * Widget for the Output block
+ */
 export class OutputBlockWidget extends React.Component<OutputBlockWidgetProps> {
 
     render() {
