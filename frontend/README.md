@@ -10,3 +10,10 @@ React based front end application for VisualCircuit3.
 4. Run `npm install`
 5. Run `npm start`
 6. Open http://localhost:3000/ in browser.
+
+
+
+## Usage
+
+1. Designing an application [\[YouTube\]](https://www.youtube.com/watch?v=uK725Y-Y9_c)
+2. Building a custom block [\[YouTube\]](https://www.youtube.com/watch?v=haW_oEOjKh8)
