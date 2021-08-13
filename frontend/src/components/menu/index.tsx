@@ -119,6 +119,24 @@ function MenuBar(props: MenuBarProps) {
         };
     }
 
+    const buildAndDownload = (_event: ClickEvent) => {
+        const model = editor.serialise();
+        if (process.env.REACT_APP_BACKEND_HOST && model) {
+            const url = process.env.REACT_APP_BACKEND_HOST + 'build'
+            const headers: HeadersInit = {'Content-Type': 'application/json'};
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(model),
+                headers:  headers}
+            ).then((response) => {
+                let message = response.ok ? 'Submitted successfully' : 'Something went wrong!'
+                alert(message);
+            }).catch((reason) => {
+                console.log(model)
+            });
+        }
+    }
+
     /**
      * Recursive helper function to generate menu options for the Blocks menu.
      * @param blocks Map containing Blocks menu structure
@@ -154,6 +172,7 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={openProject}>Open</MenuItem>
                     <MenuItem onClick={saveProject}>Save as..</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
+                    <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
                 </Menu>
                 <Menu
                     menuButton={<Button className='menu-button'>Edit</Button>}

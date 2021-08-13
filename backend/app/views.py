@@ -5,7 +5,7 @@ import json
 from types import SimpleNamespace
 
 @csrf_exempt
-def index(request):
+def build(request):
 	try:
 		# Parse JSON into an object with attributes corresponding to dict keys.
 		x = json.loads(request.body, object_hook=lambda d: SimpleNamespace(**d)) # need to pass x to the app
