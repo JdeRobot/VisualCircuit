@@ -119,8 +119,16 @@ function MenuBar(props: MenuBarProps) {
         };
     }
 
+    /**
+     * Callback for 'Build and Download' under 'File' menu.
+     * It sends the project as json to the backend for Python synthesis. Once response is received,
+     * this is attached as data URI to a hidden link. And then a click on link is simulated to
+     * start downloading of file. 
+     * @param _event Mouse click event. Unused
+     */
     const buildAndDownload = (_event: ClickEvent) => {
         const model = editor.serialise();
+        let filename = editor.getName();
         if (process.env.REACT_APP_BACKEND_HOST && model) {
             const url = process.env.REACT_APP_BACKEND_HOST + 'build'
             const headers: HeadersInit = {'Content-Type': 'application/json'};
@@ -129,10 +137,24 @@ function MenuBar(props: MenuBarProps) {
                 body: JSON.stringify(model),
                 headers:  headers}
             ).then((response) => {
-                let message = response.ok ? 'Submitted successfully' : 'Something went wrong!'
-                alert(message);
+                if (response.ok) {
+                    // Get the filename
+                    const header = response.headers.get('Content-Disposition');
+                    filename = header?.split(';')[1]?.split('=')[1] || filename;
+                    return response.blob()
+                }
+                throw Error('Something went wrong!')
+            }).then((blob) => {
+                // Convert the blob to a data URI
+                const url = URL.createObjectURL(blob)
+                // Attach the URI to the hidden link and then simulate a click on it.
+                const link = document.getElementById('buildProjectLink');
+                link?.setAttribute('href', url);
+                link?.setAttribute('download', filename + '.zip');
+                link?.click();
             }).catch((reason) => {
-                console.log(model)
+                // If there's an error show the message in an alert.
+                alert(reason);
             });
         }
     }
@@ -203,6 +225,7 @@ function MenuBar(props: MenuBarProps) {
             <input type='file' id='addAsBlockInput' accept={PROJECT_FILE_EXTENSION}
                 onChange={(event) => onFileUpload(event, blockReader)} hidden />
             <a href='/' id='saveProjectLink' hidden download>Download Project</a>
+            <a href='/' id='buildProjectLink' hidden download>Build Project</a>
         </AppBar>
     )
 }
