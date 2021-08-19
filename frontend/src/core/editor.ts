@@ -128,6 +128,9 @@ class Editor {
      * @returns Project name
      */
     public getName(): string {
+        if (this.projectInfo.name) {
+            this.currentProjectName = this.projectInfo.name;
+        }
         return this.currentProjectName;
     }
 
