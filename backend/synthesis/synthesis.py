@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import Tuple
+from typing import Dict, Tuple
 from pathlib import Path
 from synthesis.file_utils import InMemoryZip
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -9,8 +9,13 @@ import json
 
 BLOCK_DIRECTORY = 'modules'
 
+OPTIONAL_FILES = {
+    'FaceDetector' : 'utils/models/haar_cascade/*',
+    'ObjectDetector': 'utils/models/yolov3/*'
+}
 
-def syntheize_modules(data: dict, zipfile: InMemoryZip) -> InMemoryZip:
+
+def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Dict[str, bool]]:
     '''Synthesize python code for different blocks as well as user code blocks.
     Different blocks present in the project is collected.
     Parameters of each dependency block as well as constant blocks are collected.
@@ -20,6 +25,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> InMemoryZip:
     dependencies = {}
     blocks = {}
     parameters = {}
+    optional_files = {}
 
     for key, dependency in data['dependencies'].items():
         components = dependency['design']['graph']['blocks']
@@ -28,6 +34,9 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> InMemoryZip:
                 # If code, generate python file.
                 script = block['data']['code']
                 script_name = dependency['package']['name']
+                # Mark the optional files required by the current block, if needed.
+                if script_name in OPTIONAL_FILES:
+                    optional_files[script_name] = True
                 script_name += dependency['package']['version'].replace('.', '')
                 dependencies[key] = script_name
                 zipfile.append(f'{BLOCK_DIRECTORY}/{script_name}.py', script)
@@ -66,18 +75,26 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> InMemoryZip:
     data = {'blocks': blocks, 'parameters': parameters, 'wires': data['design']['graph']['wires']}
     zipfile.append('data.json', json.dumps(data))
 
-    return zipfile
+    return zipfile, optional_files
 
-def synthesize_executioner(zipfile: InMemoryZip) -> InMemoryZip:
+def synthesize_executioner(zipfile: InMemoryZip, optional_files: Dict[str, bool]) -> InMemoryZip:
     '''Synthesize python code necessary to run the blocks.
     All these files are present in django static directory. 
     They are read and put into the zipfile.
     '''
+
+    # Blacklist all optional files by default
+    paths_to_exclude = set(OPTIONAL_FILES.values())
+    # If a particular block is present which needs optional files, whitelist the required optional files.
+    paths_to_include = set([path for key, path in OPTIONAL_FILES.items() if optional_files.get(key, False)])
+    
     for path in get_files(staticfiles_storage, location='synthesis'):
         with staticfiles_storage.open(path) as file:
             content = file.read()
             relative_path = Path(path).relative_to('synthesis')
-            zipfile.append(str(relative_path), content)
+            # Check if the path is excluded, if it is, check if its required for the current set of blocks.
+            if not any([relative_path.match(p) for p in paths_to_exclude]) or any([relative_path.match(p) for p in paths_to_include]):
+                zipfile.append(str(relative_path), content)
 
     return zipfile
 
@@ -92,8 +109,9 @@ def synthesize(data: dict) -> Tuple[str, BytesIO]:
     All synthesized files are put inside a zip file so that it can be downloaded.
     '''
     zipfile = InMemoryZip()
-    zipfile = synthesize_executioner(zipfile)
-    zipfile = syntheize_modules(data, zipfile)
+    # Optional files required based on blocks present.
+    zipfile, optional_files = syntheize_modules(data, zipfile)
+    zipfile = synthesize_executioner(zipfile, optional_files)
     zipfile = syntesize_extras(zipfile)
 
     # Project name (zipfile name) 
