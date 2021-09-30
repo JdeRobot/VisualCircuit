@@ -150,7 +150,9 @@ function MenuBar(props: MenuBarProps) {
                 // Attach the URI to the hidden link and then simulate a click on it.
                 const link = document.getElementById('buildProjectLink');
                 link?.setAttribute('href', url);
-                link?.setAttribute('download', filename + '.zip');
+                // Remove extra quotes around the name. This is hack
+                // TODO: Find why quotes are getting added to project name
+                link?.setAttribute('download', filename.replace(/^"(.+(?="$))"$/, '$1'));
                 link?.click();
             }).catch((reason) => {
                 // If there's an error show the message in an alert.
