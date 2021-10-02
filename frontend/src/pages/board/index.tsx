@@ -52,7 +52,7 @@ const Toolbar: React.FC<{ editor: Editor }> = (props) => {
         // Go up one level in the stack (to previous circuit model)
         props.editor.goToPreviousModel()
         // Set whether it is still showing a package block
-        setState({...state, showingPackage: props.editor.showingPackage()});
+        setState({...state, showingPackage: props.editor.showingPackage(), locked: false});
     }
 
     return (

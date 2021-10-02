@@ -32,25 +32,13 @@
             .block-basic-code-textarea-container {
                 flex: 1;
                 margin: 5px;
-                overflow-y: auto;
-
-                .block-basic-code-textarea {
-                    max-height: 400px;
-                    border-radius: 5px;
-                }
+                overflow-y: hidden;
+                resize: both;
+                padding: 5px;
 
             }
 
 
-        }
-    }
-}
-
-.theme-dark {
-    #board {
-        .block-basic-code {
-            // background-color: whitesmoke;
-            // color: black;
         }
     }
 }

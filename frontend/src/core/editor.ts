@@ -256,6 +256,8 @@ class Editor {
             this.projectInfo = info;
             // Change the current model to the model got from the stack.
             this.engine.setModel(this.activeModel);
+
+            this.setLock(false);
         }
     }
 }

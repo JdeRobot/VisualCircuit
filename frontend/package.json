@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
+    "@monaco-editor/react": "^4.2.2",
     "@projectstorm/react-diagrams": "^6.5.2",
     "@szhsin/react-menu": "^1.10.0",
     "@testing-library/jest-dom": "^5.11.4",
