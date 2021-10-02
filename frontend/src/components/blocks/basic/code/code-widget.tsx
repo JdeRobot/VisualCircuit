@@ -1,7 +1,8 @@
 import { Card, CardContent } from '@material-ui/core';
+import MonacoEditor from "@monaco-editor/react";
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 import CSS from 'csstype';
-import React, { ChangeEvent, MouseEventHandler, WheelEventHandler } from 'react';
+import React, { MouseEventHandler, WheelEventHandler } from 'react';
 import { GlobalState } from '../../../../core/store';
 import BaseBlock from '../../common/base-block';
 import BasePort from '../../common/base-port';
@@ -22,7 +23,9 @@ export interface CodeBlockWidgetProps {
  */
 export interface CodeBlockWidgetState {
     // For code text
-    code: string
+    code: string,
+    width: string,
+    height: string
 }
 
 /**
@@ -35,19 +38,18 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
     constructor(props: CodeBlockWidgetProps) {
         super(props);
         this.state = {
-            code: this.props.node.data.code || ''
+            code: this.props.node.data.code || '',
+            width: this.props.node.data.size?.width || '300px',
+            height: this.props.node.data.size?.height || '300px'
         };
     }
 
     render() {
         const { state } = this.context;
-        const textAreaStyle: CSS.Properties = {};
-        const width = this.props.node.data.size?.width;
-        const height = this.props.node.data.size?.height;
-        if (width && height) {
-            textAreaStyle.width = width;
-            textAreaStyle.height = height;
-        }
+        const textAreaStyle: CSS.Properties = {
+            width: this.state.width,
+            height: this.state.height
+        };
 
         return (
             <BaseBlock selected={this.props.node.isSelected()}>
@@ -79,18 +81,24 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
                                         );
                                     })}
                                 </div>
-                                <div className='block-basic-code-textarea-container'>
-                                    <textarea
-                                        aria-label='code-block'
-                                        className='block-basic-code-textarea'
-                                        value={this.state.code}
+                                <div className='block-basic-code-textarea-container' 
+                                    onMouseDown={this.blockMouseEvents}
+                                    onMouseUp={this.handleResize}
+                                    onWheel={this.blockScrollEvents}
+                                    style={textAreaStyle}>
+                                    <MonacoEditor
+                                        height={state.height}
+                                        width={state.width}
+                                        language="python"
+                                        defaultValue={this.state.code}
                                         onChange={this.handleInput}
-                                        onMouseDown={this.blockMouseEvents}
-                                        onMouseUp={this.handleResize}
-                                        onWheel={this.blockScrollEvents}
-                                        readOnly={state.locked}
-                                        style={textAreaStyle}
-                                        spellCheck="false"
+                                        theme="vs-dark"
+                                        options={{
+                                            "readOnly": state.locked,
+                                            "minimap": {
+                                                "enabled": false
+                                            }
+                                        }}
                                     />
                                 </div>
                                 <div className='block-basic-code-outputs'>
@@ -108,7 +116,6 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
                             </div>
                         </CardContent>
                     </Card>
-
                 </div>
             </BaseBlock>
         );
@@ -118,9 +125,9 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
      * Callback when code input field changes
      * @param event Change event from Code text area
      */
-    handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({ code: event.target.value });
-        this.props.node.data.code = event.target.value;
+    handleInput = (value: string | undefined) => {
+        this.setState({ code: value || '' });
+        this.props.node.data.code = value || '';
     }
 
     /**
@@ -128,7 +135,7 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
      * This is to make sure that dragging or selecting inside the text area is handled within the text area.
      * @param event Mouse click events
      */
-    blockMouseEvents: MouseEventHandler<HTMLTextAreaElement> = (event) => {
+    blockMouseEvents: MouseEventHandler<HTMLDivElement> = (event) => {
         event.stopPropagation();
     }
 
@@ -137,7 +144,7 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
      * This is to make sure that scrolling on the text area doesnt scroll the whole window.
      * @param event Mouse scroll events
      */
-    blockScrollEvents: WheelEventHandler<HTMLTextAreaElement> = (event) => {
+    blockScrollEvents: WheelEventHandler<HTMLDivElement> = (event) => {
         event.stopPropagation();
     }
 
@@ -145,8 +152,8 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
      * Callback for text area resize. When the size of block changes, store it so that it can be serialised.
      * @param event Text area resize event
      */
-    handleResize: MouseEventHandler<HTMLTextAreaElement> = (event) => {
-        const element = event.target as HTMLTextAreaElement;
+    handleResize: MouseEventHandler<HTMLDivElement> = (event) => {
+        const element = event.target as HTMLDivElement;
         this.props.node.setSize(element.clientWidth, element.clientHeight);
     }
 
