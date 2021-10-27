@@ -3,6 +3,7 @@ import { AbstractReactFactory, GenerateModelEvent, GenerateWidgetEvent } from '@
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 import { InputBlockModel, InputBlockModelOptions } from './input-model';
 import { InputBlockWidget } from './input-widget';
+import Editor from '../../../../core/editor';
 
 
 /**
@@ -10,8 +11,10 @@ import { InputBlockWidget } from './input-widget';
  */
 export class InputBlockFactory extends AbstractReactFactory<InputBlockModel, DiagramEngine> {
 
-    constructor() {
+    private editor: Editor;
+    constructor(editor: Editor) {
         super('basic.input');
+        this.editor = editor;
     }
 
     generateModel(event: GenerateModelEvent): InputBlockModel {
@@ -21,6 +24,6 @@ export class InputBlockFactory extends AbstractReactFactory<InputBlockModel, Dia
     }
 
     generateReactWidget(event: GenerateWidgetEvent<InputBlockModel>): JSX.Element {
-        return <InputBlockWidget engine={this.engine} node={event.model} />;
+        return <InputBlockWidget engine={this.engine} node={event.model} editor={this.editor}/>;
     }
 }

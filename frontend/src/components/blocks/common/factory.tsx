@@ -1,5 +1,5 @@
 import { AbstractModelFactory, Toolkit } from '@projectstorm/react-canvas-core';
-import { LinkModel, PortModel } from "@projectstorm/react-diagrams";
+import { LinkModel, NodeModel, PortModel } from "@projectstorm/react-diagrams";
 import { DefaultPortModel } from "@projectstorm/react-diagrams-defaults";
 import { RightAngleLinkModel } from "@projectstorm/react-diagrams-routing";
 import { PortTypes, ProjectInfo } from '../../../core/constants';
@@ -48,7 +48,30 @@ export const createPortModel = (options: BasePortModelOptions) => {
             return new DefaultPortModel(options);
     }
     
-} 
+}
+
+/**
+ * Helper function to edit a block.
+ * @param node Block to be edited
+ */
+export const editBlock = async (node : NodeModel) => {
+    var data;
+    try {
+        if (node instanceof ConstantBlockModel) {
+            data = await createConstantDialog({isOpen: true, name: node.getData().name, local: node.getData().local});
+            node.setData(data);
+        } else if (node instanceof CodeBlockModel) {
+            data = await createCodeDialog({isOpen: true, 
+                inputs: node.getInputNames(), outputs: node.getOutputNames(), params: node.getParameterNames()});
+            node.setData(data);
+        } else if (node instanceof InputBlockModel || node instanceof OutputBlockModel) {
+            data = await createIODialog({isOpen: true, name: node.getData().name});
+            node.setData(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 /**
  * Helper function to create a block of specified type. For constant blocks the ID is modified to

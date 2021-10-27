@@ -14,11 +14,11 @@ import { ConstantBlockModelOptions } from '../blocks/basic/constant/constant-mod
  *          onReject: Will be called to indicate failure.
  *        }
  */
-const ConstantBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<ConstantBlockModelOptions>) => {
+const ConstantBlockDialog = ({ isOpen, onResolve, onReject, name: _name, local: _local}: InstanceProps<ConstantBlockModelOptions> & Partial<ConstantBlockModelOptions>) => {
 
 
-  const [name, setName] = useState('');
-  const [local, setLocal] = useState(true);
+  const [name, setName] = useState(_name || '');
+  const [local, setLocal] = useState<boolean>(_local || true);
 
   const [errorMsg, setErrorMsg] = useState('');
 

@@ -12,14 +12,14 @@ import { CodeBlockModelOptions } from '../blocks/basic/code/code-model';
  *          onReject: Will be called to indicate failure.
  *        }
  */
-const CodeBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<CodeBlockModelOptions>) => {
+const CodeBlockDialog = ({ isOpen, onResolve, onReject, inputs, outputs, params }: InstanceProps<CodeBlockModelOptions> & Partial<CodeBlockModelOptions>) => {
 
     // Comma separated list of inputs for the Code block
-    const [inputPorts, setInputPorts] = useState('');
+    const [inputPorts, setInputPorts] = useState((inputs || []).join(', ') || '');
     // Comma separated list of outputs for the Code block
-    const [outputPorts, setOutputPorts] = useState('');
+    const [outputPorts, setOutputPorts] = useState((outputs || []).join(', ') || '');
     // Comma separated list of parameters for the Code block
-    const [parameters, setParameters] = useState('');
+    const [parameters, setParameters] = useState((params || []).join(', ') || '');
     const [error, setError] = useState('');
 
 

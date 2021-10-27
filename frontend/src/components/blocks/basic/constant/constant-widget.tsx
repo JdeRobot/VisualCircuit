@@ -1,8 +1,9 @@
 import { Card, CardContent, TextField } from '@material-ui/core';
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 import React, { ChangeEvent } from 'react';
+import Editor from '../../../../core/editor';
 import { GlobalState } from '../../../../core/store';
-import BaseBlock from '../../common/base-block';
+import BaseBlock, { ContextOption } from '../../common/base-block';
 import BasePort from '../../common/base-port';
 import { ConstantBlockModel } from './constant-model';
 import './styles.scss';
@@ -13,6 +14,7 @@ import './styles.scss';
 export interface ConstantBlockWidgetProps {
     node: ConstantBlockModel;
     engine: DiagramEngine;
+    editor: Editor;
 }
 
 /**
@@ -29,6 +31,7 @@ export interface ConstantBlockWidgetState {
 export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProps, ConstantBlockWidgetState> {
 
     static contextType = GlobalState;
+    readonly contextOptions: ContextOption[] = [{key: 'rename', label: 'Rename'}, {key: 'delete', label: 'Delete'}];
 
     constructor(props: ConstantBlockWidgetProps) {
         super(props);
@@ -37,10 +40,28 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
         };
     }
 
+    /**
+     * Handler for context menu
+     * @param key Key cooresponding to the context menu clicked
+     */
+    onContextMenu(key: string) {
+        switch (key) {
+            case 'delete':
+                this.props.editor.removeNode(this.props.node);
+                break;
+            case 'rename':
+                this.props.editor.editNode(this.props.node);
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         const { state } = this.context;
         return (
-            <BaseBlock selected={this.props.node.isSelected()}>
+            <BaseBlock selected={this.props.node.isSelected()} contextOptions={this.contextOptions}
+                contextHandler={this.onContextMenu.bind(this)}>
                 <div>
                     <Card variant='outlined' className="block-basic-constant" raised>
                         <CardContent className='p-0'>
