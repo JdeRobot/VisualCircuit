@@ -13,7 +13,9 @@ export type CollectionBlockType = {
  * All the blocks present in the repository.
  * This is used by Menu bar to show the block buttons.
  */
-export const collectionBlocks: { 'blocks': CollectionBlockType } = {
+export const collectionBlocks: { 'blocks': CollectionBlockType, 
+                                 'processing': CollectionBlockType,
+                                 'drivers': CollectionBlockType } = {
     'blocks': {
         'control': {
             'label': 'Control',
@@ -54,6 +56,59 @@ export const collectionBlocks: { 'blocks': CollectionBlockType } = {
                 'objectDetector': {'label': 'Object Detector'}
             }
         }
+    },
+    'processing': {
+        'control': {
+            'label': 'Control',
+            'children': {
+                'pid': {'label': 'PID'},
+            }
+        },
+        'opencv': {
+            'label': 'OpenCV',
+            'children': {
+                'blur': { 'label': 'Blur' },
+                'colorFilter': {'label': 'Color Filter'},
+                'contourDetector': {'label': 'Contour Detector'},
+                'cropper': {'label': 'Cropper'},
+                'dilation': {'label': 'Dilation'},
+                'edgeDetector': {'label': 'Edge Detector'},
+                'erosion': {'label': 'Erosion'},
+                'faceDetector': {'label': 'Face Detector'},
+                'threshold': {'label': 'Threshold'},
+            }
+        },
+        'tensorflow': {
+            'label': 'TensorFlow',
+            'children': {
+                'objectDetector': {'label': 'Object Detector'}
+            }
+        }
+    },
+    'drivers': {
+        'control': {
+            'label': 'Control',
+            'children': {
+                'motorDriver': {'label': 'MotorDriver'},
+                'teleoperator': {'label': 'Teleoperator'}
+            }
+        },
+        'opencv': {
+            'label': 'OpenCV',
+            'children': {
+                'camera': { 'label': 'Camera' },
+                'imageRead': {'label': 'Image Read'},
+                'screen': { 'label': 'Screen' },
+                'videoStreamer': {'label': 'Video Streamer'}
+            }
+        },
+        'rossensors': {
+            'label': 'ROS-Sensors',
+            'children': {
+                'cameraRos': {'label': 'CameraROS'},
+                'odometer': {'label': 'Odometer'}
+            }
+        }
     }
 }
 
@@ -65,43 +120,43 @@ export const collectionBlocks: { 'blocks': CollectionBlockType } = {
 export function getCollectionBlock(name: string) {
 
     switch (name) {
-        case 'blocks.control.motorDriver':
+        case 'drivers.control.motorDriver':
             return import('./control/MotorDriver.json');
-        case 'blocks.control.pid':
+        case 'processing.control.pid':
             return import('./control/PID.json');
-        case 'blocks.control.teleoperator':
+        case 'drivers.control.teleoperator':
             return import('./control/Teleoperator.json');
-        case 'blocks.opencv.blur':
+        case 'processing.opencv.blur':
             return import('./opencv/Blur.json');
-        case 'blocks.opencv.camera':
+        case 'drivers.opencv.camera':
             return import('./opencv/Camera.json');
-        case 'blocks.opencv.colorFilter':
+        case 'processing.opencv.colorFilter':
             return import('./opencv/ColorFilter.json');
-        case 'blocks.opencv.contourDetector':
+        case 'processing.opencv.contourDetector':
             return import('./opencv/ContourDetector.json');
-        case 'blocks.opencv.cropper':
+        case 'processing.opencv.cropper':
             return import('./opencv/Cropper.json');
-        case 'blocks.opencv.dilation':
+        case 'processing.opencv.dilation':
             return import('./opencv/Dilation.json');
-        case 'blocks.opencv.edgeDetector':
+        case 'processing.opencv.edgeDetector':
             return import('./opencv/EdgeDetector.json');
-        case 'blocks.opencv.erosion':
+        case 'processing.opencv.erosion':
             return import('./opencv/Erosion.json');
-        case 'blocks.opencv.faceDetector':
+        case 'processing.opencv.faceDetector':
             return import('./opencv/FaceDetector.json');
-        case 'blocks.opencv.imageRead':
+        case 'drivers.opencv.imageRead':
             return import('./opencv/ImageRead.json');
-        case 'blocks.opencv.screen':
+        case 'drivers.opencv.screen':
             return import('./opencv/Screen.json');
-        case 'blocks.opencv.threshold':
+        case 'processing.opencv.threshold':
             return import('./opencv/Threshold.json');
-        case 'blocks.opencv.videoStreamer':
+        case 'drivers.opencv.videoStreamer':
             return import('./opencv/VideoStreamer.json');
-        case 'blocks.rossensors.cameraRos':
+        case 'drivers.rossensors.cameraRos':
             return import('./ros-sensors/ROSCamera.json');
-        case 'blocks.rossensors.odometer':
+        case 'drivers.rossensors.odometer':
             return import('./ros-sensors/Odometer.json');
-        case 'blocks.tensorflow.objectDetector':
+        case 'processing.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
         default:
             break;
