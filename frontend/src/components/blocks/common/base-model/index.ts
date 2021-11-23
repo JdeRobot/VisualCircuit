@@ -12,6 +12,13 @@ class BaseModel<D, G extends NodeModelGenerics = NodeModelGenerics> extends Node
         return this.data;
     }
 
+    public setData(_data: D) {
+        this.data = {
+            ...this.data,
+            ..._data
+        }
+    }
+
 }
 
 export default BaseModel;

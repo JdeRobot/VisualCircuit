@@ -12,13 +12,13 @@ import { InputBlockModelOptions } from '../blocks/basic/input/input-model';
  *          onReject: Will be called to indicate failure.
  *        }
  */
-const IOBlockDialog = ({ isOpen, onResolve, onReject }: InstanceProps<InputBlockModelOptions>) => {
+const IOBlockDialog = ({ isOpen, onResolve, onReject, name: _name }: InstanceProps<InputBlockModelOptions> & Partial<InputBlockModelOptions>) => {
 
 
   /**
    * Name for the input or output block
    */
-  const [name, setName] = useState('');
+  const [name, setName] = useState(_name || '');
   /**
    * Error message shown when 'Ok' is pressed without giving any name.
    * By default it is empty. And will be populated upon validation.

@@ -5,7 +5,7 @@ import React from "react";
 import Editor from "../../../core/editor";
 import { GlobalState } from "../../../core/store";
 import ArrowedTooltip from "../../utils/tooltip";
-import BaseBlock from "../common/base-block";
+import BaseBlock, { ContextOption } from "../common/base-block";
 import BasePort from "../common/base-port";
 import { PackageBlockModel } from "./package-model";
 import './styles.scss';
@@ -26,6 +26,7 @@ export interface PackageBlockWidgetProps {
 export class PackageBlockWidget extends React.Component<PackageBlockWidgetProps> {
 
     static contextType = GlobalState;
+    readonly contextOptions: ContextOption[] = [{key: 'delete', label: 'Delete'}];
 
     /**
      * Callback for when a package block is double clicked.
@@ -41,10 +42,25 @@ export class PackageBlockWidget extends React.Component<PackageBlockWidgetProps>
         })
     }
 
+    /**
+     * Handler for context menu
+     * @param key Key cooresponding to the context menu clicked
+     */
+    onContextMenu(key: string) {
+        switch (key) {
+            case 'delete':
+                this.props.editor.removeNode(this.props.node);
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         return (
             <BaseBlock 
-                selected = {this.props.node.isSelected()}>
+                selected = {this.props.node.isSelected()} contextOptions={this.contextOptions}
+                contextHandler={this.onContextMenu.bind(this)}>
                 <div onDoubleClick={() => this.openPackage()}>
                     <Card variant='outlined' className="block-package" raised>
                         <CardContent className='p-0 h-100'>

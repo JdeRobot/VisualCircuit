@@ -3,8 +3,9 @@ import MonacoEditor from "@monaco-editor/react";
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 import CSS from 'csstype';
 import React, { MouseEventHandler, WheelEventHandler } from 'react';
+import Editor from '../../../../core/editor';
 import { GlobalState } from '../../../../core/store';
-import BaseBlock from '../../common/base-block';
+import BaseBlock, { ContextOption } from '../../common/base-block';
 import BasePort from '../../common/base-port';
 import { CodeBlockModel } from './code-model';
 import './styles.scss';
@@ -16,6 +17,7 @@ import './styles.scss';
 export interface CodeBlockWidgetProps {
     node: CodeBlockModel;
     engine: DiagramEngine;
+    editor: Editor;
 }
 
 /**
@@ -34,6 +36,7 @@ export interface CodeBlockWidgetState {
 export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeBlockWidgetState> {
 
     static contextType = GlobalState;
+    readonly contextOptions: ContextOption[] = [{key: 'delete', label: 'Delete'}];
 
     constructor(props: CodeBlockWidgetProps) {
         super(props);
@@ -44,6 +47,21 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
         };
     }
 
+    /**
+     * Handler for context menu
+     * @param key Key cooresponding to the context menu clicked
+     */
+    onContextMenu(key: string) {
+        switch (key) {
+            case 'delete':
+                this.props.editor.removeNode(this.props.node);
+                break;
+            default:
+                break;
+        }
+        
+    }
+
     render() {
         const { state } = this.context;
         const textAreaStyle: CSS.Properties = {
@@ -52,7 +70,8 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
         };
 
         return (
-            <BaseBlock selected={this.props.node.isSelected()}>
+            <BaseBlock selected={this.props.node.isSelected()} contextOptions={this.contextOptions} 
+            contextHandler={this.onContextMenu.bind(this)}>
                 <div>
                     <Card variant='outlined' className="block-basic-code" raised>
                         <CardContent className='p-0'>

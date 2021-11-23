@@ -3,6 +3,7 @@ import { ConstantBlockModel, ConstantBlockModelOptions } from './constant-model'
 import { ConstantBlockWidget } from './constant-widget';
 import { AbstractReactFactory, GenerateModelEvent, GenerateWidgetEvent } from '@projectstorm/react-canvas-core';
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
+import Editor from '../../../../core/editor';
 
 
 /**
@@ -10,8 +11,10 @@ import { DiagramEngine } from '@projectstorm/react-diagrams-core';
  */
 export class ConstantBlockFactory extends AbstractReactFactory<ConstantBlockModel, DiagramEngine> {
 
-    constructor() {
+    private editor: Editor;
+    constructor(editor: Editor) {
         super('basic.constant');
+        this.editor = editor;
     }
 
     generateModel(event: GenerateModelEvent): ConstantBlockModel {
@@ -21,6 +24,6 @@ export class ConstantBlockFactory extends AbstractReactFactory<ConstantBlockMode
     }
 
     generateReactWidget(event: GenerateWidgetEvent<ConstantBlockModel>): JSX.Element {
-        return <ConstantBlockWidget engine={this.engine} node={event.model} />;
+        return <ConstantBlockWidget engine={this.engine} node={event.model} editor={this.editor}/>;
     }
 }

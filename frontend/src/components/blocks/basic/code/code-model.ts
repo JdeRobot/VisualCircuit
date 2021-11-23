@@ -38,10 +38,13 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
             ...options,
             type: 'basic.code'
         });
-
+        // default code shown on editor
+        const code = (
+`def loop(block_name, input_wires, output_wires, parameters, flags):
+    pass`);
         // Initialise data
         this.data = {
-            code: '',
+            code: code,
             params: options.params?.map((port) => {
                 return { name: port }
             }) || [],
@@ -104,6 +107,10 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         return this.getData().ports.in?.map((port) => this.getPort(port.name)) || [];
     }
 
+    getInputNames() {
+        return this.getData().ports.in?.map((port) => port.name) || [];
+    }
+
     /**
      * Generate outputs from list of output port names.
      * @returns List of output ports
@@ -112,12 +119,20 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         return this.getData().ports.out?.map((port) => this.getPort(port.name)) || [];
     }
 
+    getOutputNames() {
+        return this.getData().ports.out?.map((port) => port.name) || [];
+    }
+
     /**
      * Generate outputs from list of parameter port names.
      * @returns List of parameter ports
      */
     getParameters() {
         return this.getData().params?.map((port) => this.getPort(port.name)) || [];
+    }
+
+    getParameterNames() {
+        return this.getData().params?.map((port) => port.name) || [];
     }
 
     /**

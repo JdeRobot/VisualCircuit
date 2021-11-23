@@ -1,11 +1,11 @@
 import { DeleteItemsAction } from "@projectstorm/react-canvas-core";
-import createEngine, { DiagramEngine, DiagramModel, RightAngleLinkFactory } from "@projectstorm/react-diagrams";
+import createEngine, { DiagramEngine, DiagramModel, NodeModel, RightAngleLinkFactory } from "@projectstorm/react-diagrams";
 import { CodeBlockFactory } from "../components/blocks/basic/code/code-factory";
 import { ConstantBlockFactory } from "../components/blocks/basic/constant/constant-factory";
 import { InputBlockFactory } from "../components/blocks/basic/input/input-factory";
 import { OutputBlockFactory } from "../components/blocks/basic/output/output-factory";
 import { BaseInputPortFactory, BaseOutputPortFactory, BaseParameterPortFactory } from "../components/blocks/common/base-port/port-factory";
-import { createBlock, getInitialPosition, loadPackage } from "../components/blocks/common/factory";
+import { createBlock, editBlock, getInitialPosition, loadPackage } from "../components/blocks/common/factory";
 import { PackageBlockFactory } from "../components/blocks/package/package-factory";
 import { PackageBlockModel } from "../components/blocks/package/package-model";
 import createProjectInfoDialog from "../components/dialogs/project-info-dialog";
@@ -55,10 +55,10 @@ class Editor {
         this.engine.getPortFactories().registerFactory(new BaseInputPortFactory());
         this.engine.getPortFactories().registerFactory(new BaseOutputPortFactory());
         this.engine.getPortFactories().registerFactory(new BaseParameterPortFactory());
-        this.engine.getNodeFactories().registerFactory(new ConstantBlockFactory());
-        this.engine.getNodeFactories().registerFactory(new CodeBlockFactory());
-        this.engine.getNodeFactories().registerFactory(new InputBlockFactory());
-        this.engine.getNodeFactories().registerFactory(new OutputBlockFactory());
+        this.engine.getNodeFactories().registerFactory(new ConstantBlockFactory(this));
+        this.engine.getNodeFactories().registerFactory(new CodeBlockFactory(this));
+        this.engine.getNodeFactories().registerFactory(new InputBlockFactory(this));
+        this.engine.getNodeFactories().registerFactory(new OutputBlockFactory(this));
         this.engine.getNodeFactories().registerFactory(new PackageBlockFactory(this));
 
         // register an DeleteItemsAction with custom keyCodes (in this case, only Delete key)
@@ -252,12 +252,35 @@ class Editor {
             const {model, info, node} = this.stack.pop()!;
             // Assign the modified data to the stored block object, as this is the one used in project.
             node.design = data.design;
+            node.model = this.activeModel.serialize();
             this.activeModel = model;
             this.projectInfo = info;
             // Change the current model to the model got from the stack.
             this.engine.setModel(this.activeModel);
 
             this.setLock(false);
+        }
+    }
+
+    /**
+     * Delete a block node, if current model is not locked.
+     * @param node 
+     */
+    public removeNode(node: NodeModel) {
+        if (!this.locked()) {
+            node.remove()
+            this.engine.repaintCanvas();
+        }
+    }
+
+    /**
+     * Edit a block node, if current model is not locked.
+     * @param node 
+     */
+    public async editNode<T extends NodeModel>(node: T) {
+        if (!this.locked()) {
+            await editBlock(node);
+            this.engine.repaintCanvas();
         }
     }
 }

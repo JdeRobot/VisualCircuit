@@ -2,7 +2,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { DiagramEngine } from "@projectstorm/react-diagrams";
 import React from "react";
-import BaseBlock from "../../common/base-block";
+import Editor from "../../../../core/editor";
+import BaseBlock, { ContextOption } from "../../common/base-block";
 import BasePort from "../../common/base-port";
 import { OutputBlockModel } from "./output-model";
 import './styles.scss';
@@ -14,6 +15,7 @@ import './styles.scss';
 export interface OutputBlockWidgetProps {
     node: OutputBlockModel;
     engine: DiagramEngine;
+    editor: Editor;
 }
 
 /**
@@ -21,9 +23,30 @@ export interface OutputBlockWidgetProps {
  */
 export class OutputBlockWidget extends React.Component<OutputBlockWidgetProps> {
 
+    readonly contextOptions: ContextOption[] = [{key: 'rename', label: 'Rename'}, {key: 'delete', label: 'Delete'}];
+
+    /**
+     * Handler for context menu
+     * @param key Key cooresponding to the context menu clicked
+     */
+    onContextMenu(key: string) {
+        switch (key) {
+            case 'delete':
+                this.props.editor.removeNode(this.props.node);
+                break;
+            case 'rename':
+                this.props.editor.editNode(this.props.node);
+                break;
+            default:
+                break;
+        }
+        
+    }
+
     render() {
         return (
-            <BaseBlock selected={this.props.node.isSelected()}>
+            <BaseBlock selected={this.props.node.isSelected()} contextOptions={this.contextOptions} 
+                contextHandler={this.onContextMenu.bind(this)}>
                 <div>
                     <Card variant='outlined' className="block-basic-output" raised>
                         <CardContent className='p-0'>
