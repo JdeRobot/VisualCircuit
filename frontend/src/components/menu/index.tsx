@@ -183,6 +183,8 @@ function MenuBar(props: MenuBarProps) {
     }
 
     const blocks = blocksEntries(collectionBlocks.blocks, 'blocks');
+    const processingBlocks = blocksEntries(collectionBlocks.processing, 'processing');
+    const driverBlocks = blocksEntries(collectionBlocks.drivers, 'drivers');
 
     // TODO: Localise string instead of hardcoding it. 
     return (
@@ -214,10 +216,20 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={() => setBlock('basic.information')}>Information</MenuItem>
                 </Menu>
 
-                <Menu
+                {/* <Menu
                     menuButton={<Button className='menu-button'>Blocks</Button>}
                     theming={isDark ? 'dark' : undefined}>
                     {blocks}
+                </Menu> */}
+                <Menu
+                    menuButton={<Button className='menu-button'>Processing</Button>}
+                    theming={isDark ? 'dark' : undefined}>
+                    {processingBlocks}
+                </Menu>
+                <Menu
+                    menuButton={<Button className='menu-button'>Drivers</Button>}
+                    theming={isDark ? 'dark' : undefined}>
+                    {driverBlocks}
                 </Menu>
             </Toolbar>
             {/* Hidden file input field for opening project file selection dialog. */}
