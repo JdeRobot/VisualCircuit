@@ -5,7 +5,6 @@ Django based back-end application for VisualCircuit3.
 ## Setup for development
 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
-2. Switch to branch VisualCircuit3
 3. Change directory to `backend`
 4. Create a Python3 virtual environment using venv. 
 For eg. `python -m venv .venv` 
