@@ -57,28 +57,35 @@ npm --version
 
 ## Setup
 
+You can directly use the hosted version of VisualCircuit at https://visualcircuit.org without any setup!
 
-### Download Direct .AppImage Package:
+### Local setup
 
-You can download the VisualCircuit-2.1-linux64.AppImage package from [here](https://github.com/JdeRobot/VisualCircuit/releases)
+You can download the VisualCircuit-3.x from [here](https://github.com/JdeRobot/VisualCircuit/releases)
 
 ## Running the Tool:
 
-Run VisualCircuit:
+After downloading the zip file and extracting it:
 
-if you downloaded .AppImage file sucessfully then 
-downlad and run [requirements.sh](github.com/JdeRobot/VisualCircuit/blob/master/requirements.sh) file from https://github.com/JdeRobot/VisualCircuit/blob/master/requirements.sh
+Run VisualCircuit frontend:
 
-to install the dependencies.
+1. Open the VisualCircuit folder and change directory to `frontend` in a terminal
+2. Run `npm install`
+3. Run `npm start`
+4. Open http://localhost:3000/ in browser.
 
-Next go to folder containing the ApppImage and in terminal run
-```
-./VisualCircuit-2.1-linux64.AppImage
-```
+Run VisualCircuit backend:`
+
+1. Open the VisualCircuit folder and change directory to `backend` in a terminal
+2. Create a Python3 virtual environment using venv. For eg. `python -m venv .venv`
+3. After activating the virtual environment, install the dependencies by running `pip install -r requirements.txt`
+4. Add .env file to the backend folder. And add the variables as defined in .env.template
+5. Start the server by running `python manage.py runserver 80`
+
 
 #### Well Done! you have Successfully Installed the VisualCircuit
 
-![alt_text]({{ "assets/images/Vc.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3.png" | absolute_url }})
 
 
 Now it's time to play with it.
@@ -87,45 +94,41 @@ Now it's time to play with it.
 
 We are now going to create our first running robotics application using Visual Circuit.
 
-First of all, on the top right corner you will find some options like Basic, Block, and etc.
+First of all, on the top right corner you will find some options like Basic, Processing, and etc.
 
-![alt_text]({{ "assets/images/right top.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3-right-top.png" | absolute_url }})
 
 Click on the Blocks and following menu will be poped up.
 
-![alt_text]({{ "assets/images/blocks.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3-drivers.png" | absolute_url }})
 
 Expand the openCV.
 
-![alt_text]({{ "assets/images/openCV.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3-OpenCV.png" | absolute_url }})
 
 
 
 Select the camera and place it.
 
 
-![alt_text]({{ "assets/images/camera.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3-camera.png" | absolute_url }})
 
 Again go to openCV. This time select the screen and place it.
 
-![alt_text]({{ "assets/images/screen.png" | absolute_url }})
+![alt_text]({{ "assets/images/Vc3-screen.png" | absolute_url }})
 
-Now connect the camera to screen. click and hold on the out going edge of camera and join it to the in comming edge of screen.
-![alt_text]({{ "assets/gif/connection.gif" | absolute_url }})
+Now connect the camera to screen. click and hold on the 'Out' node of camera and join it to the 'Img' node of screen.
+![alt_text]({{ "assets/gif/Vc3-connection.gif" | absolute_url }})
 
-#### Your application has been setted up. It's time to execute your first application.
-To do so, first saved your application by pressing ctrl+s. It will ask you to name your application. 
+#### Your application has been set up. It's time to execute your first application.
+To do so, first saved your application by going to File from top left corner and clicking on 'Save as...' 
+This saves just block representation of the application.
+![alt_text]({{ "assets/images/Vc3-saving.png" | absolute_url }})
 
-![alt_text]({{ "assets/images/saving.png" | absolute_url }})
+Next click on 'Build and download' to download a python package. It has a `main.py` file which can executed as a normal python file from the terminal
+![alt_text]({{ "assets/images/Vc3-build.png" | absolute_url }})
 
-After doing that click on the files from the top left corner and following menu will be poped up.
-
-![alt_text]({{ "assets/images/left top.png" | absolute_url }})
-
-Go to build and press Python-ROS-Neotic
-![alt_text]({{ "assets/images/running app.png" | absolute_url }})
-
-#### Here you go your application is setted up. Congratulations buddy.
+#### Here you go your application is set up. Congratulations buddy.
 
 
 
