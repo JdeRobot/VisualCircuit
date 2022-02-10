@@ -20,7 +20,7 @@
     "closest": "0.0.1",
     "dagre": "^0.8.5",
     "lodash": "^4.17.21",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "pathfinding": "^0.4.18",
     "paths-js": "^0.4.11",
     "react": "^17.0.2",
