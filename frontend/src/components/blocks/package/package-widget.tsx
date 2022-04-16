@@ -86,6 +86,7 @@ export class PackageBlockWidget extends React.Component<PackageBlockWidgetProps>
                                         src={this.props.node.getImage()} 
                                         className='block-package-image' 
                                         draggable={false}
+                                        onDragStart={(e) => { e.preventDefault(); }}
                                         alt={this.props.node.info.name}/>
                                     </ArrowedTooltip>
                                 </div>
