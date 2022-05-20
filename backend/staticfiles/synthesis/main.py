@@ -39,6 +39,7 @@ def main():
     blocks = data["blocks"]
     wires = data["wires"]
     parameters = data["parameters"]
+    synchronize_frequency = data["synchronize_frequency"]
 
     block_data = {}
     wire_names = []
@@ -77,6 +78,9 @@ def main():
             for param in parameters[ blocks[block]["type"]]:
                 parameter_data = {param["name"]: param["value"]}
                 block_data[block]["parameters"].update(parameter_data)
+        if block in synchronize_frequency or blocks[block]["type"] in synchronize_frequency:
+            block_data[block] = block_data.get(block, {"inputs": {}, "outputs": {}, "parameters": {}})
+            block_data[block]["frequency"] = synchronize_frequency.get(block, synchronize_frequency.get(blocks[block]["type"], 30))
 
     processes = []
 
@@ -88,8 +92,9 @@ def main():
         inputs = Inputs(block_data[block_id]["inputs"])
         outputs = Outputs(block_data[block_id]["outputs"])
         parameters = Parameters(block_data[block_id]["parameters"])
+        freq = block_data[block_id]["frequency"]
         processes.append(
-            multiprocessing.Process(target=method, args=(inputs, outputs, parameters, Synchronise(1/30)))
+            multiprocessing.Process(target=method, args=(inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30))))
         )
 
     for process in processes:

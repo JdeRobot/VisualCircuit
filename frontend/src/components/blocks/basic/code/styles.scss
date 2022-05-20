@@ -2,6 +2,42 @@
     .block-basic-code {
 
 
+        .block-basic-code-frequency {
+            font-size: small;
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                -moz-appearance: none;
+                margin: 0; 
+            }
+
+            .MuiCardHeader-title {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+            }
+
+            .block-basic-code-frequency-text {
+                font-size: small;
+                padding-right: 1em;
+                padding-left: 1em;
+            }
+
+            .block-basic-code-frequency-input {
+                display: inline-block;
+                max-width: 100px;
+                padding: 2px;
+                margin: 0;
+
+                input {
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+            }
+        }
+
+
         .block-basic-code-parameters {
             display: flex;
             flex-direction: row;

@@ -1,8 +1,8 @@
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, CardHeader, TextField, InputAdornment } from '@material-ui/core';
 import MonacoEditor from "@monaco-editor/react";
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 import CSS from 'csstype';
-import React, { MouseEventHandler, WheelEventHandler } from 'react';
+import React, { ChangeEvent, Fragment, MouseEventHandler, WheelEventHandler } from 'react';
 import Editor from '../../../../core/editor';
 import { GlobalState } from '../../../../core/store';
 import BaseBlock, { ContextOption } from '../../common/base-block';
@@ -27,7 +27,8 @@ export interface CodeBlockWidgetState {
     // For code text
     code: string,
     width: string,
-    height: string
+    height: string,
+    frequency: string
 }
 
 /**
@@ -43,7 +44,8 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
         this.state = {
             code: this.props.node.data.code || '',
             width: this.props.node.data.size?.width || '300px',
-            height: this.props.node.data.size?.height || '300px'
+            height: this.props.node.data.size?.height || '300px',
+            frequency: this.props.node.data.frequency
         };
     }
 
@@ -74,6 +76,27 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
             contextHandler={this.onContextMenu.bind(this)}>
                 <div>
                     <Card variant='outlined' className="block-basic-code" raised>
+                        <CardHeader 
+                            className='block-basic-code-frequency'
+                            title={
+                            <Fragment>
+                                <span className='block-basic-code-frequency-text'>Freq:</span>
+                                <TextField variant="outlined" 
+                                    defaultValue={this.state.frequency} 
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="start">Hz</InputAdornment>,
+                                    }}
+                                    type="number"
+                                    margin="dense"
+                                    value={this.state.frequency}
+                                    onChange={this.handleFrequencyInput}
+                                    onWheel={this.blockScrollEvents}
+                                    className='block-basic-code-frequency-input'
+                            />
+                            </Fragment>
+                        }>
+                        </CardHeader>
                         <CardContent className='p-0'>
                             <div className='block-basic-code-parameters'>
                                 {this.props.node.getParameters().map((port) => {
@@ -147,6 +170,11 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
     handleInput = (value: string | undefined) => {
         this.setState({ code: value || '' });
         this.props.node.data.code = value || '';
+    }
+
+    handleFrequencyInput = (event: ChangeEvent<HTMLInputElement>) => {
+        this.setState({frequency: event.target.value});
+        this.props.node.data.frequency = event.target.value;
     }
 
     /**
