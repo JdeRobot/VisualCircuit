@@ -40,7 +40,8 @@ export class InputBlockModel extends BaseModel<InputBlockData, NodeModelGenerics
                 name: 'input-out',
                 alignment: PortModelAlignment.RIGHT,
                 hideLabel: true,
-                type: PortTypes.OUTPUT
+                type: PortTypes.OUTPUT,
+                label: options.name
             })
         );
     }

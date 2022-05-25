@@ -48,7 +48,8 @@ export class ConstantBlockModel extends BaseModel<ConstantBlockData, NodeModelGe
 				name: 'constant-out',
                 alignment: PortModelAlignment.BOTTOM,
                 type: PortTypes.OUTPUT,
-                hideLabel: true
+                hideLabel: true,
+                label: options.name
 			})
 		);
     }

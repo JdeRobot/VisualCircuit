@@ -31,6 +31,10 @@ export class BasePortModel extends DefaultPortModel {
         return this.options;
     }
 
+    getLabel(): string {
+        return this.options.label || '';
+    }
+
     serialize() {
         return {
             ...super.serialize(),
