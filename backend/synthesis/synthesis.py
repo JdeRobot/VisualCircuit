@@ -15,6 +15,13 @@ OPTIONAL_FILES = {
 }
 
 
+def get_number_or_default(num, default):
+    try:
+        num = float(num)
+        return num
+    except ValueError:
+        return default
+
 def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Dict[str, bool]]:
     '''Synthesize python code for different blocks as well as user code blocks.
     Different blocks present in the project is collected.
@@ -25,6 +32,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     dependencies = {}
     blocks = {}
     parameters = {}
+    synhronize_frequency = {}
     optional_files = {}
 
     for key, dependency in data['dependencies'].items():
@@ -34,6 +42,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                 # If code, generate python file.
                 script = block['data']['code']
                 script_name = dependency['package']['name']
+                synhronize_frequency[key] = get_number_or_default(block['data'].get('frequency', 30), 30)
                 # Mark the optional files required by the current block, if needed.
                 if script_name in OPTIONAL_FILES:
                     optional_files[script_name] = True
@@ -60,19 +69,20 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
             code_name = "Code_"+str(count)
             count += 1
             script = block['data']['code']
+            synhronize_frequency[block_id] = get_number_or_default(block['data'].get('frequency', 30), 30)
             zipfile.append(f'{BLOCK_DIRECTORY}/{code_name}.py', script)
             blocks[block_id] = {'name': code_name, 'type': block_type}
         elif block_type == 'basic.constant':
             # If constant, it is a parameter.
             # Since this is a parameter at project level, we make the key as constant block ID
-            parameters[block_id] = {'name': block['data']['name'], 'value': block['data']['value']}
+            parameters[block_id] = [{'name': block['data']['name'], 'value': block['data']['value']}]
         else:
             # TODO: Check how input and output blocks behave.
             # This behaviour is for Package blocks only
             blocks[block_id] = {'name': dependencies[block_type], 'type': block_type}
 
 
-    data = {'blocks': blocks, 'parameters': parameters, 'wires': data['design']['graph']['wires']}
+    data = {'blocks': blocks, 'parameters': parameters, 'synchronize_frequency': synhronize_frequency, 'wires': data['design']['graph']['wires']}
     zipfile.append('data.json', json.dumps(data))
 
     return zipfile, optional_files

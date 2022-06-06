@@ -10,6 +10,7 @@ export interface Wire {
         block: string;
         // Port ID
         port: string;
+        name: string;
     },
     // Block where input is received
     target: {
@@ -17,6 +18,7 @@ export interface Wire {
         block: string;
         // Port ID
         port: string;
+        name: string;
     }
 }
 

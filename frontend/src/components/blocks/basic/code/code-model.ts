@@ -20,6 +20,7 @@ export interface CodeBlockModelOptions extends BaseModelOptions {
  */
 interface CodeBlockData {
     code: string;
+    frequency: string;
     params?: PortName[],
     ports: {
         in: PortName[],
@@ -45,6 +46,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         // Initialise data
         this.data = {
             code: code,
+            frequency: '30',
             params: options.params?.map((port) => {
                 return { name: port }
             }) || [],
@@ -69,7 +71,8 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
                     in: true,
                     name: port,
                     alignment: PortModelAlignment.LEFT,
-                    type: PortTypes.INPUT
+                    type: PortTypes.INPUT,
+                    label: port
                 })
             );
         });
@@ -81,7 +84,8 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
                     in: false,
                     name: port,
                     alignment: PortModelAlignment.RIGHT,
-                    type: PortTypes.OUTPUT
+                    type: PortTypes.OUTPUT,
+                    label: port
                 })
             )
         });
@@ -93,7 +97,8 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
                     in: true,
                     name: port,
                     alignment: PortModelAlignment.TOP,
-                    type: PortTypes.PARAM
+                    type: PortTypes.PARAM,
+                    label: port
                 })
             )
         });

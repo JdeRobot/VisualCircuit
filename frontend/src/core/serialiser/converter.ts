@@ -1,5 +1,6 @@
 import { DiagramModel } from "@projectstorm/react-diagrams-core";
 import BaseModel from "../../components/blocks/common/base-model";
+import { BasePortModel } from "../../components/blocks/common/base-port/port-model";
 import { PackageBlockModel } from "../../components/blocks/package/package-model";
 import { PortTypes, ProjectInfo, PROJECT_BOARD_NAME, VERSION } from "../constants";
 import { makeid } from "../utils";
@@ -44,23 +45,27 @@ function getWires(model: DiagramModel): Wire[] {
             const port1 = link.getSourcePort();
             const port2 = link.getTargetPort();
 
-            // Source should correspond to the block which is giving the output
-            // Target should correspond to the block receiving the input.
-            // So source is the port of type Output and target is the port of type Input or Parameter
-            const source = port1.getType() === PortTypes.OUTPUT ? port1 : port2;
-            const target = port1.getType() !== PortTypes.OUTPUT ? port1 : port2;
-            wires.push(
-                {
-                    source: {
-                        block: source.getParent().getID(),
-                        port: source.getName()
-                    },
-                    target: {
-                        block: target.getParent().getID(),
-                        port: target.getName()
+            if (port1 instanceof BasePortModel && port2 instanceof BasePortModel) {
+                // Source should correspond to the block which is giving the output
+                // Target should correspond to the block receiving the input.
+                // So source is the port of type Output and target is the port of type Input or Parameter
+                const source = port1.getType() === PortTypes.OUTPUT ? port1 : port2;
+                const target = port1.getType() !== PortTypes.OUTPUT ? port1 : port2;
+                wires.push(
+                    {
+                        source: {
+                            block: source.getParent().getID(),
+                            port: source.getName(),
+                            name: source.getLabel()
+                        },
+                        target: {
+                            block: target.getParent().getID(),
+                            port: target.getName(),
+                            name: target.getLabel()
+                        }
                     }
-                }
-            );
+                );
+            }
         }
     })
 
