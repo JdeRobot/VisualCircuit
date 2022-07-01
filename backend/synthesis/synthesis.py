@@ -52,8 +52,8 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                 if script_name in OPTIONAL_FILES:
                     optional_files[script_name] = True
 
-                # The version name is simply added to the name of the file alongwith an underscore
-                script_name += dependency['package']['version'].replace('.', '') + "_"
+                # The version name is simply added to the name of the file 
+                script_name += dependency['package']['version'].replace('.', '') 
 
                 # If the block already exists, then add 1 to the number to be appended to it 
                 if script_name in dep_no:
@@ -61,8 +61,8 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                 else:
                     dep_no[script_name] = 1
 
-                # Replace the underscore with the appropraite block number
-                script_name = script_name.replace("_", str(dep_no[script_name]))
+                # Add the block number to the end of the block's name
+                script_name += str(dep_no[script_name])
 
                 dependencies[key] = script_name
 
