@@ -35,20 +35,40 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     synhronize_frequency = {}
     optional_files = {}
 
+    dep_no = {} # Dictionary to store the number of blocks of each type
+
     for key, dependency in data['dependencies'].items():
+
         components = dependency['design']['graph']['blocks']
+
         for block in components:
             if block['type'] == 'basic.code':
                 # If code, generate python file.
                 script = block['data']['code']
-                script_name = dependency['package']['name']
+                # The file name is stored in script_name here
+                script_name = dependency['package']['name'] 
                 synhronize_frequency[key] = get_number_or_default(block['data'].get('frequency', 30), 30)
                 # Mark the optional files required by the current block, if needed.
                 if script_name in OPTIONAL_FILES:
                     optional_files[script_name] = True
-                script_name += dependency['package']['version'].replace('.', '')
+
+                # The version name is simply added to the name of the file 
+                script_name += dependency['package']['version'].replace('.', '') 
+
+                # If the block already exists, then add 1 to the number to be appended to it 
+                if script_name in dep_no:
+                    dep_no[script_name] += 1
+                else:
+                    dep_no[script_name] = 1
+
+                # Add the block number to the end of the block's name
+                script_name += str(dep_no[script_name])
+
                 dependencies[key] = script_name
+
+                # Python file is created
                 zipfile.append(f'{BLOCK_DIRECTORY}/{script_name}.py', script)
+
             elif block['type'] == 'basic.constant':
                 # If constant, it is a parameter.
                 # Since this is a parameter for a dependency block we make the dependency type block
@@ -80,6 +100,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
             # TODO: Check how input and output blocks behave.
             # This behaviour is for Package blocks only
             blocks[block_id] = {'name': dependencies[block_type], 'type': block_type}
+            
 
 
     data = {'blocks': blocks, 'parameters': parameters, 'synchronize_frequency': synhronize_frequency, 'wires': data['design']['graph']['wires']}
@@ -104,7 +125,7 @@ def synthesize_executioner(zipfile: InMemoryZip, optional_files: Dict[str, bool]
             relative_path = Path(path).relative_to('synthesis')
             # Check if the path is excluded, if it is, check if its required for the current set of blocks.
             if not any([relative_path.match(p) for p in paths_to_exclude]) or any([relative_path.match(p) for p in paths_to_include]):
-                zipfile.append(str(relative_path), content)
+                zipfile.append(str(relative_path), content)       
 
     return zipfile
 
