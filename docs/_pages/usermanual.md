@@ -81,7 +81,7 @@ Run VisualCircuit backend:`
 3. After activating the virtual environment, install the dependencies by running `pip install -r requirements.txt`
 4. Add .env file to the backend folder. And add the variables as defined in .env.template
 5. Create the static folder which will serve files during execution using `python manage.py collectstatic` 
-6. Start the server by running `python manage.py runserver 80`
+6. Start the server by running `python manage.py runserver 8000`
 
 
 #### Well Done! you have Successfully Installed the VisualCircuit
