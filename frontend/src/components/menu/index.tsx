@@ -1,17 +1,33 @@
-import { AppBar, Button, Toolbar, useTheme } from '@material-ui/core';
-import { ClickEvent, Menu, MenuItem, SubMenu } from '@szhsin/react-menu';
-import React, { ChangeEvent } from 'react';
+import { AppBar, Button, IconButton, Toolbar, useTheme } from '@material-ui/core';
+import { ClickEvent, Menu, MenuButton, MenuItem, MenuRadioGroup, RadioChangeEvent, SubMenu } from '@szhsin/react-menu';
+import { ChangeEvent, Fragment, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import { PROJECT_FILE_EXTENSION } from '../../core/constants';
 import Editor from '../../core/editor';
 import { textFile2DataURL } from '../../core/utils';
 import { collectionBlocks, CollectionBlockType } from '../blocks/collection/collection-factory';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import './styles.scss';
-
+import { PlayArrow, Stop } from '@material-ui/icons';
 
 
 export interface MenuBarProps {
     editor: Editor;
+}
+
+
+function MenuBar(props: MenuBarProps) {
+    const location = useLocation();
+    console.log(location.pathname);
+
+    if (location.pathname === '/') {
+        return <MenuBarMain editor={props.editor} />
+    } else if (location.pathname === '/display') {
+        return <MenuBarDisplay />
+    } else {
+        return <div></div>;
+    }
 }
 
 /**
@@ -19,13 +35,14 @@ export interface MenuBarProps {
  * MenuBar component
  * It offers 'File', 'Edit', 'Basic' and 'Blocks' menus
  */
-function MenuBar(props: MenuBarProps) {
+function MenuBarMain(props: MenuBarProps) {
 
     const theme = useTheme();
     const isDark = theme.palette.type === 'dark';
     const projectReader = new FileReader();
     const blockReader = new FileReader();
     const { editor } = props;
+
 
     /**
      * Callback for when a block is selected.
@@ -131,11 +148,12 @@ function MenuBar(props: MenuBarProps) {
         let filename = editor.getName();
         if (process.env.REACT_APP_BACKEND_HOST && model) {
             const url = process.env.REACT_APP_BACKEND_HOST + 'build'
-            const headers: HeadersInit = {'Content-Type': 'application/json'};
+            const headers: HeadersInit = { 'Content-Type': 'application/json' };
             fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(model),
-                headers:  headers}
+                headers: headers
+            }
             ).then((response) => {
                 if (response.ok) {
                     // Get the filename
@@ -159,6 +177,15 @@ function MenuBar(props: MenuBarProps) {
                 alert(reason);
             });
         }
+    }
+
+
+    /**
+     * Open new tab to connect to VNC of localhost
+     * @param _event 
+     */
+    const openVNCDisplay = (_event: ClickEvent) => {
+        window.open('/display', '_blank')?.focus();
     }
 
     /**
@@ -199,6 +226,7 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={saveProject}>Save as..</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
                     <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
+                    <MenuItem onClick={openVNCDisplay}>Open Display</MenuItem>
                 </Menu>
                 <Menu
                     menuButton={<Button className='menu-button'>Edit</Button>}
@@ -250,5 +278,67 @@ function MenuBar(props: MenuBarProps) {
         </AppBar>
     )
 }
+
+function MenuBarDisplay() {
+
+    const theme = useTheme();
+    const isDark = theme.palette.type === 'dark';
+    const socket = new WebSocket('ws://localhost:8765');
+    const [gazeboStarted, toggleGazebo] = useState(false);
+    const [gazeboWorld, setGazeboWorld] = useState('empty');
+
+    const changeGazeboWorld = (_event: RadioChangeEvent) => {
+        if (!gazeboStarted) {
+            setGazeboWorld(_event.value);
+        }
+    }
+
+    const toggleGazeboWorld = () => {
+        toggleGazebo(!gazeboStarted);
+        if (gazeboStarted) {
+            socket.send(JSON.stringify({"command": "start_gazebo", "world": gazeboWorld}));
+        } else {
+            socket.send(JSON.stringify({"command": "stop_gazebo"}));
+        }
+    }
+
+    const getPlayButton = () => {
+        if (!gazeboStarted) {
+            return <PlayArrow />;
+        } else {
+            return <Stop />;
+        }
+    }
+
+    return (
+        <AppBar position="static" className='menu-bar' id='menu-bar'>
+            <Toolbar >
+                <img src={logo} alt="Visual Circuit" width='50px' style={{ marginRight: '1em' }} />
+                <div style={{ flex: 1 }} />
+                <IconButton color="secondary" aria-label="VNC Play button" component="div" onClick={toggleGazeboWorld}>
+                    {getPlayButton()}
+                </IconButton>
+                World: {gazeboWorld}
+                <div style={{ flex: 1 }} />
+                <Menu
+                    menuButton={
+                        <Button>
+                            <ArrowDropDownIcon />
+                            Gazebo worlds</Button>
+                    }
+                    theming={isDark ? 'dark' : undefined}>
+                    <MenuRadioGroup value={"empty"}
+                        onChange={changeGazeboWorld}>
+                        <MenuItem type="radio" value="empty">Empty World</MenuItem>
+                        {/* <MenuItem type="radio" value="green">Green</MenuItem>
+                        <MenuItem type="radio" value="blue">Blue</MenuItem> */}
+                    </MenuRadioGroup>
+                </Menu>
+            </Toolbar>
+        </AppBar>
+    );
+}
+
+
 
 export default MenuBar;

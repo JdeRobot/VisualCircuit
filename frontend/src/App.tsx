@@ -6,6 +6,12 @@ import MenuBar from './components/menu';
 import Editor from './core/editor';
 import { GlobalState, IGlobalState } from './core/store';
 import Board from './pages/board';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Display from './pages/display';
 
 /**
  * Use default dark theme from Material UI
@@ -30,10 +36,15 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="App theme-dark">
-        <MenuBar editor={editor} />
         {/* Global State */}
         <GlobalState.Provider value={{ state, setState }} >
-          <Board editor={editor} />
+        <BrowserRouter>
+          <MenuBar editor={editor} />
+          <Routes>
+          <Route path="/" element = {<Board editor={editor} />} />
+          <Route path="/display" element = {<Display />} />
+          </Routes>
+        </BrowserRouter>
         </GlobalState.Provider>
       </div>
       <ModalContainer />
