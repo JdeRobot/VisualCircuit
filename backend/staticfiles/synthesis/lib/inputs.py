@@ -72,7 +72,6 @@ class Inputs:
 
         string = None
         if self.inputs[name].get("created", False):
-            print(self.inputs[name]["data"])
             string = create_ndbuffer((1,), '<U64', self.inputs[name]["data"].buf)
         else:
             wire_name = self.inputs[name]["wire"]
@@ -80,7 +79,6 @@ class Inputs:
             if data_wire is None:
                 return None
             self.inputs[name]["data"] = data_wire
-            print(data_wire.buf)
             string = create_ndbuffer((1,), '<U64', data_wire.buf)
             self.inputs[name]["created"] = True
         
