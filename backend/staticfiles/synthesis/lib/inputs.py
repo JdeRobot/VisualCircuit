@@ -66,6 +66,26 @@ class Inputs:
 
         return number
 
+    def read_string(self, name):
+        if self.inputs.get(name) is None:
+            raise InvalidInputNameException(f"{name} is not declared in inputs")
+
+        string = None
+        if self.inputs[name].get("created", False):
+            print(self.inputs[name]["data"])
+            string = create_ndbuffer((1,), '<U64', self.inputs[name]["data"].buf)
+        else:
+            wire_name = self.inputs[name]["wire"]
+            data_wire = create_readonly_wire(wire_name)
+            if data_wire is None:
+                return None
+            self.inputs[name]["data"] = data_wire
+            print(data_wire.buf)
+            string = create_ndbuffer((1,), '<U64', data_wire.buf)
+            self.inputs[name]["created"] = True
+        
+        return string
+
     def read_array(self, name):
         if self.inputs.get(name) is None:
             raise InvalidInputNameException(f"{name} is not declared in inputs")
