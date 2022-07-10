@@ -70,6 +70,23 @@ class Outputs:
             self.outputs[name]["data"][:] = number
             self.outputs[name]["created"] = True
 
+    def share_string(self, name, string):
+        if self.outputs.get(name) is None:
+            raise InvalidOutputNameException(f"{name} is not declared in outputs")
+
+        if self.outputs[name].get("created", False):
+            self.outputs[name]["data"][:] = string
+        else:
+            wire_name = self.outputs[name]["wire"]
+            data_wire = self._create_wire(
+                wire_name, np.array(string, dtype='<U64').nbytes
+            )
+            self.outputs[name]["data"] = create_ndbuffer(
+                (1,), '<U64', data_wire.buf
+            )
+            self.outputs[name]["data"][:] = string
+            self.outputs[name]["created"] = True
+
     def share_array(self, name, array):
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
