@@ -53,16 +53,15 @@ class Inputs:
 
         number = None
         if self.inputs[name].get("created", False):
-            number = self.inputs[name]["data"][:][0]
+            number = create_ndbuffer((1,), np.float64, self.inputs[name]["data"].buf)
         else:
             wire_name = self.inputs[name]["wire"]
             data_wire = create_readonly_wire(wire_name)
-            if data_wire is not None:
-                self.inputs[name]["data"] = create_ndbuffer(
-                    (1,), np.float64, data_wire.buf
-                )
-                number = self.inputs[name]["data"][:][0]
-                self.inputs[name]["created"] = True
+            if data_wire is None:
+                return None
+            self.inputs[name]["data"] = data_wire
+            number = create_ndbuffer((1,), np.float64, data_wire.buf)
+            self.inputs[name]["created"] = True
 
         return number
 
