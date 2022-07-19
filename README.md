@@ -1,7 +1,5 @@
 <div id="top"></div>
 
-
-
 <a href="https://jderobot.github.io/"><img src="docs/assets/gif/logo.gif" width="150" align="right" /></a>
 
 # Visual Circuit
@@ -25,7 +23,7 @@ For more information visit our site [VisualCircuit](https://jderobot.github.io/V
 ## Setup
 
 ### Front-end
-More specific [Instructions](./frontend/README.md) 
+For more specific instructions check the frontend [readme](./frontend/README.md) 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
 3. Change directory to `frontend`
 4. Run `npm install`
@@ -33,7 +31,7 @@ More specific [Instructions](./frontend/README.md)
 6. Open http://localhost:3000/ in browser.
 
 ### Back-end
-More specific [Instructions](./backend/README.md)
+For more specific instructions check the backend [readme](./backend/README.md)
 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
 2. Change directory to `backend`
