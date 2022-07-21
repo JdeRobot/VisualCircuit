@@ -41,7 +41,7 @@ export class CodeBlockModel extends BaseModel<CodeBlockData, NodeModelGenerics &
         });
         // default code shown on editor
         const code = (
-`def loop(block_name, input_wires, output_wires, parameters, flags):
+`def main(inputs, outputs, parameters, synchronise):
     pass`);
         // Initialise data
         this.data = {
