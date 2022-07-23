@@ -20,6 +20,8 @@ def clean_shared_memory(names):
     all_names = names[:]
     all_names.extend([name + "_dim" for name in names])
     all_names.extend([name + "_shape" for name in names])
+    all_names.extend([name + "_type" for name in names])
+    
     for name in all_names:
         try:
             shm = shared_memory.SharedMemory(name, create=False)
