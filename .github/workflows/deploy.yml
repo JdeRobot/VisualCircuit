@@ -23,7 +23,8 @@ jobs:
       - name: Deploy through proxy
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
         uses: appleboy/ssh-action@master
-
+        env:
+          PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USERNAME }}
@@ -34,8 +35,9 @@ jobs:
           proxy_password: ${{ secrets.PROXY_PASSWORD }}
           proxy_port: ${{ secrets.PROXY_PORT }}
           script_stop: true
+          envs: PASSWORD
           script: |
             cd VisualCircuit
-            docker-compose stop
+            echo "$PASSWORD" | sudo -S docker-compose stop
             git pull
-            docker-compose up --build -d
+            echo "$PASSWORD" | sudo -S docker-compose up --build -d
