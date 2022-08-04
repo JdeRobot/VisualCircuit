@@ -14,6 +14,7 @@ OPTIONAL_FILES = {
     'ObjectDetector': 'utils/models/yolov3/*'
 }
 
+PROJECT_FILE_EXTENSION = '.vc3'
 
 def get_number_or_default(num, default):
     try:
@@ -144,6 +145,8 @@ def synthesize(data: dict) -> Tuple[str, BytesIO]:
     zipfile, optional_files = syntheize_modules(data, zipfile)
     zipfile = synthesize_executioner(zipfile, optional_files)
     zipfile = syntesize_extras(zipfile)
+    # Add the .vc3 file to the built application, this will let us easily load the project in Visual Circuit
+    zipfile.append(data['package']['name'] + PROJECT_FILE_EXTENSION, json.dumps(data))
 
     # Project name (zipfile name) 
     project_name = f"{data['package']['name']}.zip" if data['package']['name'] != '' else 'Project.zip'
