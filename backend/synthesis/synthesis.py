@@ -145,10 +145,13 @@ def synthesize(data: dict) -> Tuple[str, BytesIO]:
     zipfile, optional_files = syntheize_modules(data, zipfile)
     zipfile = synthesize_executioner(zipfile, optional_files)
     zipfile = syntesize_extras(zipfile)
-    # Add the .vc3 file to the built application, this will let us easily load the project in Visual Circuit
-    zipfile.append(data['package']['name'] + PROJECT_FILE_EXTENSION, json.dumps(data))
 
     # Project name (zipfile name) 
-    project_name = f"{data['package']['name']}.zip" if data['package']['name'] != '' else 'Project.zip'
+    project_name = f"{data['package']['name']}" if data['package']['name'] != '' else 'Project'
+
+    # Add the .vc3 file to the built application, this will let us easily load the project in Visual Circuit
+    zipfile.append(project_name + PROJECT_FILE_EXTENSION, json.dumps(data))
+    # .zip is required for the name of the full package
+    project_name += '.zip'
 
     return project_name, zipfile.get_zip()
