@@ -10,7 +10,7 @@ def generateFile(data):
                 script = block['data']['code']
                 script_name = data['package']['name'] 
                 # The file name is stored in script_name here
-                file = open("docCode/"+script_name+".py", "w")
+                file = open("Blocks/"+script_name+".py", "w")
                 file.write(script)
                 file.close()
 
