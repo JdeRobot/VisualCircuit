@@ -8,7 +8,9 @@ def main(inputs, outputs, parameters, synchronise):
     Based on these values it converts the input image form `BGR` into `GRAY` and applies the `cv2.threshold()` function on it.
 
     The image is then converted back into `BGR` and shared to the output wire using the
-    `share_image()` function. 
+    `share_image()` function.
+
+    [Further reading](https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html)
     '''
     lower = parameters.read_number("LowerThreshold")
     upper = parameters.read_number("UpperThreshold")

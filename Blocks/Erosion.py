@@ -9,6 +9,8 @@ def main(inputs, outputs, parameters, synchronise):
     We first convert the colour of the image from `BGR` to `GRAY` then we apply erosion on it 
     using the `cv2.erode()` function.\n
     Finaly we convert from `GRAY` back to `BGR` and output the image through the `share_image()` function.
+    
+    [Further reading]([Further reading](https://docs.opencv.org/4.x/d9/d61/tutorial_py_morphological_ops.html))
     '''
     kernel = np.array([int(x.strip()) for x in parameters.read_string("Kernel").split(",")])
     kernel = np.ones(kernel, np.uint8)

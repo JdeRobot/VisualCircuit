@@ -17,6 +17,8 @@ def main(inputs, outputs, parameters, synchronise):
 
     `while` loop is the part of the program that is executed continuously.
     It is enabled by default but can be disabled by passing in 0 through the enable wire.
+
+    [Further reading](https://docs.opencv.org/4.x/d4/d73/tutorial_py_contours_begin.html)
     '''
     auto_enable = False
     try:

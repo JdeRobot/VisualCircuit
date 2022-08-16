@@ -69,7 +69,7 @@
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">    using the `cv2.dilate()` function.\n</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">    Finaly we convert from `GRAY` back to `BGR` and output the image through the `share_image()` function.</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">    [Further reading](https://docs.opencv.org/4.x/d9/d61/tutorial_py_morphological_ops.html)</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    &#39;&#39;&#39;</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)])</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
@@ -116,7 +116,7 @@
 </span><span id="main-11"><a href="#main-11"><span class="linenos">11</span></a><span class="sd">    using the `cv2.dilate()` function.\n</span>
 </span><span id="main-12"><a href="#main-12"><span class="linenos">12</span></a><span class="sd">    Finaly we convert from `GRAY` back to `BGR` and output the image through the `share_image()` function.</span>
 </span><span id="main-13"><a href="#main-13"><span class="linenos">13</span></a>
-</span><span id="main-14"><a href="#main-14"><span class="linenos">14</span></a>
+</span><span id="main-14"><a href="#main-14"><span class="linenos">14</span></a><span class="sd">    [Further reading](https://docs.opencv.org/4.x/d9/d61/tutorial_py_morphological_ops.html)</span>
 </span><span id="main-15"><a href="#main-15"><span class="linenos">15</span></a><span class="sd">    &#39;&#39;&#39;</span>
 </span><span id="main-16"><a href="#main-16"><span class="linenos">16</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)])</span>
 </span><span id="main-17"><a href="#main-17"><span class="linenos">17</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
@@ -151,6 +151,8 @@
 using the <code>cv2.dilate()</code> function.</p>
 
 <p>Finaly we convert from <code>GRAY</code> back to <code>BGR</code> and output the image through the <code>share_image()</code> function.</p>
+
+<p><a href="https://docs.opencv.org/4.x/d9/d61/tutorial_py_morphological_ops.html">Further reading</a></p>
 </div>
         
 
