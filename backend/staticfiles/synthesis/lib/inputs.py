@@ -1,4 +1,5 @@
-from multiprocessing import shared_memory
+from multiprocessing import shared_memory, Condition
+from site import ENABLE_USER_SITE
 
 import numpy as np
 from lib.exceptions import InvalidInputNameException
@@ -14,8 +15,15 @@ def create_readonly_wire(name):
 
 
 class Inputs:
+
+    ENABLE_NAME = "Enable"
+
     def __init__(self, input_data) -> None:
         self.inputs = input_data
+
+    def _init_enabled(self) -> None:
+        self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
+        self._enable_condition = Condition(self.inputs[Inputs.ENABLE_NAME]["lock"]) if self.enable_wire else None
 
     def read(self, name):
         if self.inputs.get(name) is None:
@@ -139,3 +147,37 @@ class Inputs:
 
         data = self._read_npy_matrix(name, np.float64)
         return data
+
+
+    @property
+    def enabled(self) -> bool:
+        # No enable wire used, so enabled by default
+        if self._enable_data is None:
+            return True
+
+        _enabled = self.read_number(Inputs.ENABLE_NAME)
+
+        # If enable wire is present but, not initialized, return False
+        if _enabled is None:
+            return False
+
+        return np.isclose(_enabled, np.array([1.0]))
+
+
+
+    @enabled.setter
+    def enabled(self, _enabled: bool):
+        if self._enable_data is None:
+            return
+        
+        self._enable_data["lock"].acquire()
+
+        if self._enable_data.get("created", False):
+            self._enable_data["data"][0] = 1 if _enabled else 0
+        else:
+            # Wire doesn't exist yet, ideally has to be created and set
+            # TODO: Is this case necessary?
+            pass
+
+        self._enable_data["lock"].release()
+        
