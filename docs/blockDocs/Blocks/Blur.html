@@ -71,34 +71,40 @@
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    It is enabled by default but can be disabled by passing in 0 through the enable wire.</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    Outputs the blurred image through the `share_image()` function</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="c1"># Blur Type</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="n">blur_type</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;BlurType&quot;</span><span class="p">)</span> 
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="sd">&quot;&quot;&quot;Type of blur, reads from a parameter&quot;&quot;&quot;</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="c1"># Kernel Size</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)])</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="n">enable</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s2">&quot;Enable&quot;</span><span class="p">)</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="k">while</span><span class="p">(</span><span class="n">auto_enable</span> <span class="ow">or</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s1">&#39;Enable&#39;</span><span class="p">)):</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="n">frame</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="s2">&quot;Img&quot;</span><span class="p">)</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>            <span class="k">continue</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="k">if</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>                        
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Averaging&#39;</span><span class="p">:</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">blur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>                        
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Median&#39;</span><span class="p">:</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">share_image</span><span class="p">(</span><span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">blurred_img</span><span class="p">)</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="n">synchronise</span><span class="p">()</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    **Inputs**: BGR Image</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">    **Outputs**: BGR Image</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">    **Parameters**: BlurType</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="c1"># Blur Type</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="n">blur_type</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;BlurType&quot;</span><span class="p">)</span> 
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="sd">&quot;&quot;&quot;Type of blur, reads from a parameter&quot;&quot;&quot;</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="c1"># Kernel Size</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)])</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="n">enable</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s2">&quot;Enable&quot;</span><span class="p">)</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">while</span><span class="p">(</span><span class="n">auto_enable</span> <span class="ow">or</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s1">&#39;Enable&#39;</span><span class="p">)):</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>        <span class="n">frame</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="s2">&quot;Img&quot;</span><span class="p">)</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>            <span class="k">continue</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="k">if</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>                        
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Averaging&#39;</span><span class="p">:</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">blur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>                        
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Median&#39;</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">share_image</span><span class="p">(</span><span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">blurred_img</span><span class="p">)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>        <span class="n">synchronise</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -125,34 +131,40 @@
 </span><span id="main-13"><a href="#main-13"><span class="linenos">13</span></a><span class="sd">    It is enabled by default but can be disabled by passing in 0 through the enable wire.</span>
 </span><span id="main-14"><a href="#main-14"><span class="linenos">14</span></a>
 </span><span id="main-15"><a href="#main-15"><span class="linenos">15</span></a><span class="sd">    Outputs the blurred image through the `share_image()` function</span>
-</span><span id="main-16"><a href="#main-16"><span class="linenos">16</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="main-17"><a href="#main-17"><span class="linenos">17</span></a>    <span class="c1"># Blur Type</span>
-</span><span id="main-18"><a href="#main-18"><span class="linenos">18</span></a>    <span class="n">blur_type</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;BlurType&quot;</span><span class="p">)</span> 
-</span><span id="main-19"><a href="#main-19"><span class="linenos">19</span></a>    <span class="sd">&quot;&quot;&quot;Type of blur, reads from a parameter&quot;&quot;&quot;</span>
-</span><span id="main-20"><a href="#main-20"><span class="linenos">20</span></a>    <span class="c1"># Kernel Size</span>
-</span><span id="main-21"><a href="#main-21"><span class="linenos">21</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)])</span>
-</span><span id="main-22"><a href="#main-22"><span class="linenos">22</span></a>    <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="main-23"><a href="#main-23"><span class="linenos">23</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="main-24"><a href="#main-24"><span class="linenos">24</span></a>        <span class="n">enable</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s2">&quot;Enable&quot;</span><span class="p">)</span>
-</span><span id="main-25"><a href="#main-25"><span class="linenos">25</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-</span><span id="main-26"><a href="#main-26"><span class="linenos">26</span></a>        <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="main-27"><a href="#main-27"><span class="linenos">27</span></a>
-</span><span id="main-28"><a href="#main-28"><span class="linenos">28</span></a>    <span class="k">while</span><span class="p">(</span><span class="n">auto_enable</span> <span class="ow">or</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s1">&#39;Enable&#39;</span><span class="p">)):</span>
-</span><span id="main-29"><a href="#main-29"><span class="linenos">29</span></a>        <span class="n">frame</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="s2">&quot;Img&quot;</span><span class="p">)</span>
-</span><span id="main-30"><a href="#main-30"><span class="linenos">30</span></a>        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="main-31"><a href="#main-31"><span class="linenos">31</span></a>            <span class="k">continue</span>
-</span><span id="main-32"><a href="#main-32"><span class="linenos">32</span></a>
-</span><span id="main-33"><a href="#main-33"><span class="linenos">33</span></a>        <span class="k">if</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
-</span><span id="main-34"><a href="#main-34"><span class="linenos">34</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="main-35"><a href="#main-35"><span class="linenos">35</span></a>                        
-</span><span id="main-36"><a href="#main-36"><span class="linenos">36</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Averaging&#39;</span><span class="p">:</span>
-</span><span id="main-37"><a href="#main-37"><span class="linenos">37</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">blur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
-</span><span id="main-38"><a href="#main-38"><span class="linenos">38</span></a>                        
-</span><span id="main-39"><a href="#main-39"><span class="linenos">39</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Median&#39;</span><span class="p">:</span>
-</span><span id="main-40"><a href="#main-40"><span class="linenos">40</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="main-41"><a href="#main-41"><span class="linenos">41</span></a>
-</span><span id="main-42"><a href="#main-42"><span class="linenos">42</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">share_image</span><span class="p">(</span><span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">blurred_img</span><span class="p">)</span>
-</span><span id="main-43"><a href="#main-43"><span class="linenos">43</span></a>        <span class="n">synchronise</span><span class="p">()</span>
+</span><span id="main-16"><a href="#main-16"><span class="linenos">16</span></a>
+</span><span id="main-17"><a href="#main-17"><span class="linenos">17</span></a><span class="sd">    **Inputs**: BGR Image</span>
+</span><span id="main-18"><a href="#main-18"><span class="linenos">18</span></a>
+</span><span id="main-19"><a href="#main-19"><span class="linenos">19</span></a><span class="sd">    **Outputs**: BGR Image</span>
+</span><span id="main-20"><a href="#main-20"><span class="linenos">20</span></a>
+</span><span id="main-21"><a href="#main-21"><span class="linenos">21</span></a><span class="sd">    **Parameters**: BlurType</span>
+</span><span id="main-22"><a href="#main-22"><span class="linenos">22</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="main-23"><a href="#main-23"><span class="linenos">23</span></a>    <span class="c1"># Blur Type</span>
+</span><span id="main-24"><a href="#main-24"><span class="linenos">24</span></a>    <span class="n">blur_type</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;BlurType&quot;</span><span class="p">)</span> 
+</span><span id="main-25"><a href="#main-25"><span class="linenos">25</span></a>    <span class="sd">&quot;&quot;&quot;Type of blur, reads from a parameter&quot;&quot;&quot;</span>
+</span><span id="main-26"><a href="#main-26"><span class="linenos">26</span></a>    <span class="c1"># Kernel Size</span>
+</span><span id="main-27"><a href="#main-27"><span class="linenos">27</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">read_string</span><span class="p">(</span><span class="s2">&quot;Kernel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)])</span>
+</span><span id="main-28"><a href="#main-28"><span class="linenos">28</span></a>    <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="main-29"><a href="#main-29"><span class="linenos">29</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="main-30"><a href="#main-30"><span class="linenos">30</span></a>        <span class="n">enable</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s2">&quot;Enable&quot;</span><span class="p">)</span>
+</span><span id="main-31"><a href="#main-31"><span class="linenos">31</span></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="main-32"><a href="#main-32"><span class="linenos">32</span></a>        <span class="n">auto_enable</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="main-33"><a href="#main-33"><span class="linenos">33</span></a>
+</span><span id="main-34"><a href="#main-34"><span class="linenos">34</span></a>    <span class="k">while</span><span class="p">(</span><span class="n">auto_enable</span> <span class="ow">or</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_number</span><span class="p">(</span><span class="s1">&#39;Enable&#39;</span><span class="p">)):</span>
+</span><span id="main-35"><a href="#main-35"><span class="linenos">35</span></a>        <span class="n">frame</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="s2">&quot;Img&quot;</span><span class="p">)</span>
+</span><span id="main-36"><a href="#main-36"><span class="linenos">36</span></a>        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="main-37"><a href="#main-37"><span class="linenos">37</span></a>            <span class="k">continue</span>
+</span><span id="main-38"><a href="#main-38"><span class="linenos">38</span></a>
+</span><span id="main-39"><a href="#main-39"><span class="linenos">39</span></a>        <span class="k">if</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+</span><span id="main-40"><a href="#main-40"><span class="linenos">40</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="main-41"><a href="#main-41"><span class="linenos">41</span></a>                        
+</span><span id="main-42"><a href="#main-42"><span class="linenos">42</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Averaging&#39;</span><span class="p">:</span>
+</span><span id="main-43"><a href="#main-43"><span class="linenos">43</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">blur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</span><span id="main-44"><a href="#main-44"><span class="linenos">44</span></a>                        
+</span><span id="main-45"><a href="#main-45"><span class="linenos">45</span></a>        <span class="k">elif</span> <span class="n">blur_type</span> <span class="o">==</span> <span class="s1">&#39;Median&#39;</span><span class="p">:</span>
+</span><span id="main-46"><a href="#main-46"><span class="linenos">46</span></a>            <span class="n">blurred_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">medianBlur</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="main-47"><a href="#main-47"><span class="linenos">47</span></a>
+</span><span id="main-48"><a href="#main-48"><span class="linenos">48</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">share_image</span><span class="p">(</span><span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">blurred_img</span><span class="p">)</span>
+</span><span id="main-49"><a href="#main-49"><span class="linenos">49</span></a>        <span class="n">synchronise</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -167,6 +179,12 @@ We can change these blurs by changing the name given in the parameter block</p>
 It is enabled by default but can be disabled by passing in 0 through the enable wire.</p>
 
 <p>Outputs the blurred image through the <code>share_image()</code> function</p>
+
+<p><strong>Inputs</strong>: BGR Image</p>
+
+<p><strong>Outputs</strong>: BGR Image</p>
+
+<p><strong>Parameters</strong>: BlurType</p>
 </div>
 
 <div class="docstring">
