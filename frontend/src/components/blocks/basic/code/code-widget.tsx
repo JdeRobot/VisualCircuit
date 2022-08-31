@@ -201,7 +201,7 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
      */
     handleResize: MouseEventHandler<HTMLDivElement> = (event) => {
         const element = event.target as HTMLDivElement;
-        this.props.node.setSize(element.clientWidth, element.clientHeight);
+        this.props.node.setSize(Math.max(element.clientWidth, 300), Math.max(element.clientHeight, 300));
     }
 
 
