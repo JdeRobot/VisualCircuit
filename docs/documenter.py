@@ -14,11 +14,6 @@ def generateFile(data):
                 file.write(script)
                 file.close()
 
-                # This part is to get all the svg image data in a text file
-                # file = open("dictionary.txt", "a")
-                # item = "\""+script_name +"\""+ ":" + "\""+ data['package']['image'] + "\"" + "," +'\n'
-                # file.write(item)
-                # file.close()
 
 
 def main():
