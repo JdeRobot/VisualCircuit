@@ -22,7 +22,7 @@ def generateFile(data):
 
 
 def main():
-    for path in glob.glob('frontend/src/components/blocks/collection/**/*.json'):
+    for path in glob.glob('../frontend/src/components/blocks/collection/**/*.json'):
         f = open(path)
         data = json.load(f)
         generateFile(data)
