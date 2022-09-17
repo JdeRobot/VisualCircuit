@@ -13,6 +13,9 @@ sidebar:
 
 ## Project
 
+### New Documentation
+To access the new documentation, visit this link. [Visual Circuit 3.x Block Documentation](/blockDocs/index.html)
+
 ### Definition
 
     Version: 1.0.
