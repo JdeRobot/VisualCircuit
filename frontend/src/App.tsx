@@ -12,6 +12,7 @@ import {
   Route,
 } from "react-router-dom";
 import Display from './pages/display';
+import Connect from './core/connect';
 
 /**
  * Use default dark theme from Material UI
@@ -27,6 +28,7 @@ const darkTheme = createMuiTheme({
 function App() {
 
   const editor = Editor.getInstance();
+  const io = Connect.getInstance();
   // Global state of the application.
   const [state, setState] = useState<IGlobalState>({
     locked: editor.locked(),
@@ -39,10 +41,10 @@ function App() {
         {/* Global State */}
         <GlobalState.Provider value={{ state, setState }} >
         <BrowserRouter>
-          <MenuBar editor={editor} />
+          <MenuBar editor={editor} io={io} />
           <Routes>
           <Route path="/" element = {<Board editor={editor} />} />
-          <Route path="/display" element = {<Display />} />
+          <Route path="/display" element = {<Display io={io} />} />
           </Routes>
         </BrowserRouter>
         </GlobalState.Provider>

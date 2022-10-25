@@ -10,10 +10,12 @@ import { collectionBlocks, CollectionBlockType } from '../blocks/collection/coll
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import './styles.scss';
 import { PlayArrow, Stop } from '@material-ui/icons';
+import Connect from '../../core/connect';
 
 
 export interface MenuBarProps {
     editor: Editor;
+    io: Connect;
 }
 
 
@@ -22,9 +24,9 @@ function MenuBar(props: MenuBarProps) {
     console.log(location.pathname);
 
     if (location.pathname === '/') {
-        return <MenuBarMain editor={props.editor} />
+        return <MenuBarMain {...props} />
     } else if (location.pathname === '/display') {
-        return <MenuBarDisplay />
+        return <MenuBarDisplay {...props}/>
     } else {
         return <div></div>;
     }
@@ -38,6 +40,7 @@ function MenuBar(props: MenuBarProps) {
 function MenuBarMain(props: MenuBarProps) {
 
     const theme = useTheme();
+    
     const isDark = theme.palette.type === 'dark';
     const projectReader = new FileReader();
     const blockReader = new FileReader();
@@ -180,6 +183,37 @@ function MenuBarMain(props: MenuBarProps) {
     }
 
 
+    const buildAndDeploy = (_event: ClickEvent) => {
+        const model = editor.serialise();
+        let filename = editor.getName();
+        props.io.connectToLocalDocker();
+        const socket = props.io.dockerSocket;
+        if (socket && process.env.REACT_APP_BACKEND_HOST && model) {
+            const url = process.env.REACT_APP_BACKEND_HOST + 'build'
+            const headers: HeadersInit = { 'Content-Type': 'application/json' };
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(model),
+                headers: headers
+            }
+            ).then((response) => {
+                if (response.ok) {
+                    // Get the filename
+                    const header = response.headers.get('Content-Disposition');
+                    filename = header?.split(';')[1]?.split('=')[1] || filename;
+                    return response.blob()
+                }
+                throw Error('Something went wrong!')
+            }).then((blob) => {
+                socket.emit("upload", {"filename": filename.replace(/^"(.+(?="$))"$/, '$1'), "file": blob});
+            }).catch((reason) => {
+                // If there's an error show the message in an alert.
+                alert(reason);
+            });
+        }
+    }
+
+
     /**
      * Open new tab to connect to VNC of localhost
      * @param _event 
@@ -226,6 +260,7 @@ function MenuBarMain(props: MenuBarProps) {
                     <MenuItem onClick={saveProject}>Save as..</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
                     <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
+                    <MenuItem onClick={buildAndDeploy}>Build and Deploy</MenuItem>
                     <MenuItem onClick={openVNCDisplay}>Open Display</MenuItem>
                 </Menu>
                 <Menu
@@ -239,6 +274,7 @@ function MenuBarMain(props: MenuBarProps) {
                     <MenuItem href='https://jderobot.github.io/VisualCircuit/' target='_blank'>Docs</MenuItem>
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit' target='_blank'>Github</MenuItem>
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit/releases' target='_blank'>Releases</MenuItem>
+                    <MenuItem >Version: {process.env.REACT_APP_VERSION}</MenuItem>
                 </Menu>
                 <div style={{ flex: 1 }} />
                 <Menu
@@ -279,11 +315,11 @@ function MenuBarMain(props: MenuBarProps) {
     )
 }
 
-function MenuBarDisplay() {
+function MenuBarDisplay(props: MenuBarProps) {
 
     const theme = useTheme();
     const isDark = theme.palette.type === 'dark';
-    const socket = new WebSocket('ws://localhost:8765');
+    props.io.connectToLocalDocker();
     const [gazeboStarted, toggleGazebo] = useState(false);
     const [gazeboWorld, setGazeboWorld] = useState('empty');
 
@@ -296,9 +332,9 @@ function MenuBarDisplay() {
     const toggleGazeboWorld = () => {
         toggleGazebo(!gazeboStarted);
         if (gazeboStarted) {
-            socket.send(JSON.stringify({"command": "start_gazebo", "world": gazeboWorld}));
+            // props.socket.send(JSON.stringify({"command": "start_gazebo", "world": gazeboWorld}));
         } else {
-            socket.send(JSON.stringify({"command": "stop_gazebo"}));
+            // socket.send(JSON.stringify({"command": "stop_gazebo"}));
         }
     }
 
