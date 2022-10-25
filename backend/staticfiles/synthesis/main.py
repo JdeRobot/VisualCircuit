@@ -5,7 +5,6 @@ import random
 import string
 from multiprocessing import shared_memory, Lock
 from time import sleep
-from winreg import LoadKey
 
 from lib.inputs import Inputs
 from lib.outputs import Outputs
@@ -67,22 +66,28 @@ def main():
                 parameter_data = {param["name"]: param["value"]}
                 block_data[target["block"]]["parameters"].update(parameter_data)
         else:
-            wire_name = "".join(
-                random.choices(string.ascii_uppercase + string.digits, k=10)
+            block_data[source["block"]] = block_data.get(
+                source["block"], {"inputs": {}, "outputs": {}, "parameters": {}}
             )
+            block_data[target["block"]] = block_data.get(
+                target["block"], {"inputs": {}, "outputs": {}, "parameters": {}}
+            )
+
+            if source["name"] in block_data[source["block"]]["outputs"]:
+                wire_name = block_data[source["block"]]["outputs"][source["name"]]["wire"]
+            elif target["name"] in block_data[target["block"]]["inputs"]:
+                wire_name = block_data[target["block"]]["inputs"][target["name"]]["wire"]
+            else:
+                wire_name = "".join(
+                    random.choices(string.ascii_uppercase + string.digits, k=10)
+                )
 
             # If a new wire, add it to dictionary and also keep track of its lock
             if wire_name not in all_wires:
                 all_wires[wire_name] = Lock()
             output_data = {source["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}}
             input_data = {target["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}}
-            block_data[source["block"]] = block_data.get(
-                source["block"], {"inputs": {}, "outputs": {}, "parameters": {}}
-            )
             block_data[source["block"]]["outputs"].update(output_data)
-            block_data[target["block"]] = block_data.get(
-                target["block"], {"inputs": {}, "outputs": {}, "parameters": {}}
-            )
             block_data[target["block"]]["inputs"].update(input_data)
 
 

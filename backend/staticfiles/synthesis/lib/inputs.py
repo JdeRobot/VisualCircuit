@@ -1,5 +1,4 @@
 from multiprocessing import shared_memory, Condition
-from site import ENABLE_USER_SITE
 
 import numpy as np
 from lib.exceptions import InvalidInputNameException

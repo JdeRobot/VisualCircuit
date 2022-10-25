@@ -11,7 +11,10 @@ class Outputs:
         self.shms = []
 
     def _create_wire(self, name, size):
-        shm = shared_memory.SharedMemory(name=name, create=True, size=size)
+        try:
+            shm = shared_memory.SharedMemory(name=name)
+        except FileNotFoundError:
+            shm = shared_memory.SharedMemory(name=name, create=True, size=size)
         self.shms.append(shm)
         return shm
 
