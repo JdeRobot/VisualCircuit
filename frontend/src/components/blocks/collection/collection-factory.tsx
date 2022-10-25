@@ -91,6 +91,7 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
             'label': 'Control',
             'children': {
                 'motorDriver': {'label': 'MotorDriver'},
+                'motorDriverRos2': {'label': 'MotorDriverROS2'},
                 'teleoperator': {'label': 'Teleoperator'}
             }
         },
@@ -110,6 +111,13 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
                 'odometer': {'label': 'Odometer'},
                 'imu': {'label': 'IMU'}
             }
+        },
+        'ros2sensors': {
+            'label': 'ROS2-Sensors',
+            'children': {
+                'cameraRos2': {'label': 'CameraROS2'},
+                'laserRos2': {'label': 'LaserROS2'},
+            }
         }
     }
 }
@@ -124,6 +132,8 @@ export function getCollectionBlock(name: string) {
     switch (name) {
         case 'drivers.control.motorDriver':
             return import('./control/MotorDriver.json');
+        case 'drivers.control.motorDriverRos2':
+            return import('./control/MotorDriverROS2.json');
         case 'processing.control.pid':
             return import('./control/PID.json');
         case 'drivers.control.teleoperator':
@@ -160,6 +170,10 @@ export function getCollectionBlock(name: string) {
             return import('./ros-sensors/Odometer.json');
         case 'drivers.rossensors.imu':
             return import('./ros-sensors/IMU.json');
+        case 'drivers.ros2sensors.cameraRos2':
+            return import('./ros-sensors/ROS2Camera.json');
+        case 'drivers.ros2sensors.laserRos2':
+            return import('./ros-sensors/ROS2LaserScan.json');
         case 'processing.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
         
