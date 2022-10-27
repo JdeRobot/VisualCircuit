@@ -34,7 +34,7 @@ def clean_shared_memory(names):
     # Release all locks
     for name in names:
         try:
-            names[name]["lock"].release()
+            names[name].release()
         except ValueError:
             pass
 
