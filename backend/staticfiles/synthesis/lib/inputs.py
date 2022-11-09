@@ -23,6 +23,7 @@ def create_number_wire(name, size):
 class Inputs:
 
     ENABLE_NAME = "Enable"
+
     def __init__(self, input_data) -> None:
         self.inputs = input_data
         self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
@@ -199,9 +200,8 @@ class Inputs:
             # TODO: Is this case necessary?
             # Yep case is definitely necessary especially by this implementation
             
-            # If the command has been give to enable the wire 
             if _enabled:
-                
+            # If the command has been give to enable the wire     
                 wire_name = self._enable_data["wire"]
                 # Value of the wire to be set
                 wire_val = np.array([1])
