@@ -183,16 +183,16 @@ class Inputs:
             
         self._enable_data["lock"].acquire()
         if self._enable_data.get("created", False):
-            a = np.array([1])
+            wire_val = np.array([1])
             if _enabled:
                 # print("Triggering wire online")
-                a = np.array([1])
+                wire_val = np.array([1])
             else:
                 # print("Disabling wire")
-                a = np.array([0])
+                wire_val = np.array([0])
 
-            b = np.ndarray(a.shape, dtype=a.dtype, buffer=self._enable_data["data"].buf)
-            b[:] = a[:]
+            wire_data = np.ndarray(wire_val.shape, dtype=wire_val.dtype, buffer=self._enable_data["data"].buf)
+            wire_data[:] = wire_val[:]
 
 
         else:
@@ -206,7 +206,7 @@ class Inputs:
                 # Value of the wire to be set
                 wire_val = np.array([1])
                 # Create a new shared memory object in the "data" key of the _enable_data dictionary
-                self._enable_data["data"] = create_number_wire(wire_name, a.nbytes)
+                self._enable_data["data"] = create_number_wire(wire_name, wire_val.nbytes)
                 data_wire = np.ndarray(wire_val.shape, dtype=np.float64, buffer=self._enable_data["data"].buf)
                 data_wire[:] = wire_val[:]
                 # Mark wire as created, since it has been created
