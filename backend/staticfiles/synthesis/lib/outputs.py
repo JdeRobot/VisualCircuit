@@ -11,7 +11,10 @@ class Outputs:
         self.shms = []
 
     def _create_wire(self, name, size):
-        shm = shared_memory.SharedMemory(name=name, create=True, size=size)
+        try:
+            shm = shared_memory.SharedMemory(name=name)
+        except FileNotFoundError:
+            shm = shared_memory.SharedMemory(name=name, create=True, size=size)
         self.shms.append(shm)
         return shm
 
@@ -35,6 +38,9 @@ class Outputs:
     def share(self, name, data):
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
+
+        # Lock before writing data
+        self.outputs[name]["lock"].acquire()
 
         # Store the array data in the appropriate variables
         data = np.array(data)
@@ -77,6 +83,9 @@ class Outputs:
             # Mark output as created
             self.outputs[name]["created"] = True
 
+        # Release lock after writing data
+        self.outputs[name]["lock"].release()
+
     def _share_npy_matrix(self, name, matrix, shape):
         dim = np.array([len(matrix.shape)], dtype=np.int64)
         if self.outputs[name].get("created", False):
@@ -103,6 +112,9 @@ class Outputs:
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
 
+        # Lock before writing data
+        self.outputs[name]["lock"].acquire()
+
         image = np.array(image, dtype=np.uint8)
         if len(image.shape) != 2 and len(image.shape) != 3:
             raise ValueError("Image must be 2D or 3D")
@@ -115,9 +127,15 @@ class Outputs:
         shape = np.array(shape, dtype=np.int64)
         self._share_npy_matrix(name, image, shape)
 
+        # Release lock after writing data
+        self.outputs[name]["lock"].release()
+
     def share_number(self, name, number):
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
+
+        # Lock before writing data
+        self.outputs[name]["lock"].acquire()
 
         if self.outputs[name].get("created", False):
             self.outputs[name]["data"][:] = number
@@ -132,9 +150,15 @@ class Outputs:
             self.outputs[name]["data"][:] = number
             self.outputs[name]["created"] = True
 
+        # Release lock after writing data
+        self.outputs[name]["lock"].release()
+
     def share_string(self, name, string):
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
+
+        # Lock before writing data
+        self.outputs[name]["lock"].acquire()
 
         if self.outputs[name].get("created", False):
             self.outputs[name]["data"][:] = string
@@ -149,8 +173,18 @@ class Outputs:
             self.outputs[name]["data"][:] = string
             self.outputs[name]["created"] = True
 
+        # Release lock after writing data
+        self.outputs[name]["lock"].release()
+
     def share_array(self, name, array):
         if self.outputs.get(name) is None:
             raise InvalidOutputNameException(f"{name} is not declared in outputs")
+
+        # Lock before writing data
+        self.outputs[name]["lock"].acquire()
+
         array = np.array(array, dtype=np.float64)
         self._share_npy_matrix(name, array, np.array(array.shape, dtype=np.int64))
+
+        # Release lock after writing data
+        self.outputs[name]["lock"].release()
