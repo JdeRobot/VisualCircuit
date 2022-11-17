@@ -12,6 +12,13 @@ def create_readonly_wire(name):
         shm = None
     return shm
 
+def create_number_wire(name, size):
+        try:
+            shm = shared_memory.SharedMemory(name=name)
+        except:
+            shm = shared_memory.SharedMemory(name=name, create=True, size=size)
+        # self.shms.append(shm)
+        return shm
 
 class Inputs:
 
@@ -19,8 +26,10 @@ class Inputs:
 
     def __init__(self, input_data) -> None:
         self.inputs = input_data
+        self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
 
     def _init_enabled(self) -> None:
+        # This function is redundant for now, its not being used anywhere
         self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
         self._enable_condition = Condition(self.inputs[Inputs.ENABLE_NAME]["lock"]) if self.enable_wire else None
 
@@ -166,17 +175,42 @@ class Inputs:
 
     @enabled.setter
     def enabled(self, _enabled: bool):
+        # If no wire exists, we cannot set anything, it is true by default
+        # TODO: Ideally one should be able to trigger a block on and off even without an enable wire
+        # Can we force there to be an enable slot in all blocks? Or is another approach a better idea? 
         if self._enable_data is None:
             return
-        
+            
         self._enable_data["lock"].acquire()
-
         if self._enable_data.get("created", False):
-            self._enable_data["data"][0] = 1 if _enabled else 0
+            wire_val = np.array([1])
+            if _enabled:
+                # print("Triggering wire online")
+                wire_val = np.array([1])
+            else:
+                # print("Disabling wire")
+                wire_val = np.array([0])
+
+            wire_data = np.ndarray(wire_val.shape, dtype=wire_val.dtype, buffer=self._enable_data["data"].buf)
+            wire_data[:] = wire_val[:]
+
+
         else:
             # Wire doesn't exist yet, ideally has to be created and set
             # TODO: Is this case necessary?
-            pass
+            # Yep case is definitely necessary especially by this implementation
+            
+            if _enabled:
+            # If the command has been give to enable the wire     
+                wire_name = self._enable_data["wire"]
+                # Value of the wire to be set
+                wire_val = np.array([1])
+                # Create a new shared memory object in the "data" key of the _enable_data dictionary
+                self._enable_data["data"] = create_number_wire(wire_name, wire_val.nbytes)
+                data_wire = np.ndarray(wire_val.shape, dtype=np.float64, buffer=self._enable_data["data"].buf)
+                data_wire[:] = wire_val[:]
+                # Mark wire as created, since it has been created
+                self._enable_data["created"] = True
 
         self._enable_data["lock"].release()
         
