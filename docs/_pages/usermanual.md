@@ -35,15 +35,6 @@ python3-tk python3-opencv   \
 python3-pip
 ```
 
-
-##### POSIX_IPC and XClip:
-
-```
-sudo pip3 install posix_ipc
-sudo apt-get install xclip
-```
-
-
 ##### NodeJS (14.4.0) and npm (6.14.5):
 
 ```
@@ -53,7 +44,6 @@ sudo apt-get install -y nodejs
 node --version
 npm --version
 ```
-
 
 ## Setup
 
@@ -77,11 +67,11 @@ Run VisualCircuit frontend:
 Run VisualCircuit backend:`
 
 1. Open the VisualCircuit folder and change directory to `backend` in a terminal
-2. Create a Python3 virtual environment using venv. For eg. `python -m venv .venv`
+2. Create a Python3 virtual environment using venv. For eg. `python3 -m venv .venv`
 3. After activating the virtual environment, install the dependencies by running `pip install -r requirements.txt`
 4. Add .env file to the backend folder. And add the variables as defined in .env.template
-5. Create the static folder which will serve files during execution using `python manage.py collectstatic` 
-6. Start the server by running `python manage.py runserver 8000`
+5. Create the static folder which will serve files during execution using `python3 manage.py collectstatic` 
+6. Start the server by running `python3 manage.py runserver 8000`
 
 
 #### Well Done! you have Successfully Installed the VisualCircuit
