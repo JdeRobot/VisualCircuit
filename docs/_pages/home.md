@@ -53,11 +53,13 @@ feature_row:
 
 {% include feature_row %}
 
-VisualCircuit is a visual editor for programming robotics applications with ease.
+VisualCircuit is a visual editor for programming robotics applications with blocks and wires.
 
-VisualCircuit will allow users to program robotic intelligence using a visual language application. This tool follows the divide and conquer approach in solving problems related to robotics and computer vision. Each block is considered as a separate and functional part of the system which is running independently at fast iterations. The modular design of this tool helps the user to think in terms of blocks running concurrently which can then be easily connected to each other with the help of wires which are basically used for communication between the blocks. This tool will allow the user to think more effectively, reduce the development time and experiment with more solutions in a short period of time.
+VisualCircuit is a tool that allows users to program robotic intelligence using a visual language application. It follows a divide and conquer approach where each block is a separate and functional part of the system, running independently at fast iterations. The modular design of this tool allows users to think in terms of blocks running concurrently and easily connect them to each other with wires for communication. This approach helps reduce development time and enables fast prototyping, making it a powerful tool for creating and testing complex robotic systems.
 
-The people working on the project are:
+The current developers are:
 
 - [Jose Maria Cañas](https://gsyc.urjc.es/jmplaza/)
 - [Muhammad Taha Suhail](https://github.com/AbsorbedInThought)
+- [Toshan Luktuke](https://github.com/toshan-luktuke)
+- [Suhas Gopal](https://github.com/Suhas-G)
