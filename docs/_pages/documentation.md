@@ -11,19 +11,17 @@ sidebar:
   nav: "docs"
 ---
 
-## Project
 
-### New Documentation
-To access the new documentation, visit this link. [Visual Circuit 3.x Block Documentation](/VisualCircuit/blockDocs/index.html)
+## To access the new documentation, visit this link. [Visual Circuit 3.x Block Documentation](/VisualCircuit/blockDocs/index.html)
 
 ### Definition
 
-    Version: 1.0.
+    Version: 3.0.
     Package: Project Information.
     Design: Graph and circuit design.
     Dependencies: All used dependencies in one level.
 
-Extension: .vc
+Extension: `.vc3`
 
 
 ### Block Instances
@@ -237,10 +235,10 @@ Extension: .vc
 - Output: cmd_vel (linear velocity, angular velocity)
 - Parameters: Kp, Ki, Kd
 
-ROS Topic based communation blocks can be found [here](https://github.com/JdeRobot/VisualCircuit/tree/master/app/resources/collection/blocks/Blocks/ROS-Topics). They are working but not currently a part of the current VisualCircuit roadmap.
-
 
 ## Samples
+
+Note that these are the version `1.0.0` implementations of these blocks. The current versions (`2.0.0`) being used are quite similar, with minor changes in the template code itself.  
 
 ### Camera
 
