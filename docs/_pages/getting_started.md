@@ -1,5 +1,5 @@
 ---
-title: First Steps
+title: Getting Started
 layout: posts
 permalink: /getting_started/
 

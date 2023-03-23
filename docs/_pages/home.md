@@ -42,6 +42,14 @@ feature_row:
     btn_class: "btn--primary"
     btn_label: "Learn more"
 
+  - image_path: /assets/images/follow_road/follow_road.jpg
+    alt: "Follow Road"
+    title: "Follow Road"
+    excerpt: "Solving the Follow Road Excercise with Visual Circuit"
+    url: "/follow_road/"
+    btn_class: "btn--primary"
+    btn_label: "Learn more"
+
   - image_path: /assets/images/cover/tutorial.jpg
     alt: "Tutorials"
     title: "Tutorials"

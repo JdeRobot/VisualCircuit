@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: RoboticsAcademy with Visual Circuit
 layout: posts
 permalink: /follow_road/
 
