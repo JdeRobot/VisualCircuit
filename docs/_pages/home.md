@@ -34,11 +34,11 @@ feature_row:
     btn_class: "btn--primary"
     btn_label: "Learn more"
     
-  - image_path: /assets/images/follow_road/follow_road.jpg
+  - image_path: /assets/images/cover/skeleton_structure.png
     alt: "Getting Started"
     title: "Getting Started"
-    excerpt: "Solve the Follow Road Exercise using VisualCircuit."
-    url: "/follow_road/"
+    excerpt: "Get started by making a simple circuit in VisualCircuit"
+    url: "/getting_started/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
 
