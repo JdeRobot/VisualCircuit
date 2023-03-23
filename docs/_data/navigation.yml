@@ -7,6 +7,9 @@ main:
   - title: Installation
     url: /install/
 
+  - title: Tutorial
+    url: /tutorials/
+
   - title: References
     url: /references/
 
@@ -14,12 +17,12 @@ main:
 docs:
   - title: Home
     children:
-      - title: Check it out
+      - title: Home
         url: /
 
   - title: Installation
     children: 
-    - title: How to install
+    - title: Installation Instructions
       url: /install/
 
   - title: About

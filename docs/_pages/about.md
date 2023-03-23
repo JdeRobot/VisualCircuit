@@ -11,9 +11,7 @@ sidebar:
   nav: "docs"
 ---
 
-# Visual Circuit
-
-![alt_text]({{ "assets/images/logo.png" | absolute_url }})
+![Visual_Circuit_Logo]({{ "assets/images/logo.png" | absolute_url }})
 
 [![License](http://img.shields.io/:license-gpl-blue.svg)](http://opensource.org/licenses/GPL-2.0)
 
@@ -25,7 +23,7 @@ For more information visit our site [VisualCircuit](https://jderobot.github.io/V
 
 ### Supported Platforms
  * Python-3 + ROS-Noetic
- * Might support future ROS Distributions
+ * Partial Support for ROS2 Humble
 
 
 
@@ -48,7 +46,7 @@ Check the [Documentation](https://jderobot.github.io/VisualCircuit/documentation
 
 ## Development
 
-Install [Python >= 3.5](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/), for windows developers nodejs version should be 10.17.x
+Install [Python >= 3.8](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/), for windows developers nodejs version should be 10.17.x
 
 
 [Atom](https://atom.io/) editor with [linter-jshint](https://atom.io/packages/linter-jshint) is recommended.
@@ -121,7 +119,9 @@ npm update -g
 ## Development Team
 
 * **Muhammad Taha Suhail**, creator [Github page](https://github.com/AbsorbedInThought)
-* **Jose Maria Cañas**,concepts and development [Github page](https://github.com/jmplaza)
+* **Jose Maria Cañas**, concepts and development [Github page](https://github.com/jmplaza)
+* **Suhas G**, developer [Github Page](https://github.com/toshan-luktuke)
+* **Toshan Luktuke**, developer [Github Page](https://github.com/Suhas-G)
 
 
 ## Credits
