@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+  <world name="turtlebot3_world">
+    <!-- Define the physics properties of the world -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- Include a ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Include the Turtlebot 3 Burger model -->
+    <include>
+      <uri>model://turtlebot3_burger</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Place some objects in the world (Optional) -->
+    <!-- <include>
+      <uri>model://box</uri>
+      <pose>-1.0 0 0 0 0 0</pose>
+    </include> -->
+  </world>
+</sdf>
