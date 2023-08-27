@@ -20,6 +20,11 @@ const darkTheme = createMuiTheme({
 
 function App() {
 
+  const [width, setWidth] = useState(50);
+
+  const handleWidthChange = (newWidth:number) => {
+    setWidth(newWidth);
+  };
   const editor = Editor.getInstance();
   // Global state of the application.
   const [state, setState] = useState<IGlobalState>({
@@ -30,6 +35,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="column" style={{ flex: width }}>
+      <div style={{ width: '100%' }}>
         <ThemeProvider theme={darkTheme}>
         <div className="App theme-dark">
           <MenuBar editor={editor} />
@@ -39,7 +45,8 @@ function App() {
           </GlobalState.Provider>
         </div>
           <ModalContainer />
-        </ThemeProvider>  
+        </ThemeProvider> 
+        </div> 
       </div>
       <div className="column" style={{ flex: 100 - width }}>
         <iframe src="http://127.0.0.1:8000/exercises/" width="100%" height="100%" title="Facebook"></iframe>

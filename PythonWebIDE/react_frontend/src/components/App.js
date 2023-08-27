@@ -19,12 +19,12 @@ const theme = createTheme({
 
 function App() {
   return (
-    // <HomepageProvider>
+    <HomepageProvider>
       <ThemeProvider theme={theme}>
         <DrawerAppBar />
         <ExerciseList />
       </ThemeProvider>
-    {/* </HomepageProvider> */}
+    </HomepageProvider>
   );
 }
 
