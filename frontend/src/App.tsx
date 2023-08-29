@@ -49,7 +49,7 @@ function App() {
         </div> 
       </div>
       <div className="column" style={{ flex: 100 - width }}>
-        <iframe src="http://127.0.0.1:8000/exercises/" width="100%" height="100%" title="Facebook"></iframe>
+        <iframe src="http://127.0.0.1:8000/exercises/" width="100%" height="100%" title="RoboticsAcademy"></iframe>
       </div>
     </div>
     
