@@ -20,15 +20,14 @@ Visual Circuit is an **open source** tool to develop robotic applications. It ai
 For more information visit our site [VisualCircuit](https://jderobot.github.io/VisualCircuit/)
 
 
-## Setup
+## Prerequisite
 
 ### Front-end
 For more specific instructions check the frontend [readme](./frontend/README.md) 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
 3. Change directory to `frontend`
 4. Run `npm install`
-5. Run `npm start`
-6. Open http://localhost:3000/ in browser.
+
 
 ### Back-end
 For more specific instructions check the backend [readme](./backend/README.md)
@@ -41,7 +40,51 @@ For eg. `python -m venv .venv`
 `pip install -r requirements.txt`
 5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
 6. Create the static files to serve during execution by `python manage.py collectstatic`
-7. Start the server by running `python manage.py runserver 8000`
+
+
+### How to setup the VC+ 
+
+1) Navigate to VC+:```cd VC+``` 
+2) Activate the environment:```source env/bin/activate```
+3) Install required packages
+```
+pip install django
+pip install djangorestframework
+pip install django-webpack-loader
+```
+
+4) Install dependencies for REACT (with Yarn or npm, required Node.JS >= 14.16)     
+```
+cd react_frontend/ && yarn install 
+```
+
+## Start Application
+
+#### Step 1: Start Frontend
+1. Navigate to the frontend directory:```cd frontend```
+2. Start the frontend server:```npm start```
+
+
+#### Step 2: Start Backend
+1. Navigate to the backend directory:```cd backend```
+2. Start the backend server:```python3 manage.py runserver 8080```
+
+
+#### Step 4: Start VC+ Frontend
+1. Navigate to VC+:```cd VC+```
+2. Navigate to the react_frontend directory:```cd react_frontend```
+3. Run the development server:```yarn run dev```
+
+
+#### Step 5: Start Another Backend Instance
+1. Open another terminal.
+2. Navigate to VC+:```cd VC+```
+3. Activate the environment:```source env/bin/activate```
+4. Start another instance of the backend server:```python3 manage.py runserver```
+
+#### Step 6: Run Docker image RADI
+``sudo docker run --rm -it --name radi -p 2303:2303 -p 1905:1905 -p 8765:8765 -p 6080:6080 -p 1108:1108 -p 7163:7163 jderobot/robotics-academy:3.4.5 --no-server``
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
