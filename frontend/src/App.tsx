@@ -20,6 +20,11 @@ const darkTheme = createMuiTheme({
 
 function App() {
 
+  const [width, setWidth] = useState(50);
+
+  const handleWidthChange = (newWidth:number) => {
+    setWidth(newWidth);
+  };
   const editor = Editor.getInstance();
   // Global state of the application.
   const [state, setState] = useState<IGlobalState>({
@@ -28,16 +33,26 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <div className="App theme-dark">
-        <MenuBar editor={editor} />
-        {/* Global State */}
-        <GlobalState.Provider value={{ state, setState }} >
-          <Board editor={editor} />
-        </GlobalState.Provider>
+    <div className="app-container">
+      <div className="column" style={{ flex: width }}>
+      <div style={{ width: '100%' }}>
+        <ThemeProvider theme={darkTheme}>
+        <div className="App theme-dark">
+          <MenuBar editor={editor} />
+          {/* Global State */}
+          <GlobalState.Provider value={{ state, setState }} >
+            <Board editor={editor} />
+          </GlobalState.Provider>
+        </div>
+          <ModalContainer />
+        </ThemeProvider> 
+        </div> 
       </div>
-      <ModalContainer />
-    </ThemeProvider>
+      <div className="column" style={{ flex: 100 - width }}>
+        <iframe src="http://127.0.0.1:8000/exercises/" width="100%" height="100%" title="RoboticsAcademy"></iframe>
+      </div>
+    </div>
+    
   );
 }
 

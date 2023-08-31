@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(str(BASE_DIR / '.env'))
 
-
+# Change this to your desired port number
+DESIRED_PORT = 8080
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -31,6 +32,12 @@ SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['http://localhost:80'])
+# ALLOWED_HOSTS = [
+#     'localhost',
+#     '127.0.0.1',
+#     '[::1]',
+#     f'your-domain.com:{DESIRED_PORT}',  # Replace with your actual domain
+# ]
 
 
 # Application definition
@@ -143,3 +150,8 @@ if DEBUG:
     CORS_ALLOWED_ORIGINS = [
         env.str('VISUAL_CIRCUIT_FRONTEND_HOST')
     ]
+# if DEBUG:
+#     CORS_ALLOWED_ORIGINS = [
+#         env.str('VISUAL_CIRCUIT_FRONTEND_HOST'),
+#         f"{env.str('VISUAL_CIRCUIT_FRONTEND_HOST')}:{DESIRED_PORT}",
+#     ]

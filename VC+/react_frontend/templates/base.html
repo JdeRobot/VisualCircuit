@@ -1,0 +1,140 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="{% static 'common/img/logo.ico' %}" sizes="32x32">
+    <title>VC+</title>
+    <!-- Bootstrap 3.3.7 from local -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Roboto Typography -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <!--Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!--CSS Main -->
+    <link rel="stylesheet" type="text/css" href="{% static 'exercises/assets/css/main.css' %}">
+    <!-- JSZip -->  
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
+
+    {% block header %}
+        <!-- Here comes additions to header section -->
+    {%  endblock %}
+</head>
+<body>
+    {% csrf_token %}
+     {% if user.robotics_backend == "Remote ROS2" or user.robotics_backend == "Remote ROS2"%}      
+     <script id="exercise-config" type="application/json">{"application": {
+      "type": "python",
+      "entry_point": "$EXERCISE_FOLDER/entry_point/exercise.py",
+      "params": { "circuit": "default"}
+  
+    },
+    "launch": {
+      "0": {
+        "type": "module",
+        "module": "ros2_api",
+        "resource_folders": [
+          "$EXERCISE_FOLDER/launch"
+        ],
+        "model_folders": [
+          "$CUSTOM_ROBOTS_FOLDER/f1/models"
+        ],
+        "plugin_folders": [
+        ],
+        "parameters": [],
+        "launch_file": "$EXERCISE_FOLDER/launch/ros2_humble/simple_circuit_followingcam.launch.py"
+      },
+      "1": {
+        "type": "module",
+        "module": "console_ros2",
+        "display": ":1",
+        "internal_port": 5901,
+        "external_port": 1108
+      },
+      "2": {
+        "type": "module",
+        "module": "gazebo_view_ros2",
+        "display": ":0",
+        "internal_port": 5900,
+        "external_port": 6080,
+        "height": 768,
+        "width": 1024
+      },
+    "3":{
+        "type": "module",
+        "module": "robot_display_view_ros2",
+        "display": ":2",
+        "internal_port": 5902,
+        "external_port": 2303,
+        "height": 768,
+        "width": 1024
+    }
+    },
+    "exercise_id": "python_web_ide"}</script>
+    {% else %}
+    <script id="exercise-config" type="application/json">{
+      "application": {
+        "type": "python",
+        "entry_point": "$EXERCISE_FOLDER/entry_point/exercise.py",
+        "params": { "circuit": "default"}
+    
+      },
+      "launch": {
+        "0": {
+          "type": "module",
+          "module": "ros_api",
+          "resource_folders": [
+            "$EXERCISE_FOLDER/launch"
+          ],
+          "model_folders": [
+            "$CUSTOM_ROBOTS_FOLDER/f1/models"
+          ],
+          "plugin_folders": [
+          ],
+          "parameters": [],
+          "launch_file": "$EXERCISE_FOLDER/launch/ros1_noetic/simple_line_follower_ros_headless_default.launch"
+        },
+        "1": {
+          "type": "module",
+          "module": "console",
+          "display": ":1",
+          "internal_port": 5901,
+          "external_port": 1108
+        },
+        "2": {
+          "type": "module",
+          "module": "gazebo_view",
+          "display": ":0",
+          "internal_port": 5900,
+          "external_port": 6080,
+          "height": 768,
+          "width": 1024
+        },
+        "3": {
+          "type": "module",
+          "module": "robot_display_view",
+          "display": ":2",
+          "internal_port": 5902,
+          "external_port": 2303,
+          "height": 768,
+          "width": 1024
+        }
+      },
+      "exercise_id": "python_web_ide"
+    }</script>    
+    {% endif %}
+    {% block content %}
+        <!-- Here comes the main content of child pages -->
+    {% endblock %}
+
+    {% block before_end_body %}
+        <!-- Here comes whatever needs to be loaded before ending the body section -->
+    {% endblock %}
+</body>
+</html>
