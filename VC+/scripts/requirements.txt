@@ -61,7 +61,7 @@ matplotlib==3.0.3
 mccabe==0.7.0
 more-itertools==4.2.0
 mpi4py==3.0.3
-mpmath==1.2.1
+mpmath==1.3.0
 netifaces==0.10.4
 netron==6.0.7
 nose==1.3.7
