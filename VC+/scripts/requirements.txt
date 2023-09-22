@@ -88,7 +88,7 @@ pycryptodomex==3.6.1
 pycups==1.9.73
 pydot==1.4.1
 pydsdl==1.16.1
-Pygments==2.3.1
+Pygments==2.15.0
 PyGObject==3.36.0
 PyHamcrest==1.9.0
 PyJWT==1.7.1
