@@ -20,3 +20,21 @@
 .h-100 {
   height: 100%!important;
 }
+
+
+
+.app-container {
+  display: flex;
+  height: 100vh; /* Set the container's height to full viewport height */
+}
+
+.column {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Iframe should take up the full height of the container */
+iframe {
+  height: 100%;
+}
