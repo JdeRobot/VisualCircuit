@@ -18,3 +18,5 @@ sidebar:
 ## Building a custom block on VisualCircuit3
 
 {% include video id="haW_oEOjKh8" provider="youtube" %}
+
+[For a detailed guide on how to contribute custom blocks](/custom_contribute)
