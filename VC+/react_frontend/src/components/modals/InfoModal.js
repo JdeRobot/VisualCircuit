@@ -79,7 +79,7 @@ const DenseTable = () => {
       <Table
         sx={{
           minWidth: 650,
-          backgroundColor: "#ffa726",
+          backgroundColor: "#333",
         }}
         size="small"
         aria-label="a dense table"

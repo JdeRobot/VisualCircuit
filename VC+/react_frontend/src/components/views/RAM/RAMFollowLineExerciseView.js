@@ -29,13 +29,13 @@ function FollowLineExerciseView(props) {
           background: "linear-gradient(#EOECDE, #FFFFFF)",
         }}
       >
-      <FlexContainer row={true} broad={broad.broad1}>
-        <DirectoryView context={props.context}/>
-        <FlexContainer row={true} broad={broad.broad2}>
+      {/* <FlexContainer row={true} broad={broad.broad1}>
+        <DirectoryView context={props.context}/> */}
+        {/* <FlexContainer row={true} broad={broad.broad2}> */}
             <AceEditorRobot context={props.context}/>
             <Visualization context={props.context}/>
-        </FlexContainer>
-      </FlexContainer>
+        {/* </FlexContainer> */}
+      {/* </FlexContainer> */}
       </Box>
       {/*<Frequencies></Frequencies>*/}
       {/*<LinterModal context={props.context}></LinterModal>*/}

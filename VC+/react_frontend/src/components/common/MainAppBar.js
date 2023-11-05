@@ -67,15 +67,15 @@ function MainAppBar(props) {
               alignItems: "center",
             }}
           >
-            <Image src="/static/common/img/logo.gif" fit={"cover"} width={50} />
+            
             <Box sx={{ display: "flex", gap: "10px", marginLeft: "10px" }}>
               <ConnectionIndicator></ConnectionIndicator>
               <LaunchIndicator></LaunchIndicator>
             </Box>
           </Box>
-          <Typography variant="h5">VC+</Typography>
+          <Typography variant="h5">EXECUTION</Typography>
           <Box> </Box>
-          <Box> {slicedPath}</Box>
+          <Box> </Box>
           {/*<ButtonGroup color={"loading"} variant={"contained"}>
             <IconButton
               component={"span"}

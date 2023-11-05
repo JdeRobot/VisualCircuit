@@ -153,29 +153,31 @@ export default function DirectoryView(props) {
       }
 
       return (
-        <TreeItem
-          nodeId={item.path}
-          label={item.name}
-          defaultcollapseicon={<ExpandMoreIcon />}
-          defaultexpandicon={<ChevronRightIcon />}
-        >
-          {item.children.map(child => {
-            if (child.type === 'directory') {
-              return <FolderTreeItem key={child.path} item={child} />;
-            } else {
-              return (
-                <TreeItem
-                  key={child.path}
-                  nodeId={child.path}
-                  label={child.name}
-                  href={child.path}
-                  onClick={handleTreeItemClick(child.path)}
-                  onContextMenu={handleTreeItemClick(child.path)}
-                />
-              );
-            }
-          })}
-        </TreeItem>
+        // <TreeItem
+        //   nodeId={item.path}
+        //   label={item.name}
+        //   defaultcollapseicon={<ExpandMoreIcon />}
+        //   defaultexpandicon={<ChevronRightIcon />}
+        // >
+        //   {item.children.map(child => {
+        //     if (child.type === 'directory') {
+        //       return <FolderTreeItem key={child.path} item={child} />;
+        //     } else {
+        //       return (
+        //         // <TreeItem
+        //         //   key={child.path}
+        //         //   nodeId={child.path}
+        //         //   label={child.name}
+        //         //   href={child.path}
+        //         //   onClick={handleTreeItemClick(child.path)}
+        //         //   onContextMenu={handleTreeItemClick(child.path)}
+        //         // />
+        //         <div>hii</div> 
+        //       );
+        //     }
+        //   })}
+        // </TreeItem>
+        <></>
       );
   }
 

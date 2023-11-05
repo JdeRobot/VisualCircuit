@@ -76,31 +76,5 @@ export default function ApplicationSelector(props) {
   }, [isOpen]);
 
   const menuItems = MapItems(files);
-  return (
-      <>
-        <FormControl>
-          <InputLabel id={"application-selector-label"}>
-            Application
-            < AppSettingsAltIcon />
-          </InputLabel>
-          <Select
-            disabled={disabled}
-            defaultValue={"None"}
-            labelId="application-selector-label"
-            id={"application-selector"}
-            label={"Application"}
-            MenuProps={{
-              onClose: () => setIsOpen(false),
-            }}
-            open={isOpen}
-            onOpen={() => setIsOpen(true)}
-          >
-            <MenuItem selected disabled value="None"><em>{appSelected}</em></MenuItem>
-            {menuItems.map((item) => (
-              <MenuItems key={item.name} item={item} setIsOpen={setIsOpen} />
-            ))}
-          </Select>
-        </FormControl>
-      </>
-  );
+  return null;
 }
