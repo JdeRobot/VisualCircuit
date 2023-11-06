@@ -13,6 +13,8 @@ sidebar:
 
 A list of sample exercises of Robotics Academy solved using VisualCircuit are:
 
+### Tutorials
+
 1. [Follow Road](/follow_road/)
 2. [Vacuum Cleaner with FSM](/vacuum_cleaner)
 
