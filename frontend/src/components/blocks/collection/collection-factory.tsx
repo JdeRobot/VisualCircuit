@@ -1,4 +1,3 @@
-
 /**
  * Interface for collection block data.
  */
@@ -15,7 +14,8 @@ export type CollectionBlockType = {
  */
 export const collectionBlocks: { 'blocks': CollectionBlockType, 
                                  'processing': CollectionBlockType,
-                                 'drivers': CollectionBlockType } = {
+                                 'drivers': CollectionBlockType,
+                                 'library': any } = {
     'blocks': {
         'control': {
             'label': 'Control',
@@ -118,7 +118,11 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
                 'cameraRos2': {'label': 'CameraROS2'},
                 'laserRos2': {'label': 'LaserROS2'},
             }
-        }
+        },
+    },
+
+    'library': {
+        
     }
 }
 
@@ -131,7 +135,8 @@ export function getCollectionBlock(name: string) {
 
     switch (name) {
         case 'drivers.control.motorDriver':
-            return import('./control/MotorDriver.json');
+            // return import('./control/MotorDriver.json');
+            return import('../../../VisualCircuit-resources/block-library/Controllers/MotorDriver.json');
         case 'drivers.control.motorDriverRos2':
             return import('./control/MotorDriverROS2.json');
         case 'processing.control.pid':
