@@ -17,7 +17,7 @@ export type CollectionBlockType = {
 export const collectionBlocks: { 'blocks': CollectionBlockType, 
                                  'processing': CollectionBlockType,
                                  'drivers': CollectionBlockType,
-                                 'library': any } = {
+                                 'library': CollectionBlockType } = {
     'blocks': {
         'control': {
             'label': 'Control',
