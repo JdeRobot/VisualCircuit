@@ -135,8 +135,8 @@ export function getCollectionBlock(name: string) {
 
     switch (name) {
         case 'drivers.control.motorDriver':
-            // return import('./control/MotorDriver.json');
-            return import('../../../VisualCircuit-resources/block-library/Controllers/MotorDriver.json');
+            return import('./control/MotorDriver.json');
+            // return import('../../../VisualCircuit-resources/block-library/Controllers/MotorDriver.json');
         case 'drivers.control.motorDriverRos2':
             return import('./control/MotorDriverROS2.json');
         case 'processing.control.pid':
