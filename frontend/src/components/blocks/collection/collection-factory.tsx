@@ -1,3 +1,5 @@
+import fileStructureData from '../../../VisualCircuit-resources/block-library/file_structure.json';
+
 /**
  * Interface for collection block data.
  */
@@ -121,9 +123,7 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
         },
     },
 
-    'library': {
-        
-    }
+    'library': fileStructureData
 }
 
 /**
