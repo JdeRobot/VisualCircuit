@@ -14,49 +14,51 @@ export type CollectionBlockType = {
  * All the blocks present in the repository.
  * This is used by Menu bar to show the block buttons.
  */
-export const collectionBlocks: { 'blocks': CollectionBlockType, 
-                                 'processing': CollectionBlockType,
-                                 'drivers': CollectionBlockType,
-                                 'library': CollectionBlockType } = {
+export const collectionBlocks: {
+    'blocks': CollectionBlockType,
+    'processing': CollectionBlockType,
+    'drivers': CollectionBlockType,
+    'library': CollectionBlockType
+} = {
     'blocks': {
         'control': {
             'label': 'Control',
             'children': {
-                'motorDriver': {'label': 'MotorDriver'},
-                'pid': {'label': 'PID'},
-                'teleoperator': {'label': 'Teleoperator'}
+                'MotorDriver': { 'label': 'MotorDriver' },
+                'PID': { 'label': 'PID' },
+                'Teleoperator': { 'label': 'Teleoperator' }
             }
         },
         'opencv': {
             'label': 'OpenCV',
             'children': {
-                'blur': { 'label': 'Blur' },
-                'camera': { 'label': 'Camera' },
-                'colorFilter': {'label': 'Color Filter'},
-                'contourDetector': {'label': 'Contour Detector'},
-                'cropper': {'label': 'Cropper'},
-                'dilation': {'label': 'Dilation'},
-                'edgeDetector': {'label': 'Edge Detector'},
-                'erosion': {'label': 'Erosion'},
-                'faceDetector': {'label': 'Face Detector'},
-                'imageRead': {'label': 'Image Read'},
-                'screen': { 'label': 'Screen' },
-                'threshold': {'label': 'Threshold'},
-                'videoStreamer': {'label': 'Video Streamer'}
+                'Blur': { 'label': 'Blur' },
+                'Camera': { 'label': 'Camera' },
+                'ColorFilter': { 'label': 'Color Filter' },
+                'ContourDetector': { 'label': 'Contour Detector' },
+                'Cropper': { 'label': 'Cropper' },
+                'Dilation': { 'label': 'Dilation' },
+                'EdgeDetector': { 'label': 'Edge Detector' },
+                'Erosion': { 'label': 'Erosion' },
+                'FaceDetector': { 'label': 'Face Detector' },
+                'ImageRead': { 'label': 'Image Read' },
+                'Screen': { 'label': 'Screen' },
+                'Threshold': { 'label': 'Threshold' },
+                'VideoStreamer': { 'label': 'Video Streamer' }
             }
         },
-        'rossensors': {
+        'ros-sensors': {
             'label': 'ROS-Sensors',
             'children': {
-                'cameraRos': {'label': 'CameraROS'},
-                'odometer': {'label': 'Odometer'},
-                'imu': {'label': 'IMU'}
+                'CameraRos': { 'label': 'CameraROS' },
+                'Odometer': { 'label': 'Odometer' },
+                'IMU': { 'label': 'IMU' }
             }
         },
         'tensorflow': {
             'label': 'TensorFlow',
             'children': {
-                'objectDetector': {'label': 'Object Detector'}
+                'ObjectDetector': { 'label': 'Object Detector' }
             }
         }
     },
@@ -64,27 +66,27 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
         'control': {
             'label': 'Control',
             'children': {
-                'pid': {'label': 'PID'},
+                'PID': { 'label': 'PID' },
             }
         },
         'opencv': {
             'label': 'OpenCV',
             'children': {
-                'blur': { 'label': 'Blur' },
-                'colorFilter': {'label': 'Color Filter'},
-                'contourDetector': {'label': 'Contour Detector'},
-                'cropper': {'label': 'Cropper'},
-                'dilation': {'label': 'Dilation'},
-                'edgeDetector': {'label': 'Edge Detector'},
-                'erosion': {'label': 'Erosion'},
-                'faceDetector': {'label': 'Face Detector'},
-                'threshold': {'label': 'Threshold'},
+                'Blur': { 'label': 'Blur' },
+                'ColorFilter': { 'label': 'Color Filter' },
+                'ContourDetector': { 'label': 'Contour Detector' },
+                'Cropper': { 'label': 'Cropper' },
+                'Dilation': { 'label': 'Dilation' },
+                'EdgeDetector': { 'label': 'Edge Detector' },
+                'Erosion': { 'label': 'Erosion' },
+                'FaceDetector': { 'label': 'Face Detector' },
+                'Threshold': { 'label': 'Threshold' },
             }
         },
         'tensorflow': {
             'label': 'TensorFlow',
             'children': {
-                'objectDetector': {'label': 'Object Detector'}
+                'ObjectDetector': { 'label': 'Object Detector' }
             }
         }
     },
@@ -92,38 +94,60 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
         'control': {
             'label': 'Control',
             'children': {
-                'motorDriver': {'label': 'MotorDriver'},
-                'motorDriverRos2': {'label': 'MotorDriverROS2'},
-                'teleoperator': {'label': 'Teleoperator'}
+                'MotorDriver': { 'label': 'MotorDriver' },
+                'MotorDriverRos2': { 'label': 'MotorDriverROS2' },
+                'Teleoperator': { 'label': 'Teleoperator' }
             }
         },
         'opencv': {
             'label': 'OpenCV',
             'children': {
-                'camera': { 'label': 'Camera' },
-                'imageRead': {'label': 'Image Read'},
-                'screen': { 'label': 'Screen' },
-                'videoStreamer': {'label': 'Video Streamer'}
+                'Camera': { 'label': 'Camera' },
+                'ImageRead': { 'label': 'Image Read' },
+                'Screen': { 'label': 'Screen' },
+                'VideoStreamer': { 'label': 'Video Streamer' }
             }
         },
-        'rossensors': {
+        'ros-sensors': {
             'label': 'ROS-Sensors',
             'children': {
-                'cameraRos': {'label': 'CameraROS'},
-                'odometer': {'label': 'Odometer'},
-                'imu': {'label': 'IMU'}
+                'ROSCamera': { 'label': 'CameraROS' },
+                'Odometer': { 'label': 'Odometer' },
+                'IMU': { 'label': 'IMU' }
             }
         },
         'ros2sensors': {
             'label': 'ROS2-Sensors',
             'children': {
-                'cameraRos2': {'label': 'CameraROS2'},
-                'laserRos2': {'label': 'LaserROS2'},
+                'CameraROS2': { 'label': 'CameraROS2' },
+                'LaserScanROS2': { 'label': 'LaserROS2' },
             }
         },
     },
 
     'library': fileStructureData
+}
+
+
+function convertToFilePath(input: string) {
+    // Use regular expression to match and capture parts of the input string
+    const match = input.match(/[A-Z0-9a-z-]+/g);
+    console.log(match)
+    // Check if a match is found
+    if (match && match.length >= 2) {
+        // Remove the first word until the dot
+        match.shift();
+
+        // Convert the remaining matched parts to the desired format
+        const result = match.map(part => part).join('/') + '.json';
+
+        // Add './' to the beginning of the result
+        return './' + result;
+    } else {
+        // Handle the case when the input doesn't match the expected format
+        console.log("Invalid input format");
+        return ""; // or throw an error, return an error message, etc.
+    }
 }
 
 /**
@@ -133,10 +157,16 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
  */
 export function getCollectionBlock(name: string) {
 
+    const output = convertToFilePath(name);
+    // need the single quotes otherwise the function doesn't work
+    return import(''+output);
+
+    // Old method of converting the name to file path
+    /*
     switch (name) {
         case 'drivers.control.motorDriver':
             return import('./control/MotorDriver.json');
-            // return import('../../../VisualCircuit-resources/block-library/Controllers/MotorDriver.json');
+        // return import('../../../VisualCircuit-resources/block-library/Controllers/MotorDriver.json');
         case 'drivers.control.motorDriverRos2':
             return import('./control/MotorDriverROS2.json');
         case 'processing.control.pid':
@@ -181,8 +211,8 @@ export function getCollectionBlock(name: string) {
             return import('./ros-sensors/ROS2LaserScan.json');
         case 'processing.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
-        
+
         default:
-            break;
-    }
+            break; 
+    }*/
 }
