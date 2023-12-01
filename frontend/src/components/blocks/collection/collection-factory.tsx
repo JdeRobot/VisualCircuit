@@ -1,4 +1,6 @@
-import fileStructureData from '../../../VisualCircuit-resources/block-library/file_structure.json';
+// import fileStructureData from '../../../VisualCircuit-resources/block-library/file_structure.json';
+
+import fileStructureData from '../VisualCircuit-resources/block-library/file_structure.json';
 
 /**
  * Interface for collection block data.
@@ -129,7 +131,7 @@ export const collectionBlocks: {
 }
 
 
-function convertToFilePath(input: string) {
+function convertToFilePath(input: string, path: string) {
     // Use regular expression to match and capture parts of the input string
     const match = input.match(/[A-Z0-9a-z-]+/g);
     console.log(match)
@@ -142,7 +144,7 @@ function convertToFilePath(input: string) {
         const result = match.map(part => part).join('/') + '.json';
 
         // Add './' to the beginning of the result
-        return './' + result;
+        return path + result;
     } else {
         // Handle the case when the input doesn't match the expected format
         console.log("Invalid input format");
@@ -156,12 +158,23 @@ function convertToFilePath(input: string) {
  * @returns Imported json of the specified block
  */
 export function getCollectionBlock(name: string) {
+    let PATH_TO_LIB = 'blocks/collection/'
+    if(name.startsWith('library')){
+        // PATH_TO_LIB = '../../../VisualCircuit-resources/block-library/'
+        PATH_TO_LIB = 'blocks/VisualCircuit-resources/block-library/'
+    }
+    const output = convertToFilePath(name, PATH_TO_LIB);
 
-    const output = convertToFilePath(name);
-    // need the single quotes otherwise the function doesn't work
-    return import(''+output);
+    // V. V. IMP
+    // The two ../ are required to ensure that the bundler loads the objects in the module that we have given
+    // If we don't give the 2x ../, the bundler will not load these objects and will throw an error
+    // The library blocks being loaded are dependent on this
+    // link: https://webpack.js.org/api/module-methods/#dynamic-expressions-in-import
+    return import('../../' + output);
+}
 
-    // Old method of converting the name to file path
+
+// Old method of converting the name to file path
     /*
     switch (name) {
         case 'drivers.control.motorDriver':
@@ -215,4 +228,3 @@ export function getCollectionBlock(name: string) {
         default:
             break; 
     }*/
-}
