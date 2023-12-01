@@ -1,0 +1,3 @@
+[submodule "VisualCircuit-resources"]
+    path = src/components/blocks/VisualCircuit-resources
+    url = https://github.com/JdeRobot/VisualCircuit-resources
