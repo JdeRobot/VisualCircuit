@@ -1,0 +1,6 @@
+[submodule "frontend/src/VisualCircuit-resources"]
+	path = frontend/src/VisualCircuit-resources
+	url = https://github.com/JdeRobot/VisualCircuit-resources
+[submodule "frontend/src/components/blocks/VisualCircuit-resources"]
+	path = frontend/src/components/blocks/VisualCircuit-resources
+	url = https://github.com/JdeRobot/VisualCircuit-resources

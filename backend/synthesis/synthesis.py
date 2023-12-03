@@ -14,7 +14,7 @@ OPTIONAL_FILES = {
     'ObjectDetector': 'utils/models/yolov3/*'
 }
 
-PROJECT_FILE_EXTENSION = '.vc3'
+PROJECT_FILE_EXTENSION = '.json'
 
 def get_number_or_default(num, default):
     try:

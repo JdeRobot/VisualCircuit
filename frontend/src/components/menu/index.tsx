@@ -131,11 +131,12 @@ function MenuBar(props: MenuBarProps) {
         let filename = editor.getName();
         if (process.env.REACT_APP_BACKEND_HOST && model) {
             const url = process.env.REACT_APP_BACKEND_HOST + 'build'
-            const headers: HeadersInit = {'Content-Type': 'application/json'};
+            const headers: HeadersInit = { 'Content-Type': 'application/json' };
             fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(model),
-                headers:  headers}
+                headers: headers
+            }
             ).then((response) => {
                 if (response.ok) {
                     // Get the filename
@@ -185,6 +186,7 @@ function MenuBar(props: MenuBarProps) {
     const blocks = blocksEntries(collectionBlocks.blocks, 'blocks');
     const processingBlocks = blocksEntries(collectionBlocks.processing, 'processing');
     const driverBlocks = blocksEntries(collectionBlocks.drivers, 'drivers');
+    const blockLibrary = blocksEntries(collectionBlocks.library, 'library');
 
     // TODO: Localise string instead of hardcoding it. 
     return (
@@ -238,6 +240,14 @@ function MenuBar(props: MenuBarProps) {
                     theming={isDark ? 'dark' : undefined}>
                     {driverBlocks}
                 </Menu>
+                {Object.keys(blockLibrary).length > 0 ? (
+                    <Menu
+                        menuButton={<Button className='menu-button'>Library</Button>}
+                        theming={isDark ? 'dark' : undefined}
+                    >
+                        {blockLibrary}
+                    </Menu>
+                ) : null}
             </Toolbar>
             {/* Hidden file input field for opening project file selection dialog. */}
             <input type='file' id='openProjectInput' accept={PROJECT_FILE_EXTENSION}
