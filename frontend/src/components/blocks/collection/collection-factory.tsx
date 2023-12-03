@@ -1,6 +1,17 @@
 // import fileStructureData from '../../../VisualCircuit-resources/block-library/file_structure.json';
 
-import fileStructureData from '../VisualCircuit-resources/block-library/file_structure.json';
+// import fileStructureData from '../VisualCircuit-resources/block-library/file_structure.json';
+
+let fileStructureData;
+
+try {
+  fileStructureData = require('../VisualCircuit-resources/block-library/file_structure.json');
+} catch (error) {
+  // Handle the error here
+  console.error("Error loading file_structure.json:", error);
+  // You can set a default value or take appropriate action based on your requirements
+  fileStructureData = {}; // Set to an empty object, for example
+}
 
 /**
  * Interface for collection block data.
