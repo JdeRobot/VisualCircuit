@@ -73,7 +73,7 @@ opencv-python==4.5.5.64
 osrf-pycommon==2.0.2
 packaging==21.3
 pandas==1.5.0
-paramiko==2.6.0
+paramiko==3.4.0
 Pillow==10.0.1
 pkgconfig==1.5.5
 platformdirs==2.5.2
