@@ -31,3 +31,6 @@ python3 generate_file_structure.py
 
 5. The newly generated `file_structure.json` file will have your changes.
 
+## Example of Visual Circuit running with a Block Library
+
+![alt_text]({{ "assets/images/block_library.png" | absolute_url }})
