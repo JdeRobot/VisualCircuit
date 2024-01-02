@@ -14,6 +14,8 @@ sidebar:
 
 ## To access the new documentation, visit this link. [Visual Circuit 3.x Block Documentation](/VisualCircuit/blockDocs/index.html)
 
+## Access documentation about the [Block Library](/block_library) 
+
 ### Definition
 
     Version: 3.0.
