@@ -84,7 +84,7 @@ py-ubjson==0.14.0
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycairo==1.16.2
-pycryptodomex==3.6.1
+pycryptodomex==3.19.1
 pycups==1.9.73
 pydot==1.4.1
 pydsdl==1.16.1
