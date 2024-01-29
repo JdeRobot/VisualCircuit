@@ -6,6 +6,9 @@ import MenuBar from './components/menu';
 import Editor from './core/editor';
 import { GlobalState, IGlobalState } from './core/store';
 import Board from './pages/board';
+import FlexContainer from './FlexContainer';
+import { Fullscreen } from '@material-ui/icons';
+
 
 /**
  * Use default dark theme from Material UI
@@ -34,7 +37,9 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="column" style={{ flex: width }}>
+      <>
+      <FlexContainer row={true} >
+      {/* <div className="column" style={{ flex: width }}> */}
       <div style={{ width: '100%' }}>
         <ThemeProvider theme={darkTheme}>
         <div className="App theme-dark">
@@ -47,10 +52,12 @@ function App() {
           <ModalContainer />
         </ThemeProvider> 
         </div> 
-      </div>
-      <div className="column" style={{ flex: 100 - width }}>
+      {/* </div> */}
+      <div className="column" style={{ height:'100%'}}>
         <iframe src="http://127.0.0.1:8000/exercises/" width="100%" height="100%" title="RoboticsAcademy"></iframe>
       </div>
+      </FlexContainer>
+      </>
     </div>
     
   );
