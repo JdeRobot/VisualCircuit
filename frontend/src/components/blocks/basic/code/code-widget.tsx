@@ -174,8 +174,13 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
     }
 
     handleFrequencyInput = (event: ChangeEvent<HTMLInputElement>) => {
+        // Convert the input value using a unit conversion function (it returns a string)
         const actual_val = parseFloat(unitConversion(event.target.value));
+
+        // Update the component state with the raw input value
         this.setState({frequency: event.target.value});
+
+        // Update the frequency data in the component's props with the parsed numerical value (actual_val)
         this.props.node.data.frequency = actual_val;
     }
 

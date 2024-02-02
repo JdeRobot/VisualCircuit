@@ -99,10 +99,15 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
      * @param event Change event from constant input field
      */
     handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+        // Convert the input value using a unit conversion function
         const actual_val = unitConversion(event.target.value);
+       
+        // Update the component state with the raw input value
         this.setState({ value: event.target.value});
+       
+        // Check if the component has associated data in its props
         if (this.props.node.data) {
-            this.props.node.data.value = actual_val
+            this.props.node.data.value = actual_val; // Update the value data in the component's props with the converted value
         }
     }
 }
