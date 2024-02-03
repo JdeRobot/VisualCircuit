@@ -31,20 +31,22 @@ export const unitConversion  = (input: string): string => {
 
         /*
           Regular expression to match and capture components of a value:
-          - ([\d,]*\.?\d+): Captures the numeric part of the value, which may include digits and commas
-                            allowing for thousands separators, and an optional decimal point and fractional part.
+          - (-?): Captures an optional negative sign.
+          - (\d*\.?\d+): Captures the numeric part of the value, which may include digits, an optional decimal point,
+                         and 
           - ([kKmM]?): Captures the unit part of the value, which may be 'k', 'K', 'm', or 'M', and is optional.
           - $: Asserts the end of the string, ensuring the match occurs at the end of the value.
           The result is stored in the 'match' variable, containing an array with the full matched value,
         */
-        const match = value.match(/([\d,]*\.?\d+)([kKmM]?)$/);
+        const match = value.match(/(-?)(\d*\.?\d+)([kKmM]?)$/);
         
         // Check if a match is found
         if (match) {
 
-          // Extract numeric value and unit from the match
-          const numericValue = parseFloat(match[1]);
-          const unit = match[2] || '';
+          // Extract negative sign, numeric value, and unit from the match
+          const negativeSign = match[1] || '';
+          const numericValue = parseFloat(negativeSign + match[2]);
+          const unit = match[3] || '';
 
           // Check if the unit is present in the multiplier object
           if (multiplier.hasOwnProperty(unit)) {
@@ -61,14 +63,8 @@ export const unitConversion  = (input: string): string => {
           }
         }
     
-        /*
-          Regular expression to add commas to the numeric part of the given 'value'.
-          - (\d): Captures a single digit.
-          - (?=(\d{3})+(?!\d)): This positive lookahead assertion ensures that the digit being considered is part of a sequence where every three digits are followed by another group.
-          - g: Global flag, ensuring this replacement is applied throughout the 'value'.
-          -'$1,': Replaces each captured digit with itself followed by a comma, achieving the separator effect.
-        */
-        return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        // Return the original value if it doesn't match the expected format
+        return value;
       });
 
       return convertedValues.join(','); // Join the converted values back into a comma-separated string and return
