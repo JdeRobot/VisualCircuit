@@ -12,4 +12,4 @@ For eg. `python -m venv .venv`
 `pip install -r requirements.txt`
 5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
 6. Create the static files to serve during execution by `python manage.py collectstatic`
-7. Start the server by running `python manage.py runserver 8000`
+7. Start the server by running `python manage.py runserver 8080`
