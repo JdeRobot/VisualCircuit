@@ -8,6 +8,7 @@ import { GlobalState } from '../../../../core/store';
 import BaseBlock, { ContextOption } from '../../common/base-block';
 import BasePort from '../../common/base-port';
 import { CodeBlockModel } from './code-model';
+import {unitConversion} from '../../../utils/tooltip/index'
 import './styles.scss';
 
 
@@ -87,7 +88,7 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
                                     InputProps={{
                                         endAdornment: <InputAdornment position="start">Hz</InputAdornment>,
                                     }}
-                                    type="number"
+                                    type="text"
                                     margin="dense"
                                     value={this.state.frequency}
                                     onChange={this.handleFrequencyInput}
@@ -173,8 +174,14 @@ export class CodeBlockWidget extends React.Component<CodeBlockWidgetProps, CodeB
     }
 
     handleFrequencyInput = (event: ChangeEvent<HTMLInputElement>) => {
+        // Convert the input value using a unit conversion function (it returns a string)
+        const actual_val = parseFloat(unitConversion(event.target.value));
+
+        // Update the component state with the raw input value
         this.setState({frequency: event.target.value});
-        this.props.node.data.frequency = event.target.value;
+
+        // Update the frequency data in the component's props with the parsed numerical value (actual_val)
+        this.props.node.data.frequency = actual_val;
     }
 
     /**
