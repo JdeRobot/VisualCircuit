@@ -41,23 +41,6 @@ For eg. `python -m venv .venv`
 5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
 6. Create the static files to serve during execution by `python manage.py collectstatic`
 
-
-### How to setup the VC+ 
-
-1) Navigate to VC+:```cd VC+``` 
-2) Activate the environment:```source env/bin/activate```
-3) Install required packages
-```
-pip install django
-pip install djangorestframework
-pip install django-webpack-loader
-```
-
-4) Install dependencies for REACT (with Yarn or npm, required Node.JS >= 14.16)     
-```
-cd react_frontend/ && yarn install 
-```
-
 ## Start Application
 
 #### Step 1: Start Frontend
@@ -69,21 +52,8 @@ cd react_frontend/ && yarn install
 1. Navigate to the backend directory:```cd backend```
 2. Start the backend server:```python3 manage.py runserver 8080```
 
-
-#### Step 4: Start VC+ Frontend
-1. Navigate to VC+:```cd VC+```
-2. Navigate to the react_frontend directory:```cd react_frontend```
-3. Run the development server:```yarn run dev```
-
-
-#### Step 5: Start Another Backend Instance
-1. Open another terminal.
-2. Navigate to VC+:```cd VC+```
-3. Activate the environment:```source env/bin/activate```
-4. Start another instance of the backend server:```python3 manage.py runserver```
-
-#### Step 6: Run Docker image RADI
-``sudo docker run --rm -it --name radi -p 2303:2303 -p 1905:1905 -p 8765:8765 -p 6080:6080 -p 1108:1108 -p 7163:7163 jderobot/robotics-academy:3.4.5 --no-server``
+### How to setup the VC+ 
+In order to setup VC+ to use RoboticsAcademy and VisualCircuit together, follow the instructions given [here](./VC%2B/README.md)
 
 
 <!-- CONTRIBUTING -->
