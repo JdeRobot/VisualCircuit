@@ -8,7 +8,7 @@ React based front end application for VisualCircuit3.
 3. Change directory to `frontend`
 4. Run `npm install`
 5. Run `npm start`
-6. Open http://localhost:3000/ in browser.
+6. Open http://localhost:4000/ in browser.
 
 
 
