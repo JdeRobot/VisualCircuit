@@ -125,7 +125,7 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
      */
         handleKeyDown = (event: KeyboardEvent) => {
             const { node } = this.props;
-            if (event.altKey && event.key === 'r' && node.isSelected()) {
+            if (event.altKey && (event.key === 'r' || event.key === 'R') && node.isSelected()) {
                 this.props.editor.editNode(node); // Trigger rename action
             }
         }
