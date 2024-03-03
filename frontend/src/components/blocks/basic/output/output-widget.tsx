@@ -25,6 +25,14 @@ export class OutputBlockWidget extends React.Component<OutputBlockWidgetProps> {
 
     readonly contextOptions: ContextOption[] = [{key: 'rename', label: 'Rename'}, {key: 'delete', label: 'Delete'}];
 
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown); // Adding keydown event listener when component mounts
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown); // Removing keydown event listener when component unmounts
+    }
+
     /**
      * Handler for context menu
      * @param key Key cooresponding to the context menu clicked
@@ -65,5 +73,16 @@ export class OutputBlockWidget extends React.Component<OutputBlockWidgetProps> {
                 </div>
             </BaseBlock>
         );
+    }
+
+       /**
+     * Keydown event handler to listen for Alt+R key combination
+     * @param event Keydown event
+     */
+       handleKeyDown = (event: KeyboardEvent) => {
+        const { node } = this.props;
+        if (event.altKey && (event.key === 'r' || event.key === 'R') && node.isSelected()) {
+            this.props.editor.editNode(node); // Trigger rename action
+        }
     }
 }
