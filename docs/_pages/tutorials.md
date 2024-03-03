@@ -19,4 +19,4 @@ sidebar:
 
 {% include video id="haW_oEOjKh8" provider="youtube" %}
 
-## 3. [For a detailed guide on how to contribute custom blocks](/custom_contribute)
+## 3. [For a detailed guide on how to contribute custom blocks](/VisualCircuit/custom_contribute)
