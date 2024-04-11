@@ -39,7 +39,7 @@ future==0.18.3
 httplib2==0.19.0
 humanfriendly==10.0
 hyperlink==19.0.0
-idna==2.8
+idna==3.7
 importlib-metadata==1.5.0
 incremental==16.10.1
 iso8601==1.1.0
