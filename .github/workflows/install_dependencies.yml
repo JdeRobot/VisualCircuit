@@ -19,5 +19,6 @@ jobs:
           node-version: '16'
 
       - name: Install NPM dependencies
-        run: npm install
         working-directory: frontend
+        run: npm install --legacy-peer-deps
+        
