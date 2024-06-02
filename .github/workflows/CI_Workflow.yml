@@ -68,6 +68,9 @@ jobs:
         with:
           name: node_modules
           path: frontend/node_modules
+  
+      - name: Permissions for node_modules
+        run: chmod -R +x frontend/node_modules/.bin
 
       - name: Run frontend test
         run: npm test -- --watchAll=false
