@@ -19,8 +19,19 @@ jobs:
           node-version: '18'
 
       - name: Install frontend dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         working-directory: frontend
-        run: npm install --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
+
+      - name: Cache Node modules
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -44,12 +55,6 @@ jobs:
       - name: Generate static files
         run: python backend/manage.py collectstatic
 
-      - name: Save node_modules
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: frontend/node_modules
-
       - name: Save venv
         uses: actions/upload-artifact@v4
         with:
@@ -63,14 +68,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Restore node_modules
-        uses: actions/download-artifact@v4
+      - name: Restore Node modules cache
+        id: restore-node-modules
+        uses: actions/cache@v4
         with:
-          name: node_modules
           path: frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/frontend/package-lock.json') }}
+
+      - name: Install frontend dependencies
+        if: steps.restore-node-modules.outputs.cache-hit != 'true'
+        working-directory: frontend
+        run: npm ci --legacy-peer-deps
   
       - name: Permissions for node_modules
         run: chmod -R +x frontend/node_modules/.bin
+
+      - name: Verify node_modules restoration
+        run: |
+          ls -la frontend/node_modules
+          ls -la frontend/node_modules/.bin
 
       - name: Run frontend test
         run: npm test -- --watchAll=false
