@@ -109,7 +109,8 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
             'children': {
                 'cameraRos': {'label': 'CameraROS'},
                 'odometer': {'label': 'Odometer'},
-                'imu': {'label': 'IMU'}
+                'imu': {'label': 'IMU'},
+                'laserRos':{'label':'LaserROS'}
             }
         },
         'ros2sensors': {
@@ -170,12 +171,15 @@ export function getCollectionBlock(name: string) {
             return import('./ros-sensors/Odometer.json');
         case 'drivers.rossensors.imu':
             return import('./ros-sensors/IMU.json');
+        case 'drivers.rossensors.laserRos':
+            return import('./ros-sensors/ROSLaserScan.json');
         case 'drivers.ros2sensors.cameraRos2':
             return import('./ros-sensors/ROS2Camera.json');
         case 'drivers.ros2sensors.laserRos2':
             return import('./ros-sensors/ROS2LaserScan.json');
         case 'processing.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
+
         
         default:
             break;
