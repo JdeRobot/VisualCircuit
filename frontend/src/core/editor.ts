@@ -11,6 +11,9 @@ import { PackageBlockModel } from "../components/blocks/package/package-model";
 import createProjectInfoDialog from "../components/dialogs/project-info-dialog";
 import { ProjectInfo } from "./constants";
 import { convertToOld } from "./serialiser/converter";
+import BaseModel from "../components/blocks/common/base-model";
+import { count } from "console";
+import createBlockDialog from "../components/dialogs/blocks-dialog";
 
 
 class Editor {
@@ -121,6 +124,61 @@ class Editor {
     public serialise() {
         const data = convertToOld(this.activeModel, this.projectInfo);
         return { editor : this.activeModel.serialize(), ...data};
+    }
+
+
+
+    public getGInputsOutput(): [{ indexOne: number, label: string }[], { indexTwo: number, label: string }[]] {
+        let counter = 0;
+        let indexOne = 0;
+        let indexTwo = 0;
+        let valueOne: { indexOne: number, label: string }[] = [];
+        let valueTwo: { indexTwo: number, label: string }[] = [];
+        this.activeModel.getNodes().forEach((node) => {
+            
+            counter++;
+            if (node instanceof BaseModel) {
+                // console.log("dATA",node.getType())
+                if (node.getType()==="basic.code"){
+                    var data = node.getData();
+                    if (data.ports && data.ports.in) {
+                        data.ports.in.forEach((port: { name: string }) => {
+                            indexOne++;
+                            let label = `basic.code -> ${counter} : ${port.name}`;
+                            valueOne.push({ indexOne, label });
+                        });
+                    }
+                    if (data.ports && data.ports.out) {
+                        data.ports.out.forEach((port: { name: string }) => {
+                            indexTwo++;
+                            let label = `basic.code -> ${counter} : ${port.name}`;
+                            valueTwo.push({ indexTwo, label });
+                        });
+                    }
+                }
+                
+                
+            }
+           
+        })
+        console.log("valueOne", valueOne);
+        console.log("valueTwo", valueTwo);
+        return [valueOne, valueTwo];
+    }
+
+    /**
+     * Callback for the 'Edit Block' button in menu.
+     * Opens a dialog box and saves the data entered to projectInfo variable.
+     */
+    public async editBlock(): Promise<void> {
+        // Helper to open Project Info dialog box
+        createBlockDialog({isOpen: true, getGInputsOutput: this.getGInputsOutput.bind(this)})
+        .then((data) => {
+            this.projectInfo = data; 
+        })
+        .catch(() => {
+            console.log('Block dialog closed');
+        });
     }
 
     /**

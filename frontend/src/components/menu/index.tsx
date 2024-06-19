@@ -83,6 +83,14 @@ function MenuBar(props: MenuBarProps) {
     }
 
     /**
+     * Callback for 'Save Block' option under 'File' menu.
+     * @param _event Mouse click event. Unused
+     */
+        const saveBlock = (_event: ClickEvent) => {
+            const model = editor.editBlock();
+        }
+
+    /**
      * Callback when file is uploaded.
      * @param event File field change event.
      * @param reader Reader to open the uploaded file as text
@@ -197,6 +205,7 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={newProject}>New File</MenuItem>
                     <MenuItem onClick={openProject}>Open</MenuItem>
                     <MenuItem onClick={saveProject}>Save as..</MenuItem>
+                    <MenuItem onClick={saveBlock}>Save Block</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
                     <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
                 </Menu>
