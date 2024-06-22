@@ -1,11 +1,10 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, TextField } from '@material-ui/core';
-import React, { ChangeEvent, useState } from 'react';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { create, InstanceProps } from 'react-modal-promise';
-import { ProjectInfo } from '../../core/constants';
-import { PackageBlockModel } from "../../components/blocks/package/package-model";
+import { BlockData } from '../../core/constants';
 
-interface BlockDialogProps extends InstanceProps<ProjectInfo>, Partial<ProjectInfo> { 
-    getGInputsOutput: () => [{ indexOne: number, label: string }[], { indexTwo: number, label: string }[]];
+interface BlockDialogProps extends InstanceProps<BlockData>, Partial<BlockData> { 
+    getGInputsOutput: () => [{ indexOne: number, label: string, id: string }[], { indexTwo: number, label: string, id: string }[]];
 };
 
 /**
@@ -16,25 +15,38 @@ interface BlockDialogProps extends InstanceProps<ProjectInfo>, Partial<ProjectIn
  *          onReject: Will be called to indicate failure.
  *        }
  */
-const BlockDialog = ({ isOpen, onResolve, onReject, getGInputsOutput
-     }: BlockDialogProps) => {
+const BlockDialog = ({ isOpen, onResolve, onReject, getGInputsOutput, selectedInputIds, selectedOutputIds }: BlockDialogProps) => {
 
     const [inputs, outputs] = getGInputsOutput();
-    const [checkedState, setCheckedState] = useState();
-    
+    const [checkedState, setCheckedState] = useState<{ [key: string]: boolean }>({});
+
+    useEffect(() => {
+        const initialCheckedState: { [key: string]: boolean } = {};
+
+        selectedInputIds?.forEach(id => {
+            initialCheckedState[id] = true;
+        });
+
+        selectedOutputIds?.forEach(id => {
+            initialCheckedState[id] = true;
+        });
+
+        setCheckedState(initialCheckedState);
+    }, [selectedInputIds, selectedOutputIds]);
+
     const handleSubmit = () => {
-        // Send the filled data back
-        // onResolve({
-            
-        // });
+        const selectedInputIds = inputs.filter(item => checkedState[item.id]).map(item => item.id);
+        const selectedOutputIds = outputs.filter(item => checkedState[item.id]).map(item => item.id);
+        onResolve({ selectedInputIds, selectedOutputIds });
     }
 
-    // const handleCheckGInputs = () => {
-       
-    // }
-    function handleChange(event: ChangeEvent<HTMLInputElement>, checked: boolean): void {
-        throw new Error('Function not implemented.');
-    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target;
+        setCheckedState(prevState => ({
+            ...prevState,
+            [name]: checked,
+        }));
+    };
 
     return (
         <Dialog
@@ -42,50 +54,46 @@ const BlockDialog = ({ isOpen, onResolve, onReject, getGInputsOutput
             fullWidth={true}
             maxWidth='md'
             aria-labelledby="form-dialog-title">
-
             <DialogContent>
-                
                 <DialogContentText>
                     Edit Block
                 </DialogContentText>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                
                     <div style={{ flex: 1 }}>
-                    Global Input
-                       {inputs.map((item: { indexOne: number, label: string }) => (
-                            <div key={item.indexOne}>
+                        Global Input
+                        {inputs.map((item: { indexOne: number, label: string, id: string }) => (
+                            <div key={item.id}>
                                 <Checkbox
-                                    // checked={checkedState[item.index]}
+                                    checked={checkedState[item.id] || false}
                                     onChange={handleChange}
-                                    name={item.indexOne.toString()}
+                                    name={item.id}
                                     color="primary"
                                 />
-                                <label htmlFor={item.indexOne.toString()}>{item.label}</label>
+                                <label htmlFor={item.id}>{item.label}</label>
                             </div>
                         ))}
                     </div>
                     <div style={{ flex: 1 }}>
-                       Global Output
-                       {outputs.map((item: { indexTwo: number, label: string }) => (
-                            <div key={item.indexTwo}>
+                        Global Output
+                        {outputs.map((item: { indexTwo: number, label: string, id: string }) => (
+                            <div key={item.id}>
                                 <Checkbox
-                                    // checked={checkedState[item.index]}
+                                    checked={checkedState[item.id] || false}
                                     onChange={handleChange}
-                                    name={item.indexTwo.toString()}
+                                    name={item.id}
                                     color="primary"
                                 />
-                                <label htmlFor={item.indexTwo.toString()}>{item.label}</label>
+                                <label htmlFor={item.id}>{item.label}</label>
                             </div>
                         ))}
                     </div>
-                 </div>   
+                </div>   
             </DialogContent>
-
             <DialogActions>
                 <Button onClick={() => onReject()}>
                     Cancel
                 </Button>
-                <Button onClick={() => handleSubmit()}>
+                <Button onClick={handleSubmit}>
                     Ok
                 </Button>
             </DialogActions>

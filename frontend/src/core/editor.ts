@@ -5,11 +5,11 @@ import { ConstantBlockFactory } from "../components/blocks/basic/constant/consta
 import { InputBlockFactory } from "../components/blocks/basic/input/input-factory";
 import { OutputBlockFactory } from "../components/blocks/basic/output/output-factory";
 import { BaseInputPortFactory, BaseOutputPortFactory, BaseParameterPortFactory } from "../components/blocks/common/base-port/port-factory";
-import { createBlock, editBlock, getInitialPosition, loadPackage } from "../components/blocks/common/factory";
+import { createBlock, editBlock, getInitialPosition, loadPackage,createComposedBlock } from "../components/blocks/common/factory";
 import { PackageBlockFactory } from "../components/blocks/package/package-factory";
 import { PackageBlockModel } from "../components/blocks/package/package-model";
 import createProjectInfoDialog from "../components/dialogs/project-info-dialog";
-import { ProjectInfo } from "./constants";
+import { ProjectInfo,BlockData } from "./constants";
 import { convertToOld } from "./serialiser/converter";
 import BaseModel from "../components/blocks/common/base-model";
 import { count } from "console";
@@ -21,8 +21,11 @@ class Editor {
     private static instance: Editor;
     private currentProjectName: string;
     private projectInfo: ProjectInfo;
+    private BlockData: BlockData;
     
-    private stack: {model: DiagramModel, info: ProjectInfo, node: PackageBlockModel}[];
+    
+    private stack: { model: DiagramModel, info: ProjectInfo, node: PackageBlockModel }[];
+    private stackOfBlock: { model: DiagramModel, info: ProjectInfo}[];
     private activeModel: DiagramModel;
     private blockCount: number = 0;
 
@@ -38,6 +41,7 @@ class Editor {
         this.activeModel = new DiagramModel();
         // Use an array as stack, to keep track of levels of circuit model.
         this.stack = [];
+        this.stackOfBlock = [];
         this.engine.setModel(this.activeModel);
         this.registerFactories();
         this.projectInfo = {
@@ -46,6 +50,10 @@ class Editor {
             'description': '',
             'author': '',
             'image': ''
+        };
+        this.BlockData = {
+            'selectedInputIds': [],
+            'selectedOutputIds': []
         };
     }
 
@@ -126,33 +134,59 @@ class Editor {
         return { editor : this.activeModel.serialize(), ...data};
     }
 
+    /**
+ * Get list of blocks and dependency blocks (package blocks) present in project (model)
+ * @param model Project (model) for which blocks and dependency list has to be created
+ * @returns List of blocks and dependencies (package blocks)
+ */
+    public async processBlock(model: DiagramModel, data: BlockData): Promise<void> {
+        console.log("data", data.selectedInputIds);
+        // Process selected input IDs
+        await Promise.all(data.selectedInputIds.map(async (id: string) => {
+            console.log("selectedInputIds", id);
+            const [blockid, name] = id.split(":");
+            await this.addComposedBlock('basic.input', name); 
+        }));
+        
+        // Process selected output IDs
+        await Promise.all(data.selectedOutputIds.map(async (id: string) => {
+            console.log("selectedOutputIds", id);
+            const [blockid, name] = id.split(":");
+            await this.addComposedBlock('basic.output', name); 
+        }));
+    }
+    
 
 
-    public getGInputsOutput(): [{ indexOne: number, label: string }[], { indexTwo: number, label: string }[]] {
+
+    public getGInputsOutput(): [{ indexOne: number, label: string, id:string }[], { indexTwo: number, label: string,id:string }[]] {
         let counter = 0;
         let indexOne = 0;
         let indexTwo = 0;
-        let valueOne: { indexOne: number, label: string }[] = [];
-        let valueTwo: { indexTwo: number, label: string }[] = [];
+        let valueOne: { indexOne: number, label: string, id:string }[] = [];
+        let valueTwo: { indexTwo: number, label: string, id:string }[] = [];
         this.activeModel.getNodes().forEach((node) => {
             
             counter++;
             if (node instanceof BaseModel) {
-                // console.log("dATA",node.getType())
                 if (node.getType()==="basic.code"){
                     var data = node.getData();
+                    var options = node.getOptions();
+                    
                     if (data.ports && data.ports.in) {
                         data.ports.in.forEach((port: { name: string }) => {
                             indexOne++;
                             let label = `basic.code -> ${counter} : ${port.name}`;
-                            valueOne.push({ indexOne, label });
+                            var id = `${options.id}:${port.name}`;
+                            valueOne.push({ indexOne, label, id });
                         });
                     }
                     if (data.ports && data.ports.out) {
                         data.ports.out.forEach((port: { name: string }) => {
                             indexTwo++;
                             let label = `basic.code -> ${counter} : ${port.name}`;
-                            valueTwo.push({ indexTwo, label });
+                            var id = `${options.id}:${port.name}`;
+                            valueTwo.push({ indexTwo, label,id });
                         });
                     }
                 }
@@ -171,15 +205,18 @@ class Editor {
      * Opens a dialog box and saves the data entered to projectInfo variable.
      */
     public async editBlock(): Promise<void> {
-        // Helper to open Project Info dialog box
-        createBlockDialog({isOpen: true, getGInputsOutput: this.getGInputsOutput.bind(this)})
-        .then((data) => {
-            this.projectInfo = data; 
-        })
-        .catch(() => {
+        try {
+            const data = await createBlockDialog({ isOpen: true, getGInputsOutput: this.getGInputsOutput.bind(this) });
+            this.BlockData = data;
+            console.log("this.BlockData", this.BlockData);
+            this.stackOfBlock.push({ model: this.activeModel, info: this.projectInfo });
+            await this.processBlock(this.activeModel, data); // Await the processBlock call
+        } catch (error) {
             console.log('Block dialog closed');
-        });
+        }
     }
+    
+    
 
     /**
      * Getter for Project Name
@@ -206,6 +243,22 @@ class Editor {
             this.activeModel.addNode(block);
             // Once the block is added, the page has to rendered again, this is done by repainting the canvas.
             this.engine.repaintCanvas();
+        }
+    }
+
+    /**
+     * Add the given type of block for composed.
+     * @param name : Name / type of the block to add to model.
+     */
+    public async addComposedBlock(type: string,name: string): Promise<void> {
+        this.blockCount += 1;
+        const block = await createComposedBlock(type,name);
+        if (block) {
+            // Get a default position and set it as blocks position
+            // TODO: Better way would be to get an empty position dynamically or track mouse's current position.
+            block.setPosition(...getInitialPosition())
+            this.activeModel.addNode(block);
+
         }
     }
 

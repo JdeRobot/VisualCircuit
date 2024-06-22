@@ -86,9 +86,25 @@ function MenuBar(props: MenuBarProps) {
      * Callback for 'Save Block' option under 'File' menu.
      * @param _event Mouse click event. Unused
      */
-        const saveBlock = (_event: ClickEvent) => {
-            const model = editor.editBlock();
+    const saveBlockAsync = async (_event: ClickEvent) => {
+        await editor.editBlock(); 
+        const model = editor.serialise();
+        const url = textFile2DataURL(JSON.stringify(model), 'text/json');
+        const link = document.getElementById('saveProjectLink');
+        if (link) {
+            link.setAttribute('href', url);
+            link.setAttribute('download', editor.getName() + PROJECT_FILE_EXTENSION);
+            link.click();
+        } else {
+            console.error('Save project link element not found.');
         }
+    };
+    
+    const saveBlock = (_event: ClickEvent) => {
+        saveBlockAsync(_event).catch(error => {
+            console.error('Error saving block:', error);
+        });
+    };
 
     /**
      * Callback when file is uploaded.
