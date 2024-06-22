@@ -170,25 +170,34 @@ class Editor {
             counter++;
             if (node instanceof BaseModel) {
                 if (node.getType()==="basic.code"){
-                    var data = node.getData();
+                    // var data = node.getData();
                     var options = node.getOptions();
-                    
-                    if (data.ports && data.ports.in) {
-                        data.ports.in.forEach((port: { name: string }) => {
+                    // console.log("node",node)
+                    // console.log("data",data)
+                    // console.log("getports",node.getPorts())
+                    var dataPorts = node.getPorts();
+                    Object.keys(dataPorts).forEach(portName => {
+                        const port = dataPorts[portName];
+                        const portOptions = port.getOptions();
+                        // console.log("portOptions.type",portOptions.type)
+                        // console.log("port",port)
+                        const links = port.getLinks();
+                        const linkIds = Object.keys(links);
+                        // console.log(`Link IDs: ${linkIds.join(', ')}`);
+                        if(portOptions.type == 'port.input'){
                             indexOne++;
-                            let label = `basic.code -> ${counter} : ${port.name}`;
-                            var id = `${options.id}:${port.name}`;
+                            let label = `basic.code -> ${counter} : ${portName}`;
+                            var id = `${options.id}:${portName}:${linkIds}`;
                             valueOne.push({ indexOne, label, id });
-                        });
-                    }
-                    if (data.ports && data.ports.out) {
-                        data.ports.out.forEach((port: { name: string }) => {
+                        }else if(portOptions.type == 'port.output'){
                             indexTwo++;
-                            let label = `basic.code -> ${counter} : ${port.name}`;
-                            var id = `${options.id}:${port.name}`;
-                            valueTwo.push({ indexTwo, label,id });
-                        });
-                    }
+                            let label = `basic.code -> ${counter} : ${portName}`;
+                            var id = `${options.id}:${portName}:${linkIds}`;
+                            valueTwo.push({ indexTwo, label, id });
+                        }
+                        
+                    });
+                  
                 }
                 
                 
