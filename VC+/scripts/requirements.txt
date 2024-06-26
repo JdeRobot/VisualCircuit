@@ -74,7 +74,7 @@ osrf-pycommon==2.0.2
 packaging==21.3
 pandas==1.5.0
 paramiko==3.4.0
-Pillow==10.2.0
+Pillow==10.3.0
 pkgconfig==1.5.5
 platformdirs==2.5.2
 posix-ipc==1.0.5
