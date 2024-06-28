@@ -55,39 +55,42 @@ const BlockDialog = ({ isOpen, onResolve, onReject, getGInputsOutput, selectedIn
             maxWidth='md'
             aria-labelledby="form-dialog-title">
             <DialogContent>
-                <DialogContentText>
-                    Edit Block
-                </DialogContentText>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ flex: 1 }}>
-                        Global Input
+    <DialogContentText>
+        Edit Block
+    </DialogContentText>
+    
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+                    <div style={{ flex: 1, minHeight: '200px', display: 'flex', flexDirection: 'column' }}>
+                        <strong>Global Input</strong>
                         {inputs.map((item: { indexOne: number, label: string, id: string }) => (
-                            <div key={item.id}>
+                            <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                                 <Checkbox
                                     checked={checkedState[item.id] || false}
                                     onChange={handleChange}
                                     name={item.id}
                                     color="primary"
                                 />
-                                <label htmlFor={item.id}>{item.label}</label>
+                                <label htmlFor={item.id} style={{ marginLeft: '8px' }}>{item.label}</label>
                             </div>
                         ))}
                     </div>
-                    <div style={{ flex: 1 }}>
-                        Global Output
+                    <div style={{ flex: 1, minHeight: '200px', display: 'flex', flexDirection: 'column' }}>
+                        <strong>Global Output</strong>
                         {outputs.map((item: { indexTwo: number, label: string, id: string }) => (
-                            <div key={item.id}>
+                            <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                                 <Checkbox
                                     checked={checkedState[item.id] || false}
                                     onChange={handleChange}
                                     name={item.id}
                                     color="primary"
                                 />
-                                <label htmlFor={item.id}>{item.label}</label>
+                                <label htmlFor={item.id} style={{ marginLeft: '8px' }}>{item.label}</label>
                             </div>
                         ))}
                     </div>
-                </div>   
+                </div>
+                Note: Only the acceptable ports for Global are mentioned above. For more information about Global port rules, please refer to the documentation.
+                
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onReject()}>

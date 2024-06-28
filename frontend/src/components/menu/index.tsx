@@ -87,16 +87,19 @@ function MenuBar(props: MenuBarProps) {
      * @param _event Mouse click event. Unused
      */
     const saveBlockAsync = async (_event: ClickEvent) => {
-        await editor.editBlock(); 
-        const model = editor.serialise();
-        const url = textFile2DataURL(JSON.stringify(model), 'text/json');
-        const link = document.getElementById('saveProjectLink');
-        if (link) {
-            link.setAttribute('href', url);
-            link.setAttribute('download', editor.getName() + PROJECT_FILE_EXTENSION);
-            link.click();
-        } else {
-            console.error('Save project link element not found.');
+        const completed = await editor.editBlock(); 
+        if(completed){
+            const model = editor.serialise();
+            const url = textFile2DataURL(JSON.stringify(model), 'text/json');
+            const link = document.getElementById('saveProjectLink');
+            if (link) {
+                link.setAttribute('href', url);
+                link.setAttribute('download', editor.getName() + PROJECT_FILE_EXTENSION);
+                link.click();
+                editor.retriveCircuit();
+            } else {
+                console.error('Save project link element not found.');
+            }
         }
     };
     
