@@ -147,5 +147,5 @@ websocket-server==0.6.4
 websockets==10.3
 wrapt==1.14.1
 wsaccel==0.6.2
-zipp==1.0.0
+zipp==3.19.1
 zope.interface==4.7.1
