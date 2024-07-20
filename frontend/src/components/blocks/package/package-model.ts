@@ -1,7 +1,7 @@
 import BaseModel from "../common/base-model";
 import { NodeModelGenerics, PortModelAlignment } from "@projectstorm/react-diagrams";
 import { BaseModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
-import { ProjectDesign } from "../../../core/serialiser/interfaces";
+import { ProjectDesign, Dependency } from "../../../core/serialiser/interfaces";
 import { createPortModel } from "../common/factory";
 import { PortTypes, ProjectInfo } from "../../../core/constants";
 
@@ -19,6 +19,7 @@ export interface PackageBlockModelOptions extends BaseModelOptions {
     design: ProjectDesign;
     model: any;
     info: ProjectInfo;
+    dependencies: Dependency[];
 }
 
 /**
@@ -31,15 +32,17 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
     public design: ProjectDesign;
     private inputs: string[] = [];
     private outputs: string[] = [];
+    public dependencies: Dependency[];
 
     constructor(options: PackageBlockModelOptions) {
-		super({
-			...options,
-			type: 'block.package'
-		});
+        super({
+            ...options,
+            type: 'block.package'
+        });
         this.model = options.model;
         this.info = options.info;
         this.design = options.design;
+        this.dependencies = options.dependencies;
         // Generate input port for each Input block present
         // and output port for each Output block present in the 
         // internal project (model) structure
@@ -104,7 +107,8 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
             data: this.getData(),
             model: this.model,
             info: this.info,
-            design: this.design
+            design: this.design,
+            dependencies: this.dependencies
         }
     }
 
@@ -118,6 +122,7 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
         this.model = event.data.model;
         this.info = event.data.info;
         this.design = event.data.design;
+        this.dependencies = event.data.dependencies;
     }
 
 }

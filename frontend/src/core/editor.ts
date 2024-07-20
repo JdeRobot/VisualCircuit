@@ -120,6 +120,7 @@ class Editor {
      */
     public serialise() {
         const data = convertToOld(this.activeModel, this.projectInfo);
+        console.log(data)
         return { editor : this.activeModel.serialize(), ...data};
     }
 

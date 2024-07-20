@@ -3,7 +3,7 @@ import { LinkModel, NodeModel, PortModel } from "@projectstorm/react-diagrams";
 import { DefaultPortModel } from "@projectstorm/react-diagrams-defaults";
 import { RightAngleLinkModel } from "@projectstorm/react-diagrams-routing";
 import { PortTypes, ProjectInfo } from '../../../core/constants';
-import { ProjectDesign } from '../../../core/serialiser/interfaces';
+import { Dependency, ProjectDesign } from '../../../core/serialiser/interfaces';
 import createCodeDialog from '../../dialogs/code-block-dialog';
 import createConstantDialog from "../../dialogs/constant-block-dialog";
 import createIODialog from '../../dialogs/input-output-block-dialog';
@@ -122,7 +122,7 @@ export const createBlock = async (name: string, blockCount: number) => {
      *      "version": "3.0",
      *      "package": {...},
      *      "design": {...},
-     *      "dependencies": {...}
+     *      "dependencies": [...]
      * }
  * @returns Package block
  */
@@ -130,10 +130,23 @@ export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
     const design = jsonModel.design as ProjectDesign;
     const info = jsonModel.package as ProjectInfo;
+    let dependencies = [];
+
+    // Check if jsonModel.dependencies exists and is an object
+    if (jsonModel.dependencies && typeof jsonModel.dependencies === 'object') {
+        
+        dependencies.push({
+            package: jsonModel.dependencies.package as ProjectInfo,
+            design: jsonModel.dependencies.design as ProjectDesign,
+            dependencies: jsonModel.dependencies.dependencies as Dependency[]
+        });
+    }
+    
     return new PackageBlockModel({
         model: model,
         design: design,
-        info: info
+        info: info,
+        dependencies: dependencies
     });
 }
 
