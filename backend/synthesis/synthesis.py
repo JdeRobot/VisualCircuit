@@ -35,13 +35,15 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     parameters = {}
     synhronize_frequency = {}
     optional_files = {}
-    dep_no = {} 
+    wire_comp = data['design']['graph']['wires']
+    dep_no = {}  # Dictionary to store the number of blocks of each type
 
     def process_dependency(dep, zipfile, synhronize_frequency, optional_files, dep_no, parameters, dependencies):
         
         for key, dependency in dep.items():
             components = dependency['design']['graph']['blocks']
             print("dependency['design']['graph']['blocks']",dependency['design']['graph']['blocks'])
+            wire_comp.extend(dependency['design']['graph']['wires'])
             for block in components:
                 block_id = block['id']
                 if block['type'] == 'basic.code':
@@ -63,6 +65,8 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                     dependencies[key] = script_name
 
                     zipfile.append(f'{BLOCK_DIRECTORY}/{script_name}.py', script)
+                    blocks[block_id] = {'name': script_name, 'type': block_type}
+
                 elif block['type'] == 'basic.constant':
                     parameters[key] = parameters.get(key, [])
                     parameters[key].append({
@@ -98,12 +102,13 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                 blocks[block_id] = {'name': dependencies.get(block_type, ''), 'type': block_type}
                 print("blocks[block_id]",blocks[block_id])
                 print("depend",dependencies)
-
+    print("wire_comp",wire_comp)
+    
     data = {
         'blocks': blocks, 
         'parameters': parameters, 
         'synchronize_frequency': synhronize_frequency, 
-        'wires': data['design']['graph']['wires']
+        'wires': wire_comp
     }
     zipfile.append('data.json', json.dumps(data))
 
