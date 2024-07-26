@@ -69,4 +69,6 @@ export interface Dependency {
     package: ProjectInfo;
     // Data about blocks and connections.
     design: ProjectDesign;
+    // Nested dependencies
+    dependencies: Dependency[];
 }

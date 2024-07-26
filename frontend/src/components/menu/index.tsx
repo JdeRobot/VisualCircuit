@@ -115,6 +115,7 @@ function MenuBar(props: MenuBarProps) {
         blockReader.onload = (event) => {
             if (event.target?.result) {
                 editor.addAsBlock(JSON.parse(event.target.result.toString()));
+                console.log(event.target.result.toString())
             }
         };
     }
