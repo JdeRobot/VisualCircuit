@@ -130,17 +130,17 @@ export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
     const design = jsonModel.design as ProjectDesign;
     const info = jsonModel.package as ProjectInfo;
-    let dependencies = [];
-
-    // Check if jsonModel.dependencies exists and is an object
-    if (jsonModel.dependencies && typeof jsonModel.dependencies === 'object') {
+    // let dependencies = [];
+    const dependencies = jsonModel.dependencies as Dependency;
+    // // Check if jsonModel.dependencies exists and is an object
+    // if (jsonModel.dependencies && typeof jsonModel.dependencies === 'object') {
         
-        dependencies.push({
-            package: jsonModel.dependencies.package as ProjectInfo,
-            design: jsonModel.dependencies.design as ProjectDesign,
-            dependencies: jsonModel.dependencies.dependencies as Dependency[]
-        });
-    }
+    //     dependencies.push({
+    //         package: jsonModel.dependencies.package as ProjectInfo,
+    //         design: jsonModel.dependencies.design as ProjectDesign,
+    //         dependencies: jsonModel.dependencies.dependencies as Dependency[]
+    //     });
+    // }
     
     return new PackageBlockModel({
         model: model,

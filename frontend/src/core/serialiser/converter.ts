@@ -89,38 +89,41 @@ function getBlocksAndDependencies(model: DiagramModel) {
 
             if (node instanceof PackageBlockModel) {
                 const packageBlockModel = node as PackageBlockModel;
-                const blockType = makeid(40); // Generate a unique identifier for the dependency
+                block.type = makeid(40); // Generate a unique identifier for the dependency
                 console.log("packageBlockModel",packageBlockModel)
                 console.log("packageBlockModel.dependencies",packageBlockModel.dependencies)
-                const dependency: Dependency = {
-                    package: packageBlockModel.info,
-                    design: packageBlockModel.design,
-                    dependencies: processDependencies(packageBlockModel.dependencies) // Recursive processing of dependencies
-                };
+                // const dependency: Dependency = {
+                //     package: packageBlockModel.info,
+                //     design: packageBlockModel.design,
+                //     dependencies: processDependencies(packageBlockModel.dependencies) // Recursive processing of dependencies
+                // };
 
-                dependencies[blockType] = dependency;
+                // dependencies[blockType] = dependency;
+                dependencies[block.type] = {
+                    package: node.info,
+                    design: node.design,
+                    dependencies: node.dependencies
+                }
             }
 
             blocks.push(block);
         }
     });
 
-    return { blocks: blocks, dependencies: Object.values(dependencies) };
+    // return { blocks: blocks, dependencies: Object.values(dependencies) };
+    return { blocks: blocks, dependencies: dependencies };
 }
 
-/**
- * Recursively process dependencies of a PackageBlockModel
- * @param dependencies Array of dependencies to process
- * @returns Processed dependencies
- */
-function processDependencies(dependencies: Dependency[] | undefined): Dependency[] {
-    if (!dependencies) {
-        return []; // If dependencies array is undefined, return an empty array
-    }
 
-    return dependencies.map(dep => ({
-        package: dep.package,
-        design: dep.design,
-        dependencies: dep.dependencies ? processDependencies(dep.dependencies) : [] 
-    }));
-}
+// function processDependencies(dependencies: Dependency[] | undefined): Dependency[] {
+//     console.log("dependencies",dependencies)
+//     if (!dependencies) {
+//         return []; // If dependencies array is undefined, return an empty array
+//     }
+
+//     return dependencies.map(dep => ({
+//         package: dep.package,
+//         design: dep.design,
+//         dependencies: dep.dependencies ? processDependencies(dep.dependencies) : [] 
+//     }));
+// }

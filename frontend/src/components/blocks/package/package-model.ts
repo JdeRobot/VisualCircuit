@@ -19,7 +19,7 @@ export interface PackageBlockModelOptions extends BaseModelOptions {
     design: ProjectDesign;
     model: any;
     info: ProjectInfo;
-    dependencies: Dependency[];
+    dependencies: Dependency;
 }
 
 /**
@@ -32,8 +32,8 @@ export class PackageBlockModel extends BaseModel<PackageBlockData, NodeModelGene
     public design: ProjectDesign;
     private inputs: string[] = [];
     private outputs: string[] = [];
-    public dependencies: Dependency[];
-
+    // public dependencies: Dependency[];
+    public dependencies: Dependency;
     constructor(options: PackageBlockModelOptions) {
         super({
             ...options,
