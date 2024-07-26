@@ -50,6 +50,7 @@ try:
     driver.get_screenshot_as_file('screenshot.png')
 
 finally:
-    # Close the browser to ensure the session is properly terminated
+
+    # Close the browser
     if driver:
         driver.quit()
