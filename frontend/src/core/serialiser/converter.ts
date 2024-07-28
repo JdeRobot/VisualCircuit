@@ -82,7 +82,7 @@ function getBlocksAndDependencies(model: DiagramModel) {
     const dependencies: { [k: string]: Dependency } = {};
     // Iterate over all the nodes and separate them into normal blocks and dependency blocks
     model.getNodes().forEach((node) => {
-
+        console.log("node",node,node.getType())
         if (node instanceof BaseModel) {
             const block = {
                 id: node.getID(),

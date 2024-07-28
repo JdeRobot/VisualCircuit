@@ -145,14 +145,14 @@ class Editor {
         // Process selected input IDs
         await Promise.all(data.selectedInputIds.map(async (id: string) => { 
             const [blockid, name, linkID] = id.split(":");
-            await this.addComposedBlock('basic.input', name); 
+            await this.addComposedBlock('basic.input', name,blockid); 
 
         }));
         
         // Process selected output IDs
         await Promise.all(data.selectedOutputIds.map(async (id: string) => {
             const [blockid, name, linkID] = id.split(":");
-            await this.addComposedBlock('basic.output', name); 
+            await this.addComposedBlock('basic.output', name,blockid); 
 
         }));
     }
@@ -178,15 +178,25 @@ class Editor {
                         if(portOptions.type == 'port.input'){
                             if(linkIds.length == 0){
                                 indexOne++;
-                                let label = `${node.getType()} -> : ${portOptions.label}`;
+                                let label = ``;
                                 var id = `${options.id}:${portOptions.label}:${linkIds}`;
+                                if(node.getType() == 'block.package'){
+                                    label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                                }else{
+                                    label = `${node.getType()} -> : ${portOptions.label}`;
+                                }
                                 valueOne.push({ indexOne, label, id });
                             }
                             
                         }else if(portOptions.type == 'port.output'){
                             indexTwo++;
-                            let label = `${node.getType()} -> : ${portOptions.label}`;
+                            let label = ``;
                             var id = `${options.id}:${portOptions.label}:${linkIds}`;
+                            if(node.getType() == 'block.package'){
+                                label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                            }else{
+                                label = `${node.getType()} -> : ${portOptions.label}`;
+                            }
                             valueTwo.push({ indexTwo, label, id });
                         }
                         
@@ -268,7 +278,7 @@ class Editor {
         }
     }
 
-    public nullLinkNodes(type:string, name: string){
+    public nullLinkNodes(type:string, name: string,blockID:string){
         // Get all nodes from the model
         const nodes = this.activeModel.getNodes();
     
@@ -279,7 +289,7 @@ class Editor {
     
             // Iterate over each port to check if the name matches the given port name
             for (const port of Object.values(ports)) {
-                if (port.getOptions().label === name) {
+                if (port.getOptions().label === name && node.getID() === blockID) {
                     const link = new DefaultLinkModel();
                     if(port.getType()== 'port.input'){
                         link.setTargetPort(port);
@@ -304,9 +314,9 @@ class Editor {
      * Add the given type of block for composed.
      * @param name : Name / type of the block to add to model.
      */
-    public async addComposedBlock(type: string,name: string): Promise<void> {
+    public async addComposedBlock(type: string,name: string,blockID: string): Promise<void> {
         this.blockCount += 1;
-        const linkID = this.nullLinkNodes(type, name);
+        const linkID = this.nullLinkNodes(type, name,blockID);
         const block = await createComposedBlock(type,name);
         if (block) {
             
