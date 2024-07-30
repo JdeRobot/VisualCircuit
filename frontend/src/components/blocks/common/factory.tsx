@@ -115,6 +115,32 @@ export const createBlock = async (name: string, blockCount: number) => {
 }
 
 /**
+
+ * @param type Type of the block
+ * @param name 
+ * @returns block model
+ */
+export const createComposedBlock = async (type: string, name: string) => {
+    var block;
+    try {
+        switch (type) {
+            case 'basic.input':
+                block = new InputBlockModel({name:name});
+                break;
+            case 'basic.output':
+                block = new OutputBlockModel({name:name});
+                break;
+            default:
+                
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return block;
+}
+
+
+/**
  * Load a project as Package block
  * @param jsonModel object conforming to the project structure
      * Project Structure: {

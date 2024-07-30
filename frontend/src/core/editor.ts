@@ -1,25 +1,38 @@
 import { DeleteItemsAction } from "@projectstorm/react-canvas-core";
-import createEngine, { DiagramEngine, DiagramModel, NodeModel, RightAngleLinkFactory } from "@projectstorm/react-diagrams";
+import createEngine, {DefaultLinkModel, DiagramEngine, DiagramModel, NodeModel, RightAngleLinkFactory } from "@projectstorm/react-diagrams";
 import { CodeBlockFactory } from "../components/blocks/basic/code/code-factory";
 import { ConstantBlockFactory } from "../components/blocks/basic/constant/constant-factory";
 import { InputBlockFactory } from "../components/blocks/basic/input/input-factory";
 import { OutputBlockFactory } from "../components/blocks/basic/output/output-factory";
 import { BaseInputPortFactory, BaseOutputPortFactory, BaseParameterPortFactory } from "../components/blocks/common/base-port/port-factory";
-import { createBlock, editBlock, getInitialPosition, loadPackage } from "../components/blocks/common/factory";
+import { createBlock, editBlock, getInitialPosition, loadPackage,createComposedBlock } from "../components/blocks/common/factory";
 import { PackageBlockFactory } from "../components/blocks/package/package-factory";
 import { PackageBlockModel } from "../components/blocks/package/package-model";
 import createProjectInfoDialog from "../components/dialogs/project-info-dialog";
-import { ProjectInfo } from "./constants";
+import { ProjectInfo,BlockData } from "./constants";
 import { convertToOld } from "./serialiser/converter";
+import BaseModel from "../components/blocks/common/base-model";
+import { count } from "console";
+import createBlockDialog from "../components/dialogs/blocks-dialog";
+import cloneDeep from 'lodash.clonedeep';
+import { PortModelOptions } from '@projectstorm/react-diagrams-core';
 
+declare module '@projectstorm/react-diagrams-core' {
+    export interface PortModelOptions {
+        label?: string;
+    }
+}
 
 class Editor {
 
     private static instance: Editor;
     private currentProjectName: string;
     private projectInfo: ProjectInfo;
+    private BlockData: BlockData;
     
-    private stack: {model: DiagramModel, info: ProjectInfo, node: PackageBlockModel}[];
+    
+    private stack: { model: DiagramModel, info: ProjectInfo, node: PackageBlockModel }[];
+    private stackOfBlock: { model: DiagramModel, info: ProjectInfo}[];
     private activeModel: DiagramModel;
     private blockCount: number = 0;
 
@@ -35,6 +48,7 @@ class Editor {
         this.activeModel = new DiagramModel();
         // Use an array as stack, to keep track of levels of circuit model.
         this.stack = [];
+        this.stackOfBlock = [];
         this.engine.setModel(this.activeModel);
         this.registerFactories();
         this.projectInfo = {
@@ -43,6 +57,10 @@ class Editor {
             'description': '',
             'author': '',
             'image': ''
+        };
+        this.BlockData = {
+            'selectedInputIds': [],
+            'selectedOutputIds': []
         };
     }
 
@@ -64,7 +82,6 @@ class Editor {
         // register an DeleteItemsAction with custom keyCodes (in this case, only Delete key)
 	    this.engine.getActionEventBus().registerAction(new DeleteItemsAction({ keyCodes: [46] }));
     }
-
     /**
      * Main entry point to get Editor object, since constructor is private.
      * @returns instance of Editor object
@@ -123,6 +140,116 @@ class Editor {
         return { editor : this.activeModel.serialize(), ...data};
     }
 
+    
+    public async processBlock(model: DiagramModel, data: BlockData): Promise<void> {
+        // Process selected input IDs
+        await Promise.all(data.selectedInputIds.map(async (id: string) => { 
+            const [blockid, name, linkID] = id.split(":");
+            await this.addComposedBlock('basic.input', name,blockid); 
+
+        }));
+        
+        // Process selected output IDs
+        await Promise.all(data.selectedOutputIds.map(async (id: string) => {
+            const [blockid, name, linkID] = id.split(":");
+            await this.addComposedBlock('basic.output', name,blockid); 
+
+        }));
+    }
+    
+
+
+
+    public getGInputsOutput(): [{ indexOne: number, label: string, id:string }[], { indexTwo: number, label: string,id:string }[]] {
+        let indexOne = 0;
+        let indexTwo = 0;
+        let valueOne: { indexOne: number, label: string, id:string }[] = [];
+        let valueTwo: { indexTwo: number, label: string, id:string }[] = [];
+        this.activeModel.getNodes().forEach((node) => {
+            
+            if (node instanceof BaseModel) {
+                    var options = node.getOptions();
+                    var dataPorts = node.getPorts();
+                    Object.keys(dataPorts).forEach(portName => {
+                        const port = dataPorts[portName];
+                        const portOptions = port.getOptions();
+                        const links = port.getLinks();
+                        var linkIds = Object.keys(links);
+                        if(portOptions.type == 'port.input'){
+                            if(linkIds.length == 0){
+                                indexOne++;
+                                let label = ``;
+                                var id = `${options.id}:${portOptions.label}:${linkIds}`;
+                                if(node.getType() == 'block.package'){
+                                    label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                                }else{
+                                    label = `${node.getType()} -> : ${portOptions.label}`;
+                                }
+                                valueOne.push({ indexOne, label, id });
+                            }
+                            
+                        }else if(portOptions.type == 'port.output'){
+                            indexTwo++;
+                            let label = ``;
+                            var id = `${options.id}:${portOptions.label}:${linkIds}`;
+                            if(node.getType() == 'block.package'){
+                                label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                            }else{
+                                label = `${node.getType()} -> : ${portOptions.label}`;
+                            }
+                            valueTwo.push({ indexTwo, label, id });
+                        }
+                        
+                    });
+            }
+           
+        })
+        return [valueOne, valueTwo];
+    }
+
+    /**
+     * Callback for the 'Edit Block' button in menu.
+     * Opens a dialog box and saves the data entered to Block variable.
+     */
+    public async editBlock(): Promise<Boolean> {
+        try {
+    
+            // Create deep copies using lodash.cloneDeep
+            const activeModelCopy = cloneDeep(this.activeModel);
+            const projectInfoCopy = cloneDeep(this.projectInfo);
+
+            // Push the deep copies onto the stack
+            this.stackOfBlock.push({ model: activeModelCopy, info: projectInfoCopy });
+    
+            // Open the block dialog and await the result
+            const data = await createBlockDialog({ isOpen: true, getGInputsOutput: this.getGInputsOutput.bind(this) });
+            this.BlockData = data;
+    
+            // Process the block data
+            await this.processBlock(this.activeModel, data);
+            console.log("Block editing completed successfully.");
+            return true;
+    
+        } catch (error) {
+            console.error('Error in editBlock:', error);
+            console.log('Block dialog closed');
+            return false;
+        }
+    }    
+    
+    public retriveCircuit(){
+        if (this.stackOfBlock.length) {
+
+            const {model, info} = this.stackOfBlock.pop()!;
+            this.activeModel = model;
+            this.projectInfo = info;
+            this.engine.setModel(this.activeModel);
+            this.engine.repaintCanvas();
+
+        }
+    }
+    
+
     /**
      * Getter for Project Name
      * @returns Project name
@@ -147,6 +274,74 @@ class Editor {
             block.setPosition(...getInitialPosition())
             this.activeModel.addNode(block);
             // Once the block is added, the page has to rendered again, this is done by repainting the canvas.
+            this.engine.repaintCanvas();
+        }
+    }
+
+    public nullLinkNodes(type:string, name: string,blockID:string){
+        // Get all nodes from the model
+        const nodes = this.activeModel.getNodes();
+    
+        // Iterate over each node
+        for (const node of Object.values(nodes)) {
+            // Get all ports from the current node
+            const ports = node.getPorts();
+    
+            // Iterate over each port to check if the name matches the given port name
+            for (const port of Object.values(ports)) {
+                if (port.getOptions().label === name && node.getID() === blockID) {
+                    const link = new DefaultLinkModel();
+                    if(port.getType()== 'port.input'){
+                        link.setTargetPort(port);
+                        this.activeModel.addLink(link);
+                        return link.getID();
+                    }else if(port.getType()== 'port.output'){
+                        link.setSourcePort(port);
+                        this.activeModel.addLink(link);
+                        return link.getID();
+                    }
+                    
+                }
+            }
+        }
+    
+        // Return null if no matching port is found
+        return "";
+    }
+
+
+    /**
+     * Add the given type of block for composed.
+     * @param name : Name / type of the block to add to model.
+     */
+    public async addComposedBlock(type: string,name: string,blockID: string): Promise<void> {
+        this.blockCount += 1;
+        const linkID = this.nullLinkNodes(type, name,blockID);
+        const block = await createComposedBlock(type,name);
+        if (block) {
+            
+            block.setPosition(...getInitialPosition())
+            this.activeModel.addNode(block);
+            this.engine.repaintCanvas();
+            
+            const link = this.activeModel.getLink(linkID);
+            if (!link) {
+                console.error('Link not found');
+                return;
+            }
+
+            const newPort = block.getPort();
+            if (!newPort) {
+                console.error('New source port not found');
+                return;
+            }
+
+            if(type == "basic.input"){
+                link.setSourcePort(newPort);
+            }else if(type == "basic.output"){
+                link.setTargetPort(newPort);
+            }
+
             this.engine.repaintCanvas();
         }
     }

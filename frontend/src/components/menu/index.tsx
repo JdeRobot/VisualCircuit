@@ -83,6 +83,33 @@ function MenuBar(props: MenuBarProps) {
     }
 
     /**
+     * Callback for 'Save Block' option under 'File' menu.
+     * @param _event Mouse click event. Unused
+     */
+    const saveBlockAsync = async (_event: ClickEvent) => {
+        const completed = await editor.editBlock(); 
+        if(completed){
+            const model = editor.serialise();
+            const url = textFile2DataURL(JSON.stringify(model), 'text/json');
+            const link = document.getElementById('saveProjectLink');
+            if (link) {
+                link.setAttribute('href', url);
+                link.setAttribute('download', editor.getName() + PROJECT_FILE_EXTENSION);
+                link.click();
+                editor.retriveCircuit();
+            } else {
+                console.error('Save project link element not found.');
+            }
+        }
+    };
+    
+    const saveBlock = (_event: ClickEvent) => {
+        saveBlockAsync(_event).catch(error => {
+            console.error('Error saving block:', error);
+        });
+    };
+
+    /**
      * Callback when file is uploaded.
      * @param event File field change event.
      * @param reader Reader to open the uploaded file as text
@@ -197,6 +224,7 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={newProject}>New File</MenuItem>
                     <MenuItem onClick={openProject}>Open</MenuItem>
                     <MenuItem onClick={saveProject}>Save as..</MenuItem>
+                    <MenuItem onClick={saveBlock}>Save Block</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
                     <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
                 </Menu>
