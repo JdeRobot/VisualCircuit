@@ -3,7 +3,7 @@ import { LinkModel, NodeModel, PortModel } from "@projectstorm/react-diagrams";
 import { DefaultPortModel } from "@projectstorm/react-diagrams-defaults";
 import { RightAngleLinkModel } from "@projectstorm/react-diagrams-routing";
 import { PortTypes, ProjectInfo } from '../../../core/constants';
-import { ProjectDesign } from '../../../core/serialiser/interfaces';
+import { Dependency, ProjectDesign } from '../../../core/serialiser/interfaces';
 import createCodeDialog from '../../dialogs/code-block-dialog';
 import createConstantDialog from "../../dialogs/constant-block-dialog";
 import createIODialog from '../../dialogs/input-output-block-dialog';
@@ -156,10 +156,13 @@ export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
     const design = jsonModel.design as ProjectDesign;
     const info = jsonModel.package as ProjectInfo;
+    const dependencies = jsonModel.dependencies as Dependency;
+
     return new PackageBlockModel({
         model: model,
         design: design,
-        info: info
+        info: info,
+        dependencies: dependencies
     });
 }
 
