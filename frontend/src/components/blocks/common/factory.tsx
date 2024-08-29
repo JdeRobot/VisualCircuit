@@ -3,7 +3,7 @@ import { LinkModel, NodeModel, PortModel } from "@projectstorm/react-diagrams";
 import { DefaultPortModel } from "@projectstorm/react-diagrams-defaults";
 import { RightAngleLinkModel } from "@projectstorm/react-diagrams-routing";
 import { PortTypes, ProjectInfo } from '../../../core/constants';
-import { Dependency, ProjectDesign } from '../../../core/serialiser/interfaces';
+import { Block, Dependency, ProjectDesign, Wire } from '../../../core/serialiser/interfaces';
 import createCodeDialog from '../../dialogs/code-block-dialog';
 import createConstantDialog from "../../dialogs/constant-block-dialog";
 import createIODialog from '../../dialogs/input-output-block-dialog';
@@ -14,6 +14,7 @@ import { OutputBlockModel } from '../basic/output/output-model';
 import { getCollectionBlock } from '../collection/collection-factory';
 import { PackageBlockModel } from '../package/package-model';
 import { BaseInputPortModel, BaseOutputPortModel, BaseParameterPortModel, BasePortModelOptions } from './base-port/port-model';
+import cloneDeep from 'lodash.clonedeep';
 
 /**
  * Port model for wires which bend at 90 degrees. Unused as of now.
@@ -154,12 +155,76 @@ export const createComposedBlock = async (type: string, name: string) => {
  */
 export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
-    const design = jsonModel.design as ProjectDesign;
+    var tempJsonModelDesign =  cloneDeep(jsonModel.design) 
+    var tempJsonModelEditor =  cloneDeep(jsonModel.editor) 
+    console.log("jsonModel.design",jsonModel)
+    const newIdMap: { [key: string]: string } = {};
+
+    // Function to generate a new UUID
+    function generateNewId() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    // Iterate through each block, generate a new ID, update the block's ID, and store the old-to-new ID mapping
+    tempJsonModelDesign.graph.blocks.forEach((block: Block) => {
+        const newId = generateNewId();
+        newIdMap[block.id] = newId;
+        block.id = newId;
+    });
+
+    // Iterate over each model in the models object of the second layer (layers[1])
+    Object.keys(tempJsonModelEditor.layers[1].models).forEach(oldId => {
+        const block = tempJsonModelEditor.layers[1].models[oldId];
+        const newId = newIdMap[oldId]; // Get the new ID from the map
+
+        if (newId) {
+            block.id = newId; // Update the block's internal ID
+
+            // Add the block to a new models object with the new ID as the key
+            tempJsonModelEditor.layers[1].models[newId] = block;
+
+            // Delete the old key from the models object
+            delete tempJsonModelEditor.layers[1].models[oldId];
+        }
+    });
+
+    // Iterate over each model in the models object of the second layer (layers[1])
+    Object.keys(tempJsonModelEditor.layers[0].models).forEach(oldId => {
+        const block = tempJsonModelEditor.layers[0].models[oldId];
+        const newId = newIdMap[oldId]; // Get the new ID from the map
+
+        if (newId) {
+            block.id = newId; // Update the block's internal ID
+
+            // Add the block to a new models object with the new ID as the key
+            tempJsonModelEditor.layers[0].models[newId] = block;
+
+            // Delete the old key from the models object
+            delete tempJsonModelEditor.layers[0].models[oldId];
+        }
+    });
+
+    // Iterate through each wire and update source and target block IDs
+    tempJsonModelDesign.graph.wires.forEach((wire: Wire) => {
+        if (newIdMap[wire.source.block]) {
+            wire.source.block = newIdMap[wire.source.block];
+            // tempJsonModel.editor.layers[0].models[wire.source.block].id =  newIdMap[wire.source.block];
+        }
+        if (newIdMap[wire.target.block]) {
+            wire.target.block = newIdMap[wire.target.block];
+        }
+    });
+    console.log("newIdMap",newIdMap)
+    console.log("tempJsonModelEditor after",tempJsonModelEditor)
+    const design = tempJsonModelDesign as ProjectDesign;
     const info = jsonModel.package as ProjectInfo;
     const dependencies = jsonModel.dependencies as Dependency;
 
     return new PackageBlockModel({
-        model: model,
+        model: tempJsonModelEditor,
         design: design,
         info: info,
         dependencies: dependencies
