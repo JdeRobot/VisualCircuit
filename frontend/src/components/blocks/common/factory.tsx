@@ -154,79 +154,63 @@ export const createComposedBlock = async (type: string, name: string) => {
  * @returns Package block
  */
 export const loadPackage = (jsonModel: any) => {
-    const model = jsonModel.editor;
-    var tempJsonModelDesign =  cloneDeep(jsonModel.design) 
-    var tempJsonModelEditor =  cloneDeep(jsonModel.editor) 
+    const { editor: originalEditor, design: originalDesign } = jsonModel;
+    
+    // Clone the original jsonModel to work on copies
+    const tempJsonModelDesign = cloneDeep(originalDesign);
+    const tempJsonModelEditor = cloneDeep(originalEditor);
     const newIdMap: { [key: string]: string } = {};
 
     // Function to generate a new UUID
-    function generateNewId() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
+    const generateNewId = () =>
+        'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
-    }
 
-    // Iterate through each block, generate a new ID, update the block's ID, and store the old-to-new ID mapping
+    // Generate new IDs for all blocks and store the mapping
     tempJsonModelDesign.graph.blocks.forEach((block: Block) => {
         const newId = generateNewId();
         newIdMap[block.id] = newId;
         block.id = newId;
     });
 
-    // Iterate over each model in the models object of the second layer (layers[1])
-    Object.keys(tempJsonModelEditor.layers[1].models).forEach(oldId => {
-        const block = tempJsonModelEditor.layers[1].models[oldId];
-        const newId = newIdMap[oldId]; // Get the new ID from the map
+    // Helper function to update model IDs in the editor layers
+    const updateModelIdsInLayer = (layerIndex: number) => {
+        const models = tempJsonModelEditor.layers[layerIndex].models;
+        Object.keys(models).forEach(oldId => {
+            const block = models[oldId];
+            const newId = newIdMap[oldId];
 
-        if (newId) {
-            block.id = newId; // Update the block's internal ID
+            if (newId) {
+                block.id = newId; // Update the block's internal ID
+                models[newId] = block; // Add the block to a new models object with the new ID
+                delete models[oldId]; // Delete the old key from the models object
+            }
+        });
+    };
 
-            // Add the block to a new models object with the new ID as the key
-            tempJsonModelEditor.layers[1].models[newId] = block;
+    // Update IDs for both layers (layer 0 and layer 1)
+    [0, 1].forEach(updateModelIdsInLayer);
 
-            // Delete the old key from the models object
-            delete tempJsonModelEditor.layers[1].models[oldId];
-        }
-    });
-
-    // Iterate over each model in the models object of the second layer (layers[1])
-    Object.keys(tempJsonModelEditor.layers[0].models).forEach(oldId => {
-        const block = tempJsonModelEditor.layers[0].models[oldId];
-        const newId = newIdMap[oldId]; // Get the new ID from the map
-
-        if (newId) {
-            block.id = newId; // Update the block's internal ID
-
-            // Add the block to a new models object with the new ID as the key
-            tempJsonModelEditor.layers[0].models[newId] = block;
-
-            // Delete the old key from the models object
-            delete tempJsonModelEditor.layers[0].models[oldId];
-        }
-    });
-
-    // Iterate through each wire and update source and target block IDs
+    // Update source and target block IDs for wires
     tempJsonModelDesign.graph.wires.forEach((wire: Wire) => {
-        if (newIdMap[wire.source.block]) {
-            wire.source.block = newIdMap[wire.source.block];
-            // tempJsonModel.editor.layers[0].models[wire.source.block].id =  newIdMap[wire.source.block];
-        }
-        if (newIdMap[wire.target.block]) {
-            wire.target.block = newIdMap[wire.target.block];
-        }
-    });
-    const design = tempJsonModelDesign as ProjectDesign;
-    const info = jsonModel.package as ProjectInfo;
-    const dependencies = jsonModel.dependencies as Dependency;
+        const newSourceId = newIdMap[wire.source.block];
+        const newTargetId = newIdMap[wire.target.block];
 
+        if (newSourceId) wire.source.block = newSourceId;
+        if (newTargetId) wire.target.block = newTargetId;
+    });
+
+    // Create the package block model with updated data
     return new PackageBlockModel({
         model: tempJsonModelEditor,
-        design: design,
-        info: info,
-        dependencies: dependencies
+        design: tempJsonModelDesign as ProjectDesign,
+        info: jsonModel.package as ProjectInfo,
+        dependencies: jsonModel.dependencies as Dependency,
     });
-}
+};
+
 
 /**
  * Fixed initial position for all blocks.
