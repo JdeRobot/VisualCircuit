@@ -157,7 +157,6 @@ export const loadPackage = (jsonModel: any) => {
     const model = jsonModel.editor;
     var tempJsonModelDesign =  cloneDeep(jsonModel.design) 
     var tempJsonModelEditor =  cloneDeep(jsonModel.editor) 
-    console.log("jsonModel.design",jsonModel)
     const newIdMap: { [key: string]: string } = {};
 
     // Function to generate a new UUID
@@ -217,8 +216,6 @@ export const loadPackage = (jsonModel: any) => {
             wire.target.block = newIdMap[wire.target.block];
         }
     });
-    console.log("newIdMap",newIdMap)
-    console.log("tempJsonModelEditor after",tempJsonModelEditor)
     const design = tempJsonModelDesign as ProjectDesign;
     const info = jsonModel.package as ProjectInfo;
     const dependencies = jsonModel.dependencies as Dependency;
