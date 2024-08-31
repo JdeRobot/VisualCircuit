@@ -69,7 +69,7 @@ numpy==1.23.3
 nunavut==1.1.0
 oauthlib==3.1.0
 onnxruntime==1.12.1
-opencv-python==4.5.5.64
+opencv-python==4.8.1.78
 osrf-pycommon==2.0.2
 packaging==21.3
 pandas==1.5.0
