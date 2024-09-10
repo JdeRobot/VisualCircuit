@@ -21,3 +21,11 @@ export interface ProjectInfo {
     author: string;
     image: string;
 }
+
+/**
+ * Interface for block information.
+ */
+export interface BlockData {
+    selectedInputIds: string[];
+    selectedOutputIds: string[];
+}

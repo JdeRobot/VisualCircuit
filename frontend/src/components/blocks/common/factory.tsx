@@ -3,7 +3,7 @@ import { LinkModel, NodeModel, PortModel } from "@projectstorm/react-diagrams";
 import { DefaultPortModel } from "@projectstorm/react-diagrams-defaults";
 import { RightAngleLinkModel } from "@projectstorm/react-diagrams-routing";
 import { PortTypes, ProjectInfo } from '../../../core/constants';
-import { ProjectDesign } from '../../../core/serialiser/interfaces';
+import { Block, Dependency, ProjectDesign, Wire } from '../../../core/serialiser/interfaces';
 import createCodeDialog from '../../dialogs/code-block-dialog';
 import createConstantDialog from "../../dialogs/constant-block-dialog";
 import createIODialog from '../../dialogs/input-output-block-dialog';
@@ -14,6 +14,7 @@ import { OutputBlockModel } from '../basic/output/output-model';
 import { getCollectionBlock } from '../collection/collection-factory';
 import { PackageBlockModel } from '../package/package-model';
 import { BaseInputPortModel, BaseOutputPortModel, BaseParameterPortModel, BasePortModelOptions } from './base-port/port-model';
+import cloneDeep from 'lodash.clonedeep';
 
 /**
  * Port model for wires which bend at 90 degrees. Unused as of now.
@@ -115,6 +116,32 @@ export const createBlock = async (name: string, blockCount: number) => {
 }
 
 /**
+
+ * @param type Type of the block
+ * @param name 
+ * @returns block model
+ */
+export const createComposedBlock = async (type: string, name: string) => {
+    var block;
+    try {
+        switch (type) {
+            case 'basic.input':
+                block = new InputBlockModel({name:name});
+                break;
+            case 'basic.output':
+                block = new OutputBlockModel({name:name});
+                break;
+            default:
+                
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return block;
+}
+
+
+/**
  * Load a project as Package block
  * @param jsonModel object conforming to the project structure
      * Project Structure: {
@@ -127,15 +154,63 @@ export const createBlock = async (name: string, blockCount: number) => {
  * @returns Package block
  */
 export const loadPackage = (jsonModel: any) => {
-    const model = jsonModel.editor;
-    const design = jsonModel.design as ProjectDesign;
-    const info = jsonModel.package as ProjectInfo;
-    return new PackageBlockModel({
-        model: model,
-        design: design,
-        info: info
+    const { editor: originalEditor, design: originalDesign } = jsonModel;
+    
+    // Clone the original jsonModel to work on copies
+    const tempJsonModelDesign = cloneDeep(originalDesign);
+    const tempJsonModelEditor = cloneDeep(originalEditor);
+    const newIdMap: { [key: string]: string } = {};
+
+    // Function to generate a new UUID
+    const generateNewId = () =>
+        'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+
+    // Generate new IDs for all blocks and store the mapping
+    tempJsonModelDesign.graph.blocks.forEach((block: Block) => {
+        const newId = generateNewId();
+        newIdMap[block.id] = newId;
+        block.id = newId;
     });
-}
+
+    // Helper function to update model IDs in the editor layers
+    const updateModelIdsInLayer = (layerIndex: number) => {
+        const models = tempJsonModelEditor.layers[layerIndex].models;
+        Object.keys(models).forEach(oldId => {
+            const block = models[oldId];
+            const newId = newIdMap[oldId];
+
+            if (newId) {
+                block.id = newId; // Update the block's internal ID
+                models[newId] = block; // Add the block to a new models object with the new ID
+                delete models[oldId]; // Delete the old key from the models object
+            }
+        });
+    };
+
+    // Update IDs for both layers (layer 0 and layer 1)
+    [0, 1].forEach(updateModelIdsInLayer);
+
+    // Update source and target block IDs for wires
+    tempJsonModelDesign.graph.wires.forEach((wire: Wire) => {
+        const newSourceId = newIdMap[wire.source.block];
+        const newTargetId = newIdMap[wire.target.block];
+
+        if (newSourceId) wire.source.block = newSourceId;
+        if (newTargetId) wire.target.block = newTargetId;
+    });
+
+    // Create the package block model with updated data
+    return new PackageBlockModel({
+        model: tempJsonModelEditor,
+        design: tempJsonModelDesign as ProjectDesign,
+        info: jsonModel.package as ProjectInfo,
+        dependencies: jsonModel.dependencies as Dependency,
+    });
+};
+
 
 /**
  * Fixed initial position for all blocks.

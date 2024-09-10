@@ -67,6 +67,7 @@ export interface ProjectDesign {
 export interface Dependency {
     // Meta info about project (model)
     package: ProjectInfo;
-    // Data about blocks and connections.
+    // Data about blocks, connections and nested dependency.
     design: ProjectDesign;
+    dependencies: Dependency;
 }

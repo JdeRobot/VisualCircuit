@@ -46,9 +46,6 @@ function getWires(model: DiagramModel): Wire[] {
             const port2 = link.getTargetPort();
 
             if (port1 instanceof BasePortModel && port2 instanceof BasePortModel) {
-                // Source should correspond to the block which is giving the output
-                // Target should correspond to the block receiving the input.
-                // So source is the port of type Output and target is the port of type Input or Parameter
                 const source = port1.getType() === PortTypes.OUTPUT ? port1 : port2;
                 const target = port1.getType() !== PortTypes.OUTPUT ? port1 : port2;
                 wires.push(
@@ -80,11 +77,10 @@ function getWires(model: DiagramModel): Wire[] {
 function getBlocksAndDependencies(model: DiagramModel) {
     const blocks: Block[] = [];
     const dependencies: { [k: string]: Dependency } = {};
-    // Iterate over all the nodes and separate them into normal blocks and dependency blocks
-    model.getNodes().forEach((node) => {
 
+    model.getNodes().forEach((node) => {
         if (node instanceof BaseModel) {
-            const block = {
+            const block: Block = {
                 id: node.getID(),
                 type: node.getType(),
                 data: node.getData(),
@@ -92,22 +88,23 @@ function getBlocksAndDependencies(model: DiagramModel) {
                     x: node.getPosition().x,
                     y: node.getPosition().y
                 }
-            }
-            // If a node is of Package type then its included in Dependencies
+            };
+
             if (node instanceof PackageBlockModel) {
-                // The type is changed to a random string because a single package can be used multiple times
-                // with its own parameters and data. So making it a unique ID prevents any interference of data.
-                block.type = makeid(40);
-                // Add the design and package info of the package blocks under dependencies
+                const packageBlockModel = node as PackageBlockModel;
+                block.type = makeid(40); // Generate a unique identifier for the dependency
+
+                // Add the package information, design, and nested dependencies to the dependencies object
                 dependencies[block.type] = {
                     package: node.info,
-                    design: node.design
+                    design: node.design,
+                    dependencies: node.dependencies
                 }
-
             }
+
             blocks.push(block);
         }
-    })
-
+    });
+    // Return the blocks and dependencies as an object
     return { blocks: blocks, dependencies: dependencies };
 }

@@ -41,7 +41,7 @@ const BasePort: React.FC<BasePortProps> = (props) => {
             portClass = props.isInput ? 'custom-input-port': 'custom-output-port';
             break;
     }
-
+   
     // Different classes based on alignment type. Position varies depending on this.
     switch (alignment) {
         case PortModelAlignment.RIGHT:
