@@ -41,6 +41,14 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
         };
     }
 
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown); // Adding keydown event listener when component mounts
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown); // Removing keydown event listener when component unmounts
+    }
+
     /**
      * Handler for context menu
      * @param key Key cooresponding to the context menu clicked
@@ -110,4 +118,15 @@ export class ConstantBlockWidget extends React.Component<ConstantBlockWidgetProp
             this.props.node.data.value = actual_val; // Update the value data in the component's props with the converted value
         }
     }
+
+        /**
+     * Keydown event handler to listen for Alt+R key combination
+     * @param event Keydown event
+     */
+        handleKeyDown = (event: KeyboardEvent) => {
+            const { node } = this.props;
+            if (event.altKey && (event.key === 'r' || event.key === 'R') && node.isSelected()) {
+                this.props.editor.editNode(node); // Trigger rename action
+            }
+        }
 }
