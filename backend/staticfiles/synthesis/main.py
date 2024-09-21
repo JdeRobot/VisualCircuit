@@ -1,22 +1,29 @@
 import importlib
 import json
+import functools
 import multiprocessing
 import random
 import string
 from multiprocessing import shared_memory, Lock
 from time import sleep
+import signal
+import sys
 
 from lib.inputs import Inputs
 from lib.outputs import Outputs
 from lib.parameters import Parameters
 from lib.utils import Synchronise
 
-
 BLOCK_DIRECTORY = 'modules'
 FUNCTION_NAME = 'main'
 
 
-def clean_shared_memory(names):
+def clean_shared_memory(signum, frame, names, processes):
+    # End all processes
+    for process in processes:
+        process.terminate()
+        process.join()
+
     all_names = list(names.keys())
     all_names.extend([name + "_dim" for name in names])
     all_names.extend([name + "_shape" for name in names])
@@ -37,6 +44,10 @@ def clean_shared_memory(names):
             names[name].release()
         except ValueError:
             pass
+
+    # Exit the program
+    print("Exiting program.")
+    sys.exit(0)
 
 
 def main():
@@ -116,17 +127,19 @@ def main():
             multiprocessing.Process(target=method, args=(inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30))))
         )
 
+    # Register handler for Ctrl+C
+    param_func = functools.partial(clean_shared_memory, names=all_wires, processes=processes)
+    signal.signal(signal.SIGINT, param_func)
+
     for process in processes:
+        sleep(1)
         process.start()
 
     try:
         while True:
             sleep(10)
     except KeyboardInterrupt:
-        for process in processes:
-            process.terminate()
-            process.join()
-        clean_shared_memory(all_wires)
+        pass
 
 
 if __name__ == "__main__":
