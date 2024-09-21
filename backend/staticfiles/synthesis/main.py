@@ -132,7 +132,6 @@ def main():
     signal.signal(signal.SIGINT, param_func)
 
     for process in processes:
-        sleep(1)
         process.start()
 
     try:
