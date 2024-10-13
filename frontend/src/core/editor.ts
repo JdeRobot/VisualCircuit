@@ -181,7 +181,7 @@ class Editor {
                                 let label = ``;
                                 var id = `${options.id}:${portOptions.label}:${linkIds}`;
                                 if(node.getType() == 'block.package'){
-                                    label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                                    label = `${options.info.name} -> : ${portOptions.label}`;
                                 }else{
                                     label = `${node.getType()} -> : ${portOptions.label}`;
                                 }
@@ -193,7 +193,7 @@ class Editor {
                             let label = ``;
                             var id = `${options.id}:${portOptions.label}:${linkIds}`;
                             if(node.getType() == 'block.package'){
-                                label = `${node.getType()} -> : ${options.info.name} : ${portOptions.label}`;
+                                label = `${options.info.name} -> : ${portOptions.label}`;
                             }else{
                                 label = `${node.getType()} -> : ${portOptions.label}`;
                             }
