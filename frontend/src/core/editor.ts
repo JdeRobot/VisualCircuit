@@ -121,6 +121,13 @@ class Editor {
      */
     public clearProject(): void {
         this.activeModel = new DiagramModel();
+        this.projectInfo = {
+            'name': '',
+            'version': '',
+            'description': '',
+            'author': '',
+            'image': ''
+        }
         this.engine.setModel(this.activeModel);
     }
 
