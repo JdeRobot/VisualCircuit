@@ -14,6 +14,11 @@ export interface MenuBarProps {
     editor: Editor;
 }
 
+
+interface FileHelper {
+    fileName: string;
+    reader: FileReader;
+}
 /**
  * 
  * MenuBar component
@@ -23,8 +28,8 @@ function MenuBar(props: MenuBarProps) {
 
     const theme = useTheme();
     const isDark = theme.palette.type === 'dark';
-    const projectReader = new FileReader();
-    const blockReader = new FileReader();
+    const projectReader : FileHelper = {'fileName': '', 'reader': new FileReader()};
+    const blockReader: FileHelper = {'fileName': '', 'reader': new FileReader()};
     const { editor } = props;
 
     /**
@@ -54,12 +59,13 @@ function MenuBar(props: MenuBarProps) {
      * @param _event Mouse click event. Unused
      */
     const openProject = (_event: ClickEvent) => {
+        projectReader.fileName = '';
         // Simulate click to open file selection dialog.
         document.getElementById('openProjectInput')?.click();
-        projectReader.onload = (event) => {
+        projectReader.reader.onload = (event) => {
             if (event.target?.result) {
                 // Parse file as JSON
-                editor.loadProject(JSON.parse(event.target.result.toString()))
+                editor.loadProject(JSON.parse(event.target.result.toString()), projectReader.fileName);
             }
         };
     }
@@ -114,11 +120,12 @@ function MenuBar(props: MenuBarProps) {
      * @param event File field change event.
      * @param reader Reader to open the uploaded file as text
      */
-    const onFileUpload = (event: ChangeEvent<HTMLInputElement>, reader: FileReader) => {
+    const onFileUpload = (event: ChangeEvent<HTMLInputElement>, fileHelper: FileHelper) => {
         const file = event.target.files?.length ? event.target.files[0] : null;
         event.target.value = '';
         if (file) {
-            reader.readAsText(file);
+            fileHelper.fileName = file.name;
+            fileHelper.reader.readAsText(file);
         }
     }
 
@@ -138,10 +145,11 @@ function MenuBar(props: MenuBarProps) {
      * @param _event Mouse click event. Unused
      */
     const addAsBlock = (_event: ClickEvent) => {
+        blockReader.fileName = '';
         document.getElementById('addAsBlockInput')?.click();
-        blockReader.onload = (event) => {
+        blockReader.reader.onload = (event) => {
             if (event.target?.result) {
-                editor.addAsBlock(JSON.parse(event.target.result.toString()));
+                editor.addAsBlock(JSON.parse(event.target.result.toString()), blockReader.fileName);
             }
         };
     }

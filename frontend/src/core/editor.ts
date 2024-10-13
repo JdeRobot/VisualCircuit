@@ -105,13 +105,16 @@ class Editor {
      *      "dependencies": {...}
      * }
      */
-    public loadProject(jsonModel: any) {
+    public loadProject(jsonModel: any, filename: string = '') {
         const model = new DiagramModel();
         const editor = jsonModel.editor;
         if (editor) {
             model.deserializeModel(editor, this.engine);
             this.activeModel = model;
             this.projectInfo = jsonModel.package;
+            if (this.projectInfo.name === '' && filename !== '') {
+                this.projectInfo.name = filename;
+            }
             this.engine.setModel(model)
         }
     }
@@ -372,12 +375,15 @@ class Editor {
      *      "dependencies": {...}
      * }
      */
-    public addAsBlock(jsonModel: any) {
+    public addAsBlock(jsonModel: any, fileName: string = '') {
         // Helper to convert JSON object to block.
         const block = loadPackage(jsonModel);
         // Get a default position and set it as blocks position
         // TODO: Better way would be to get an empty position dynamically or track mouse's current position.
         if (block) {
+            if (block.info.name === '' && fileName !== '') {
+                block.info.name = fileName;
+            }
             block.setPosition(...getInitialPosition())
             this.activeModel.addNode(block);
             // Once the block is added, the page has to rendered again, this is done by repainting the canvas.
