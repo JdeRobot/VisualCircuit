@@ -157,7 +157,20 @@ class Editor {
         }));
     }
     
+    public getNodeName(nodeType: string): string {
+        if (nodeType === 'basic.input') {
+            return 'Input';
+        } else if (nodeType === 'basic.output') {
+            return 'Output';
+        } else if (nodeType === 'basic.constant') {
+            return 'Parameter';
+        } else if (nodeType === 'basic.code') {
+            return 'Code';
+        }
 
+        return nodeType;
+    }
+    
 
 
     public getGInputsOutput(): [{ indexOne: number, label: string, id:string }[], { indexTwo: number, label: string,id:string }[]] {
@@ -183,7 +196,7 @@ class Editor {
                                 if(node.getType() == 'block.package'){
                                     label = `${options.info.name} -> : ${portOptions.label}`;
                                 }else{
-                                    label = `${node.getType()} -> : ${portOptions.label}`;
+                                    label = `${this.getNodeName(node.getType())} -> : ${portOptions.label}`;
                                 }
                                 valueOne.push({ indexOne, label, id });
                             }
@@ -195,7 +208,7 @@ class Editor {
                             if(node.getType() == 'block.package'){
                                 label = `${options.info.name} -> : ${portOptions.label}`;
                             }else{
-                                label = `${node.getType()} -> : ${portOptions.label}`;
+                                label = `${this.getNodeName(node.getType())} -> : ${portOptions.label}`;
                             }
                             valueTwo.push({ indexTwo, label, id });
                         }
