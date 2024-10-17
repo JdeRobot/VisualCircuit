@@ -29,7 +29,6 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     Blocks, parameters and the connections (wires) between the blocks stored in a 
     JSON file.
     '''
-    # Initialize an empty dictionary for tracking dependencies, blocks, parameters, synhronize_frequency, optional_files
     dependencies = {}
     blocks = {}
     parameters = {}
@@ -157,103 +156,155 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
             # Add the wire to the valid_wires list
             valid_wires.append(wire)
 
-    # Function to process wires and handle absent blocks
+
     def process_wires(valid_wires):
-        # Initialize dictionaries to track source and target ports
-        wire_check_source = {}
-        wire_check_target = {}
+        count = 0  # Initialize a counter for processing iterations
+        changes_detected = True  # Boolean flag to track if changes were made in the current iteration
 
-        # Initialize a counter for iteration
-        count = 0
-        # Set a flag to detect changes
-        changes_detected = True
-
-        # Continue processing while changes are detected
+        # Loop until no changes are detected
         while changes_detected:
-            changes_detected = False
+            wire_check_source = {}  # Dictionary to store wires' source info where 'ob' is absent
+            wire_check_target = {}  
+            changes_detected = False  # Reset changes_detected to False before processing wires
 
-            # Iterate over valid wires in reverse order
+            new_wires = []  # List to store newly created wires
+
+            # Iterate through valid_wires in reverse order
             for i in range(len(valid_wires) - 1, -1, -1):
-                wire = valid_wires[i]
-                remove_wire = False # Flag to determine if the wire should be removed
-                
-                count += 1  # Increment the counter
+                wire = valid_wires[i]  # Access the current wire from valid_wires
+                remove_wire = False  # Flag to mark whether the current wire should be removed
+
+                count += 1  # Increment the processing counter
 
                 # Check if the source port is 'input-out'
                 if wire['source']['port'] == 'input-out':
-                    port_name = wire['source']['block']
-                    # Check if the target is marked 'absent'
+                    port_name = wire['source']['block']  # Get the block name of the source port
+                    
+                    # If the target has 'ob' and it's 'absent', track it for processing later
                     if 'ob' in wire['target'] and wire['target']['ob'] == 'absent':
-                        # Add target details to wire_check_source with 'input-out' port
-                        wire_check_source[port_name] = wire['target'].copy()
-                        wire_check_source[port_name]['port'] = port_name
+                        if port_name not in wire_check_source:  
+                            wire_check_source[port_name] = []  # Initialize list if it's not present
+                        wire_check_source[port_name].append(wire['target'].copy())  # Append a copy of the target
+                        wire_check_source[port_name][-1]['port'] = port_name  # Set the port name for the new entry
                     else:
-                        # Add target details to wire_check_source
-                        wire_check_source[port_name] = wire['target']
-                        # Mark the wire for removal
-                        remove_wire = True
+                        # Otherwise, add the target to wire_check_source and mark for removal
+                        if port_name not in wire_check_source:  
+                            wire_check_source[port_name] = []
+                        wire_check_source[port_name].append(wire['target'])  # Add target to the dictionary
+                        remove_wire = True  # Mark the wire for removal later
 
                 # Check if the target port is 'output-in'
                 if wire['target']['port'] == 'output-in':
-                    port_name = wire['target']['block']
-                    # Check if the source is marked 'absent'
+                    port_name = wire['target']['block']  # Get the block name of the target port
+                    
+                    # If the source has 'ob' and it's 'absent', track it for processing later
                     if 'ob' in wire['source'] and wire['source']['ob'] == 'absent':
-                        # Add source details to wire_check_target with 'output-in' port
-                        wire_check_target[port_name] = wire['source'].copy()
-                        wire_check_target[port_name]['port'] = port_name
+                        if port_name not in wire_check_target:  
+                            wire_check_target[port_name] = []  # Initialize list if it's not present
+                        wire_check_target[port_name].append(wire['source'].copy())  # Append a copy of the source
+                        wire_check_target[port_name][-1]['port'] = port_name  # Set the port name for the new entry
                     else:
-                        # Add source details to wire_check_target
-                        wire_check_target[port_name] = wire['source']
-                        # Mark the wire for removal
-                        remove_wire = True
+                        # Otherwise, add the source to wire_check_target and mark for removal
+                        if port_name not in wire_check_target:
+                            wire_check_target[port_name] = []
+                        wire_check_target[port_name].append(wire['source'])  # Add source to the dictionary
+                        remove_wire = True  # Mark the wire for removal later
 
-                # Remove the wire from valid_wires if marked for removal
+                # Remove the wire if it was marked for removal
                 if remove_wire:
-                    del valid_wires[i]
-                    changes_detected = True # Set flag to true since changes were made
+                    del valid_wires[i]  # Remove the wire from valid_wires
+                    changes_detected = True  # Set changes_detected to True as wires were modified
 
-            # Iterate over the valid wires to update ports
-            for i, wire in enumerate(valid_wires):
-                # Check if the source port name has 36 characters 
+            i = 0  # Initialize counter for iterating through valid_wires
+            new_wires = []  # Reset the list to store any newly created wires
+
+            # Iterate through valid_wires starting from the beginning
+            while i < len(valid_wires):
+                wire = valid_wires[i]  # Access the current wire
+
+                # Check if the source port is exactly 36 characters (for specific port length)
                 if len(wire['source'].get('port', '')) == 36:
-                    port_name = wire['source']['port']
-                    # Update source with wire_check_target details if present
-                    if port_name in wire_check_target:
-                        valid_wires[i]['source'] = wire_check_target[port_name]
-                        # Update port name if 'absent' flag is present
-                        if 'ob' in valid_wires[i]['source']:
+                    port_name = wire['source']['port']  # Get the port name of the source
+
+                    # If the port name exists in wire_check_target, process the sources
+                    if port_name in wire_check_target and wire_check_target[port_name]:
+                        new_sources = wire_check_target[port_name]  # Get the list of sources for the port
+                        
+                        # Replace the source of the current wire with the first new source
+                        valid_wires[i]['source'] = new_sources[0]
+                        if 'ob' in valid_wires[i]['source']:  # If 'ob' exists, set the port name
                             valid_wires[i]['source']['port'] = port_name
+                        
+                        # For remaining sources, create new wires
+                        for new_source in new_sources[1:]:
+                            new_wire = wire.copy()  # Copy the current wire
+                            new_wire['source'] = new_source  # Set the new source for the copied wire
+                            if 'ob' in new_wire['source']:  # If 'ob' exists, set the port name
+                                new_wire['source']['port'] = port_name
+                            new_wires.append(new_wire)  # Add the new wire to new_wires
 
-                # Check if the target port name has 36 characters 
+                # Check if the target port is exactly 36 characters (for specific port length)
                 if len(wire['target'].get('port', '')) == 36:
-                    port_name = wire['target']['port']
-                    # Update target with wire_check_source details if present
-                    if port_name in wire_check_source:
-                        valid_wires[i]['target'] = wire_check_source[port_name]
-                        # Update port name if 'absent' flag is present
-                        if 'ob' in valid_wires[i]['target']:
+                    port_name = wire['target']['port']  # Get the port name of the target
+                    
+                    # If the port name exists in wire_check_source, process the targets
+                    if port_name in wire_check_source and wire_check_source[port_name]:
+                        new_targets = wire_check_source[port_name]  # Get the list of targets for the port
+                        
+                        # Replace the target of the current wire with the first new target
+                        valid_wires[i]['target'] = new_targets[0]
+                        if 'ob' in valid_wires[i]['target']:  # If 'ob' exists, set the port name
                             valid_wires[i]['target']['port'] = port_name
+                        
+                        # For remaining targets, create new wires
+                        for new_target in new_targets[1:]:
+                            new_wire = wire.copy()  # Copy the current wire
+                            new_wire['target'] = new_target  # Set the new target for the copied wire
+                            if 'ob' in new_wire['target']:  # If 'ob' exists, set the port name
+                                new_wire['target']['port'] = port_name
+                            new_wires.append(new_wire)  # Add the new wire to new_wires
 
-        # Return the processed list of valid wires
-        return valid_wires
+                i += 1  # Move to the next wire in the valid_wires list
 
-    # Process the wires to handle 'absent' blocks
+            # Append newly created wires to the valid_wires list
+            valid_wires.extend(new_wires)
+
+            # Remove duplicate wires by checking for uniqueness
+            unique_wires = []  # List to store unique wires
+            seen_wires = set()  # Set to track already seen wires
+
+            # Iterate over valid_wires to remove duplicates
+            for wire in valid_wires:
+                # Convert the wire dictionary to a frozenset for hashability (so it can be added to a set)
+                wire_tuple = frozenset((key, frozenset(value.items())) if isinstance(value, dict) else (key, value) for key, value in wire.items())
+                
+                # Only add unique wires to unique_wires
+                if wire_tuple not in seen_wires:
+                    seen_wires.add(wire_tuple)  # Add the wire to the set of seen wires
+                    unique_wires.append(wire)  # Append the wire to unique_wires
+
+            valid_wires = unique_wires  # Assign the unique wires back to valid_wires
+
+        return valid_wires  # Return the processed valid_wires
+
+
+    # Call the process_wires function to process the wires
     processed_wires = process_wires(valid_wires)
 
-    # Create a final data dictionary with blocks, parameters, frequencies, and wires
+    # Package processed data into a JSON file for saving or further use
     data = {
-        'blocks': blocks, 
-        'parameters': parameters, 
-        'synchronize_frequency': synhronize_frequency, 
-        'wires': processed_wires
+        'blocks': blocks,  # Block-related data
+        'parameters': parameters,  # Parameter-related data
+        'synchronize_frequency': synhronize_frequency,  # Synchronization frequency information
+        'wires': processed_wires  # The processed wire data
     }
-    # Add the data dictionary as a JSON file in the zipfile
-    zipfile.append('data.json', json.dumps(data))
 
-    # Return the updated zipfile and optional files dictionary
+    # Add data to a zipfile (the zipfile object must be defined elsewhere in the code)
+    zipfile.append('data.json', json.dumps(data))  # Append the JSON data to the zipfile
+
+
     return zipfile, optional_files
 
-    
 def synthesize_executioner(zipfile: InMemoryZip, optional_files: Dict[str, bool]) -> InMemoryZip:
     '''Synthesize python code necessary to run the blocks.
     All these files are present in django static directory. 
