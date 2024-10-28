@@ -22,3 +22,4 @@ A list of sample exercises of Robotics Academy solved using VisualCircuit are:
 
 1. [Labyrinth Escape](https://www.youtube.com/watch?v=Xs3iAPYRtVQ&list=PLGlX46StCA-SKzpnScwDv4D8_zeVadaOY&index=12)
 2. [Visual Lander](https://www.youtube.com/watch?v=J1JhnNOKe1o&list=PLGlX46StCA-SKzpnScwDv4D8_zeVadaOY&index=13)
+2. [AutoParking ROS2](https://youtu.be/SRSmFSIsZWQ?si=6o7M_eID6ujkMizU)

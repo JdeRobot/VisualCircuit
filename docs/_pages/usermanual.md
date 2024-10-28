@@ -8,70 +8,39 @@ sidebar:
 ---
 
 
-## ROS Noetic related dependencies
+## Prerequisite
 
 
-To program robotics applications, VisualCircuit tool requires the following dependencies. You can skip this step if you are not interested in programming robotics applications. 
+### Front-end
+For more specific instructions check the frontend [readme](./frontend/README.md) 
+1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
+3. Change directory to `frontend`
+4. Run `npm install`
 
-Installation over Ubuntu 20.04 LTS:
 
-- ROS Noetic: Desktop-Full Install recommended, includes Gazebo. [Link](http://wiki.ros.org/noetic/Installation/Ubuntu).
-- Gazebo 11
+### Back-end
+For more specific instructions check the backend [readme](./backend/README.md)
 
-Full ROS package:
+1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
+2. Change directory to `backend`
+3. Create a Python3 virtual environment using venv. 
+For eg. `python -m venv .venv` 
+4. After activating the virtual environment, install the dependencies by running
+`pip install -r requirements.txt`
+5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
+6. Create the static files to serve during execution by `python manage.py collectstatic`
 
-```
- sudo apt install ros-noetic-desktop-full
-```
+## Start Application
 
-## Current Dependencies
+#### Step 1: Start Frontend
+1. Navigate to the frontend directory:```cd frontend```
+2. Start the frontend server:```npm start```
 
-##### Python 3.8 and above, pip3, Tkinter and OpenCV:
-(Ubuntu 20.04 comes with Python 3.8.2)
 
-```
-sudo apt-get install        \
-python3-tk python3-opencv   \
-python3-pip
-```
+#### Step 2: Start Backend
+1. Navigate to the backend directory:```cd backend```
+2. Start the backend server:```python3 manage.py runserver 8080```
 
-##### NodeJS (14.4.0) and npm (6.14.5):
-
-```
-sudo apt-get install curl                                       
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs
-node --version
-npm --version
-```
-
-## Setup
-
-You can directly use the hosted version of VisualCircuit at https://visualcircuit.org without any setup!
-
-### Local setup
-
-You can download the VisualCircuit-3.x from [here](https://github.com/JdeRobot/VisualCircuit/releases)
-
-## Running the Tool:
-
-After downloading the zip file and extracting it:
-
-Run VisualCircuit frontend:
-
-1. Open the VisualCircuit folder and change directory to `frontend` in a terminal
-2. Run `npm install`
-3. Run `npm start`
-4. Open http://localhost:3000/ in browser.
-
-Run VisualCircuit backend:`
-
-1. Open the VisualCircuit folder and change directory to `backend` in a terminal
-2. Create a Python3 virtual environment using venv. For eg. `python3 -m venv .venv`
-3. After activating the virtual environment, install the dependencies by running `pip install -r requirements.txt`
-4. Add .env file to the backend folder. And add the variables as defined in .env.template
-5. Create the static folder which will serve files during execution using `python3 manage.py collectstatic` 
-6. Start the server by running `python3 manage.py runserver 8000`
 
 
 #### Well Done! you have Successfully Installed the VisualCircuit

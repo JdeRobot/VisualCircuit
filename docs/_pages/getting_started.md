@@ -86,7 +86,7 @@ npm start
 Start the backend
 ```bash
 cd backend
-python3 manage.py runserver
+python3 manage.py runserver 8080
 ```
 
 ### Connecting the Blocks
