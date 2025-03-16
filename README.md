@@ -23,14 +23,14 @@ For more information visit our site [VisualCircuit](https://jderobot.github.io/V
 ## Prerequisite
 
 ### Front-end
-For more specific instructions check the frontend [readme](./frontend/README.md) 
+For more specific instructions check the frontend [readme](/frontend/README.md) 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
 3. Change directory to `frontend`
 4. Run `npm install`
 
 
 ### Back-end
-For more specific instructions check the backend [readme](./backend/README.md)
+For more specific instructions check the backend [readme](/backend/README.md)
 
 1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
 2. Change directory to `backend`
@@ -38,7 +38,7 @@ For more specific instructions check the backend [readme](./backend/README.md)
 For eg. `python -m venv .venv` 
 4. After activating the virtual environment, install the dependencies by running
 `pip install -r requirements.txt`
-5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
+5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](/backend/.env.template)
 6. Create the static files to serve during execution by `python manage.py collectstatic`
 
 ## Start Application
@@ -53,7 +53,7 @@ For eg. `python -m venv .venv`
 2. Start the backend server:```python3 manage.py runserver 8080```
 
 ### How to setup the VC+ 
-In order to setup VC+ to use RoboticsAcademy and VisualCircuit together, follow the instructions given [here](./VC%2B/README.md)
+In order to setup VC+ to use RoboticsAcademy and VisualCircuit together, follow the instructions given [here](/VC%2B/README.md)
 
 
 <!-- CONTRIBUTING -->
