@@ -10,6 +10,6 @@ Django based back-end application for VisualCircuit3.
 For eg. `python -m venv .venv` 
 4. After activating the virtual environment, install the dependencies by running
 `pip install -r requirements.txt`
-5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](./.env.template)
+5. Add `.env` file to the `backend` folder. And add the variables as defined in [.env.template](/backend/.env.template)
 6. Create the static files to serve during execution by `python manage.py collectstatic`
 7. Start the server by running `python manage.py runserver 8080`
