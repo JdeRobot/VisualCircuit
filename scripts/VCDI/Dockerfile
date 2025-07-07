@@ -15,7 +15,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 WORKDIR /app
 
 
-RUN git clone https://github.com/JdeRobot/VisualCircuit.git
+ARG BRANCH=master
+
+RUN git clone --branch ${BRANCH} --single-branch https://github.com/JdeRobot/VisualCircuit.git
+
 
 
 WORKDIR /app/VisualCircuit/frontend
