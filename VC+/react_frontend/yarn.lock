@@ -1431,6 +1431,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@novnc/novnc@^1.5.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@novnc/novnc/-/novnc-1.6.0.tgz#e68ac47d8d4151a34a80f408b5ffa3af5e4780d2"
+  integrity sha512-CJrmdSe9Yt2ZbLsJpVFoVkEu0KICEvnr3njW25Nz0jodaiFJtg8AYLGZogRYy0/N5HUWkGUsCmegKXYBSqwygw==
+
 "@npmcli/fs@^1.0.0":
   version "1.1.1"
   resolved "https://registry.npmjs.org/@npmcli/fs/-/fs-1.1.1.tgz"
@@ -1562,6 +1567,11 @@
   version "2.4.1"
   resolved "https://registry.npmjs.org/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
+
+"@types/novnc__novnc@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@types/novnc__novnc/-/novnc__novnc-1.6.0.tgz#92bcc7a3a4915adaa80d4eb4d0c1b65d12d90b4f"
+  integrity sha512-kIH/PQACbf9qj6whiSXRKECpyzgs6IFNVsW4wohyqQUZfQHdLhuGRMLi9XEhBiISSh0lKCSbBa7kScuPu9Gk+Q==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -3567,10 +3577,10 @@ js-sdsl@^4.1.4:
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.0.tgz"
-  integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
+js-yaml@^4.1.0, js-yaml@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.1.tgz#854c292467705b699476e1a2decc0c8a3458806b"
+  integrity sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==
   dependencies:
     argparse "^2.0.1"
 
@@ -4623,10 +4633,13 @@ react-use@^17.4.0:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
-react-vnc@^0.5.1:
-  version "0.5.4"
-  resolved "https://registry.npmjs.org/react-vnc/-/react-vnc-0.5.4.tgz"
-  integrity sha512-bqeP9z0T/m1jZeHlNVNjP4YtQN/vtQO7gdXaI50lH9LxattNteEkm1f49JqJ3l2Mw8ASKYc0pkSF+P50JSJn3w==
+react-vnc@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-vnc/-/react-vnc-3.1.0.tgz#6ccfc7696e303c6f8bbfecbd50e4a68ae4918a7d"
+  integrity sha512-yUihinDNYn6djq7x/ft1c+VWEIhgKKgMzUyCLrdYbmpyABEVBRTQEThGhF0+r8YAz6BJge8wRBC7CZC+pioG+w==
+  dependencies:
+    "@novnc/novnc" "^1.5.0"
+    "@types/novnc__novnc" "^1.6.0"
 
 react@^18.2.0:
   version "18.2.0"
