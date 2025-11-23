@@ -1,5 +1,6 @@
 import { AppBar, Button, Toolbar, useTheme } from '@material-ui/core';
 import { ClickEvent, Menu, MenuItem, SubMenu } from '@szhsin/react-menu';
+import html2canvas from 'html2canvas';
 import React, { ChangeEvent } from 'react';
 import logo from '../../assets/images/logo.png';
 import { PROJECT_FILE_EXTENSION } from '../../core/constants';
@@ -197,6 +198,33 @@ function MenuBar(props: MenuBarProps) {
     }
 
     /**
+     * Export the current canvas as a PNG image.
+     * Captures the element with id 'canvas-container' using html2canvas and triggers a download.
+     */
+    const exportAsPNG = (_event: ClickEvent) => {
+        const container = document.getElementById('canvas-container');
+        if (!container) {
+            alert('Canvas area not found.');
+            return;
+        }
+        // Use promise chain so handler remains synchronous for the menu component
+        html2canvas(container as HTMLElement, { backgroundColor: null })
+            .then((canvas: HTMLCanvasElement) => {
+                const url = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = editor.getName() + '.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch((err: any) => {
+                console.error('Error exporting canvas as PNG:', err);
+                alert('Could not export canvas as PNG. See console for details.');
+            });
+    }
+
+    /**
      * Recursive helper function to generate menu options for the Blocks menu.
      * @param blocks Map containing Blocks menu structure
      * @param key Prefix to be used while constructing block name.
@@ -235,6 +263,7 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem onClick={saveBlock}>Save Block</MenuItem>
                     <MenuItem onClick={addAsBlock}>Add as block</MenuItem>
                     <MenuItem onClick={buildAndDownload}>Build and Download</MenuItem>
+                    <MenuItem onClick={exportAsPNG}>Export as PNG</MenuItem>
                 </Menu>
                 <Menu
                     menuButton={<Button className='menu-button'>Edit</Button>}
