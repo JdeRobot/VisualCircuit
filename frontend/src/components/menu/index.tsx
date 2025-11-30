@@ -207,7 +207,8 @@ function MenuBar(props: MenuBarProps) {
             alert('Canvas area not found.');
             return;
         }
-        // Use promise chain so handler remains synchronous for the menu component
+       // The promise chain ensures the handler executes synchronously within the menu component.
+
         html2canvas(container as HTMLElement, { backgroundColor: null })
             .then((canvas: HTMLCanvasElement) => {
                 const url = canvas.toDataURL('image/png');
