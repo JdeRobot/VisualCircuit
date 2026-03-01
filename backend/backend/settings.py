@@ -147,9 +147,18 @@ STATIC_ROOT = 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        env.str('VISUAL_CIRCUIT_FRONTEND_HOST')
-    ]
+    # Accept a comma-separated list of frontend hosts (e.g. http://localhost:4000)
+    # Also automatically append standard fallback ports if the primary port gets busy
+    base_origins = [origin.strip() for origin in env.str('VISUAL_CIRCUIT_FRONTEND_HOST').split(',')]
+    CORS_ALLOWED_ORIGINS = list(base_origins)
+    
+    # If using localhost:4000, dynamically add 4001 and 4002 as fallbacks
+    for origin in base_origins:
+        if origin.endswith(':4000'):
+            CORS_ALLOWED_ORIGINS.extend([
+                origin.replace(':4000', ':4001'),
+                origin.replace(':4000', ':4002')
+            ])
 # if DEBUG:
 #     CORS_ALLOWED_ORIGINS = [
 #         env.str('VISUAL_CIRCUIT_FRONTEND_HOST'),
