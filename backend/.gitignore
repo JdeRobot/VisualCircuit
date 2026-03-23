@@ -139,3 +139,4 @@ cython_debug/
 
 
 static/*
+!static/synthesis/

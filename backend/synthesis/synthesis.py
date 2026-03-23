@@ -180,34 +180,56 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                 if wire['source']['port'] == 'input-out':
                     port_name = wire['source']['block']  # Get the block name of the source port
                     
+                    # Store by block ID (UUID)
+                    if port_name not in wire_check_source:
+                        wire_check_source[port_name] = []
+                    
+                    # Store by name as well (e.g. "Img")
+                    if 'name' in wire['source']:
+                        name_key = wire['source']['name']
+                        if name_key not in wire_check_source:
+                            wire_check_source[name_key] = []
+
                     # If the target has 'ob' and it's 'absent', track it for processing later
                     if 'ob' in wire['target'] and wire['target']['ob'] == 'absent':
-                        if port_name not in wire_check_source:  
-                            wire_check_source[port_name] = []  # Initialize list if it's not present
-                        wire_check_source[port_name].append(wire['target'].copy())  # Append a copy of the target
-                        wire_check_source[port_name][-1]['port'] = port_name  # Set the port name for the new entry
+                        target_data = wire['target'].copy()
+                        target_data['port'] = port_name
+                        wire_check_source[port_name].append(target_data)
+                        if 'name' in wire['source']:
+                            wire_check_source[wire['source']['name']].append(target_data)
                     else:
                         # Otherwise, add the target to wire_check_source and mark for removal
-                        if port_name not in wire_check_source:  
-                            wire_check_source[port_name] = []
-                        wire_check_source[port_name].append(wire['target'])  # Add target to the dictionary
+                        wire_check_source[port_name].append(wire['target'])
+                        if 'name' in wire['source']:
+                            wire_check_source[wire['source']['name']].append(wire['target'])
                         remove_wire = True  # Mark the wire for removal later
 
                 # Check if the target port is 'output-in'
                 if wire['target']['port'] == 'output-in':
                     port_name = wire['target']['block']  # Get the block name of the target port
                     
+                    # Store by block ID (UUID)
+                    if port_name not in wire_check_target:
+                        wire_check_target[port_name] = []
+                    
+                    # Store by name as well (e.g. "Out")
+                    if 'name' in wire['target']:
+                        name_key = wire['target']['name']
+                        if name_key not in wire_check_target:
+                            wire_check_target[name_key] = []
+
                     # If the source has 'ob' and it's 'absent', track it for processing later
                     if 'ob' in wire['source'] and wire['source']['ob'] == 'absent':
-                        if port_name not in wire_check_target:  
-                            wire_check_target[port_name] = []  # Initialize list if it's not present
-                        wire_check_target[port_name].append(wire['source'].copy())  # Append a copy of the source
-                        wire_check_target[port_name][-1]['port'] = port_name  # Set the port name for the new entry
+                        source_data = wire['source'].copy()
+                        source_data['port'] = port_name
+                        wire_check_target[port_name].append(source_data)
+                        if 'name' in wire['target']:
+                            wire_check_target[wire['target']['name']].append(source_data)
                     else:
                         # Otherwise, add the source to wire_check_target and mark for removal
-                        if port_name not in wire_check_target:
-                            wire_check_target[port_name] = []
-                        wire_check_target[port_name].append(wire['source'])  # Add source to the dictionary
+                        wire_check_target[port_name].append(wire['source'])
+                        if 'name' in wire['target']:
+                            wire_check_target[wire['target']['name']].append(wire['source'])
                         remove_wire = True  # Mark the wire for removal later
 
                 # Remove the wire if it was marked for removal
@@ -222,8 +244,8 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
             while i < len(valid_wires):
                 wire = valid_wires[i]  # Access the current wire
 
-                # Check if the source port is exactly 36 characters (for specific port length)
-                if len(wire['source'].get('port', '')) == 36:
+                # Check if the source port exists
+                if 'port' in wire['source']:
                     port_name = wire['source']['port']  # Get the port name of the source
 
                     # If the port name exists in wire_check_target, process the sources
