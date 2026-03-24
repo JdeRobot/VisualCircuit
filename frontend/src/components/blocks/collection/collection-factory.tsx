@@ -37,6 +37,7 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
                 'edgeDetector': {'label': 'Edge Detector'},
                 'erosion': {'label': 'Erosion'},
                 'faceDetector': {'label': 'Face Detector'},
+                'imageInvert': {'label': 'Image Invert'},
                 'imageRead': {'label': 'Image Read'},
                 'screen': { 'label': 'Screen' },
                 'threshold': {'label': 'Threshold'},
@@ -76,6 +77,7 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
                 'edgeDetector': {'label': 'Edge Detector'},
                 'erosion': {'label': 'Erosion'},
                 'faceDetector': {'label': 'Face Detector'},
+                'imageInvert': {'label': 'Image Invert'},
                 'threshold': {'label': 'Threshold'},
             }
         },
@@ -159,6 +161,8 @@ export function getCollectionBlock(name: string) {
             return import('./opencv/FaceDetector.json');
         case 'drivers.opencv.imageRead':
             return import('./opencv/ImageRead.json');
+        case 'processing.opencv.imageInvert':
+            return import('./opencv/ImageInvert.json');
         case 'drivers.opencv.screen':
             return import('./opencv/Screen.json');
         case 'processing.opencv.threshold':
