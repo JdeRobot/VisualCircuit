@@ -9,8 +9,23 @@ import json
 BLOCK_DIRECTORY = 'modules'
 
 OPTIONAL_FILES = {
-    'FaceDetector' : 'utils/models/haar_cascade/*',
-    'ObjectDetector': 'utils/models/yolov3/*'
+    'FaceDetector' : 'utils/models/haar_cascade/**/*',
+    'ObjectDetector': 'utils/models/yolov3/**/*'
+}
+
+BLOCK_DEPENDENCIES = {
+    'FaceDetector': ['opencv-python', 'numpy'],
+    'ObjectDetector': ['opencv-python', 'numpy'],
+    'ContourDetector': ['opencv-python', 'numpy'],
+    'Cropper': ['opencv-python', 'numpy'],
+    'ColorFilter': ['opencv-python', 'numpy'],
+    'Blur': ['opencv-python', 'numpy'],
+    'Dilation': ['opencv-python', 'numpy'],
+    'EdgeDetector': ['opencv-python', 'numpy'],
+    'Erosion': ['opencv-python', 'numpy'],
+    'Threshold': ['opencv-python', 'numpy'],
+    'VideoStreamer': ['opencv-python', 'numpy'],
+    'ImageRead': ['opencv-python', 'numpy']
 }
 
 PROJECT_FILE_EXTENSION = '.vc3'
@@ -34,6 +49,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     parameters = {}
     synhronize_frequency = {}
     optional_files = {}
+    project_dependencies = set()
     wire_comp = data['design']['graph']['wires'] # Retrieve all wire connections from the design graph
     dep_no = {}  # Dictionary to store the number of blocks of each type
 
@@ -60,6 +76,9 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
                     # Check if the script name is already in optional files
                     if script_name in optional_files:
                         optional_files[script_name] = True  # Mark the script as required in optional files
+
+                    if script_name in BLOCK_DEPENDENCIES:
+                        project_dependencies.update(BLOCK_DEPENDENCIES[script_name])
 
                     script_name += dependency['package']['version'].replace('.', '')    # Append version number to the script name, removing dots
                     
@@ -303,7 +322,7 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
     zipfile.append('data.json', json.dumps(data))  # Append the JSON data to the zipfile
 
 
-    return zipfile, optional_files
+    return zipfile, optional_files, project_dependencies
 
 def synthesize_executioner(zipfile: InMemoryZip, optional_files: Dict[str, bool]) -> InMemoryZip:
     '''Synthesize python code necessary to run the blocks.
@@ -338,9 +357,13 @@ def synthesize(data: dict) -> Tuple[str, BytesIO]:
     '''
     zipfile = InMemoryZip()
     # Optional files required based on blocks present.
-    zipfile, optional_files = syntheize_modules(data, zipfile)
+    zipfile, optional_files, project_dependencies = syntheize_modules(data, zipfile)
     zipfile = synthesize_executioner(zipfile, optional_files)
     zipfile = syntesize_extras(zipfile)
+    
+    if project_dependencies:
+        requirements_content = "\n".join(project_dependencies) + "\n"
+        zipfile.append('requirements.txt', requirements_content)
 
     # Project name (zipfile name) 
     project_name = f"{data['package']['name']}" if data['package']['name'] != '' else 'Project'

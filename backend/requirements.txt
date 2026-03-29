@@ -1,4 +1,4 @@
 django
-python-environ
+django-environ
 django-cors-headers
 gunicorn
