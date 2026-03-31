@@ -15,7 +15,7 @@ def create_readonly_wire(name):
 def create_number_wire(name, size):
         try:
             shm = shared_memory.SharedMemory(name=name)
-        except:
+        except FileNotFoundError:
             shm = shared_memory.SharedMemory(name=name, create=True, size=size)
         # self.shms.append(shm)
         return shm
@@ -27,11 +27,6 @@ class Inputs:
     def __init__(self, input_data) -> None:
         self.inputs = input_data
         self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
-
-    def _init_enabled(self) -> None:
-        # This function is redundant for now, its not being used anywhere
-        self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
-        self._enable_condition = Condition(self.inputs[Inputs.ENABLE_NAME]["lock"]) if self.enable_wire else None
 
     def read(self, name):
         if self.inputs.get(name) is None:
@@ -196,9 +191,8 @@ class Inputs:
 
 
         else:
-            # Wire doesn't exist yet, ideally has to be created and set
-            # TODO: Is this case necessary?
-            # Yep case is definitely necessary especially by this implementation
+            # Wire doesn't exist yet, so it must be created and set.
+            # This case is necessary for the current initialization implementation.
             
             if _enabled:
             # If the command has been give to enable the wire     
