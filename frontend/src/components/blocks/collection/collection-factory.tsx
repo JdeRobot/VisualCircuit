@@ -65,6 +65,14 @@ export const collectionBlocks: { 'blocks': CollectionBlockType,
                 'pid': {'label': 'PID'},
             }
         },
+        'logic': {
+            'label': 'Logic',
+            'children': {
+                'andGate': {'label': 'AND Gate'},
+                'orGate': {'label': 'OR Gate'},
+                'notGate': {'label': 'NOT Gate'},
+            }
+        },
         'opencv': {
             'label': 'OpenCV',
             'children': {
@@ -179,8 +187,14 @@ export function getCollectionBlock(name: string) {
             return import('./ros-sensors/ROS2LaserScan.json');
         case 'processing.tensorflow.objectDetector':
             return import('./tensorflow/ObjectDetector.json');
+        case 'processing.logic.andGate':
+            return import('./logic/ANDGate.json');
+        case 'processing.logic.orGate':
+            return import('./logic/ORGate.json');
+        case 'processing.logic.notGate':
+            return import('./logic/NOTGate.json');
 
-        
+
         default:
             break;
     }

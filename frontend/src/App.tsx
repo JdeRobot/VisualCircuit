@@ -1,4 +1,4 @@
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 import React, { useState } from 'react';
 import ModalContainer from 'react-modal-promise';
 import './App.scss';
@@ -10,7 +10,7 @@ import Board from './pages/board';
 /**
  * Use default dark theme from Material UI
  */
-const darkTheme = createMuiTheme({
+const darkTheme = createTheme({
   palette: {
     type: 'dark',
   },
