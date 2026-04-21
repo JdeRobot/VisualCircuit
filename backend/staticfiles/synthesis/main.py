@@ -50,6 +50,17 @@ def clean_shared_memory(signum, frame, names, processes):
     sys.exit(0)
 
 
+def process_wrapper(method, inputs, outputs, parameters, sync):
+    import sys
+    import os
+    try:
+        # Restore standard input in the spawned process (important for macOS where spawn is default)
+        sys.stdin = os.fdopen(0)
+    except Exception:
+        pass
+    method(inputs, outputs, parameters, sync)
+
+
 def main():
     """
     Main function
@@ -117,14 +128,17 @@ def main():
     for block_id, block in blocks.items():
         name = BLOCK_DIRECTORY + "." + block["name"]
         mod = importlib.import_module(name)
-        method = method = getattr(mod, FUNCTION_NAME)
+        method = getattr(mod, FUNCTION_NAME)
 
         inputs = Inputs(block_data[block_id]["inputs"])
         outputs = Outputs(block_data[block_id]["outputs"])
         parameters = Parameters(block_data[block_id]["parameters"])
         freq = block_data[block_id]["frequency"]
         processes.append(
-            multiprocessing.Process(target=method, args=(inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30))))
+            multiprocessing.Process(
+                target=process_wrapper, 
+                args=(method, inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30)))
+            )
         )
 
     # Register handler for Ctrl+C
