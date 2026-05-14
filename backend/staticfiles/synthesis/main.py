@@ -51,13 +51,36 @@ def clean_shared_memory(signum, frame, names, processes):
 
 
 def process_wrapper(method, inputs, outputs, parameters, sync):
+    """
+    Wrapper that restores sys.stdin before running a block's main().
+
+    On macOS / Windows, multiprocessing uses 'spawn' which starts a fresh
+    Python interpreter where sys.stdin is None.  Calling input() in that
+    state raises EOFError immediately (Issue #359).
+
+    Strategy:
+      1. If fd 0 is a real TTY, open /dev/tty so the block gets a proper
+         interactive terminal (works even inside Docker with -it).
+      2. Otherwise fall back to os.fdopen(0) for piped / non-TTY contexts.
+      3. If both fail, leave sys.stdin unchanged and let the block handle it.
+    """
     import sys
     import os
-    try:
-        # Restore standard input in the spawned process (important for macOS where spawn is default)
-        sys.stdin = os.fdopen(0)
-    except Exception:
-        pass
+
+    if os.isatty(0):
+        # fd 0 is connected to a real terminal — give the block full TTY access
+        try:
+            sys.stdin = open('/dev/tty', 'r')
+        except OSError:
+            # /dev/tty not available (rare); fall back to wrapping fd 0 directly
+            try:
+                sys.stdin = os.fdopen(0)
+            except OSError:
+                pass  # leave sys.stdin as-is; block may not need input()
+    # If fd 0 is NOT a tty (pipe / redirect / Docker without -it),
+    # we do NOT restore stdin — input() will raise EOFError, which is the
+    # correct, expected behaviour in a non-interactive environment.
+
     method(inputs, outputs, parameters, sync)
 
 
@@ -130,13 +153,19 @@ def main():
         mod = importlib.import_module(name)
         method = getattr(mod, FUNCTION_NAME)
 
+        # Ensure block_data entry exists even for blocks with no wires / parameters
+        block_data[block_id] = block_data.get(
+            block_id, {"inputs": {}, "outputs": {}, "parameters": {}}
+        )
+
         inputs = Inputs(block_data[block_id]["inputs"])
         outputs = Outputs(block_data[block_id]["outputs"])
         parameters = Parameters(block_data[block_id]["parameters"])
-        freq = block_data[block_id]["frequency"]
+        # Default frequency to 30 Hz if not specified by any wire / synchronize_frequency entry
+        freq = block_data[block_id].get("frequency", 30)
         processes.append(
             multiprocessing.Process(
-                target=process_wrapper, 
+                target=process_wrapper,
                 args=(method, inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30)))
             )
         )
