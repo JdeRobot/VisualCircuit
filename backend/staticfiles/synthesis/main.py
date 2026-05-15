@@ -54,6 +54,16 @@ def main():
     """
     Main function
     """
+    # Handle EOFError from input() calls in subprocesses
+    import builtins
+    original_input = builtins.input
+    def safe_input(prompt=""):
+        try:
+            return original_input(prompt)
+        except EOFError:
+            return ""
+    builtins.input = safe_input
+    
     with open("data.json") as json_file:
         data = json.load(json_file)
 
