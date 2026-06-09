@@ -159,8 +159,7 @@ if DEBUG:
                 origin.replace(':4000', ':4001'),
                 origin.replace(':4000', ':4002')
             ])
-# if DEBUG:
-#     CORS_ALLOWED_ORIGINS = [
-#         env.str('VISUAL_CIRCUIT_FRONTEND_HOST'),
-#         f"{env.str('VISUAL_CIRCUIT_FRONTEND_HOST')}:{DESIRED_PORT}",
-#     ]
+
+    # Allow frontend to read the Content-Disposition header to get the correct .zip filename
+    CORS_EXPOSE_HEADERS = ['Content-Disposition']
+
