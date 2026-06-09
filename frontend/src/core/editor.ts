@@ -412,6 +412,32 @@ class Editor {
     }
 
     /**
+     * Extracts nodes and wires from a project JSON and places them directly onto the canvas, 
+     * completely bypassing the PackageBlock (Macro) encapsulation.
+     */
+    public addAsRawBlocks(jsonModel: any) {
+        // 1. Use the existing loadPackage to handle deep cloning and UUID regeneration safely
+        const packageBlock = loadPackage(jsonModel);
+        
+        if (packageBlock && packageBlock.model) {
+            // 2. Deserialize the regenerated JSON into a temporary model to instantiate the NodeModels
+            const tempModel = new DiagramModel();
+            tempModel.deserializeModel(packageBlock.model, this.engine);
+            
+            // 3. Move all instantiated nodes and links directly onto the active canvas!
+            Object.values(tempModel.getNodes()).forEach((node) => {
+                this.activeModel.addNode(node);
+            });
+            
+            Object.values(tempModel.getLinks()).forEach((link) => {
+                this.activeModel.addLink(link);
+            });
+            
+            this.engine.repaintCanvas();
+        }
+    }
+
+    /**
      * Open a block as current project (model)
      * @param node Block to be opened
      */
