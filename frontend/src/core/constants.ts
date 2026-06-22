@@ -20,6 +20,8 @@ export interface ProjectInfo {
     description: string;
     author: string;
     image: string;
+    category?: string;
+    tags?: string[];
 }
 
 /**

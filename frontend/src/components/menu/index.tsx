@@ -1,12 +1,13 @@
 import { AppBar, Button, Toolbar, useTheme } from '@material-ui/core';
 import { ClickEvent, Menu, MenuItem, SubMenu } from '@szhsin/react-menu';
 import html2canvas from 'html2canvas';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import logo from '../../assets/images/logo.png';
 import { PROJECT_FILE_EXTENSION } from '../../core/constants';
 import Editor from '../../core/editor';
 import { textFile2DataURL } from '../../core/utils';
 import { collectionBlocks, CollectionBlockType } from '../blocks/collection/collection-factory';
+import MarketplacePanel from '../marketplace/MarketplacePanel';
 import './styles.scss';
 
 
@@ -32,6 +33,27 @@ function MenuBar(props: MenuBarProps) {
     const projectReader : FileHelper = {'fileName': '', 'reader': new FileReader()};
     const blockReader: FileHelper = {'fileName': '', 'reader': new FileReader()};
     const { editor } = props;
+    
+    // State
+    const [marketplaceOpen, setMarketplaceOpen] = useState(false);
+    const [downloads, setDownloads] = useState<any[]>([]);
+
+    const loadDownloads = () => {
+        try {
+            const stored = localStorage.getItem('vc_marketplace_blocks');
+            if (stored) {
+                setDownloads(JSON.parse(stored));
+            }
+        } catch (e) {
+            console.error("Failed to load downloads", e);
+        }
+    };
+
+    useEffect(() => {
+        loadDownloads();
+        window.addEventListener('vc_marketplace_updated', loadDownloads);
+        return () => window.removeEventListener('vc_marketplace_updated', loadDownloads);
+    }, []);
 
     /**
      * Callback for when a block is selected.
@@ -250,6 +272,13 @@ function MenuBar(props: MenuBarProps) {
     const processingBlocks = blocksEntries(collectionBlocks.processing, 'processing');
     const driverBlocks = blocksEntries(collectionBlocks.drivers, 'drivers');
 
+    const groupedDownloads = downloads.reduce((acc, block) => {
+        const cat = block.package?.category || 'Uncategorized';
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(block);
+        return acc;
+    }, {} as Record<string, any[]>);
+
     // TODO: Localise string instead of hardcoding it. 
     return (
         <AppBar position="static" className='menu-bar' id='menu-bar'>
@@ -278,6 +307,15 @@ function MenuBar(props: MenuBarProps) {
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit' target='_blank'>Github</MenuItem>
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit/releases' target='_blank'>Releases</MenuItem>
                 </Menu>
+                
+                <Button 
+                    className='menu-button' 
+                    onClick={() => setMarketplaceOpen(true)}
+                    style={{ marginLeft: '1em' }}
+                >
+                    Marketplace
+                </Button>
+
                 <div style={{ flex: 1 }} />
                 <Menu
                     menuButton={<Button className='menu-button'>Basic</Button>}
@@ -304,6 +342,24 @@ function MenuBar(props: MenuBarProps) {
                     theming={isDark ? 'dark' : undefined}>
                     {driverBlocks}
                 </Menu>
+
+                {downloads.length > 0 && (
+                    <Menu
+                        menuButton={<Button className='menu-button' style={{ color: '#ffb300' }}>Downloads</Button>}
+                        theming={isDark ? 'dark' : undefined}>
+                        {Object.entries(groupedDownloads).map(([cat, catBlocks]: [string, any]) => (
+                            <SubMenu label={cat} key={cat}>
+                                {catBlocks.map((b: any) => (
+                                    <MenuItem 
+                                        key={b.package.name} 
+                                        onClick={() => editor.addAsBlock(b, b.package.name)}>
+                                        {b.package.name}
+                                    </MenuItem>
+                                ))}
+                            </SubMenu>
+                        ))}
+                    </Menu>
+                )}
             </Toolbar>
             {/* Hidden file input field for opening project file selection dialog. */}
             <input type='file' id='openProjectInput' accept={PROJECT_FILE_EXTENSION}
@@ -313,6 +369,12 @@ function MenuBar(props: MenuBarProps) {
                 onChange={(event) => onFileUpload(event, blockReader)} hidden />
             <a href='/' id='saveProjectLink' hidden download>Download Project</a>
             <a href='/' id='buildProjectLink' hidden download>Build Project</a>
+            
+            <MarketplacePanel 
+                open={marketplaceOpen} 
+                onClose={() => setMarketplaceOpen(false)} 
+                editor={editor} 
+            />
         </AppBar>
     )
 }
