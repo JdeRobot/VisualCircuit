@@ -47,7 +47,7 @@
     "classnames": "^2.3.1",
     "fs": "^0.0.1-security",
     "glob": "^8.0.3",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.3.0",
     "loglevel": "^1.8.0",
     "mui-image": "^1.0.5",
     "prop-types": "^15.8.1",
