@@ -36,15 +36,6 @@ const ProjectInfoDialog = ({ isOpen, onResolve, onReject,
     // Tags of the package (comma separated)
     const [tagsInput, setTags] = useState(tags ? tags.join(', ') : '');
 
-    const ALLOWED_CATEGORIES = [
-        "Computer Vision",
-        "Control Systems",
-        "Locomotion",
-        "Machine Learning",
-        "Utilities",
-        "ROS2"
-    ];
-
     const fileReader = new FileReader();
     fileReader.onload = (event) => {
         if (event.target?.result) {
@@ -145,19 +136,14 @@ const ProjectInfoDialog = ({ isOpen, onResolve, onReject,
                     Category
                 </DialogContentText>
                 <TextField
-                    select
+                    autoFocus
                     margin="dense"
+                    type="text"
                     variant='outlined'
                     value={categoryInput}
                     onChange={(event) => setCategory(event.target.value)}
                     fullWidth
-                >
-                    {ALLOWED_CATEGORIES.map((cat) => (
-                        <MenuItem key={cat} value={cat}>
-                            {cat}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                />
 
                 <DialogContentText>
                     Tags (comma separated)
