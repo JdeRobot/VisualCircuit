@@ -72,7 +72,7 @@ const MarketplacePanel: React.FC<MarketplacePanelProps> = ({ open, onClose, edit
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://raw.githubusercontent.com/Sarvesh-Mishra1981/VisualCircuit-resources/main/marketplace/registry.json');
+      const response = await fetch('https://raw.githubusercontent.com/JdeRobot/VisualCircuit-resources/main/marketplace/registry.json');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
