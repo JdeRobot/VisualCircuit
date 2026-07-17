@@ -1,4 +1,4 @@
-from multiprocessing import shared_memory, Condition
+from multiprocessing import shared_memory
 
 import numpy as np
 from lib.exceptions import InvalidInputNameException
@@ -13,12 +13,11 @@ def create_readonly_wire(name):
     return shm
 
 def create_number_wire(name, size):
-        try:
-            shm = shared_memory.SharedMemory(name=name)
-        except:
-            shm = shared_memory.SharedMemory(name=name, create=True, size=size)
-        # self.shms.append(shm)
-        return shm
+    try:
+        shm = shared_memory.SharedMemory(name=name)
+    except FileNotFoundError:
+        shm = shared_memory.SharedMemory(name=name, create=True, size=size)
+    return shm
 
 class Inputs:
 
@@ -27,11 +26,6 @@ class Inputs:
     def __init__(self, input_data) -> None:
         self.inputs = input_data
         self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
-
-    def _init_enabled(self) -> None:
-        # This function is redundant for now, its not being used anywhere
-        self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
-        self._enable_condition = Condition(self.inputs[Inputs.ENABLE_NAME]["lock"]) if self.enable_wire else None
 
     def read(self, name):
         if self.inputs.get(name) is None:
@@ -196,12 +190,10 @@ class Inputs:
 
 
         else:
-            # Wire doesn't exist yet, ideally has to be created and set
-            # TODO: Is this case necessary?
-            # Yep case is definitely necessary especially by this implementation
-            
+            # Wire doesn't exist yet: this implementation requires it to be
+            # created and set here.
             if _enabled:
-            # If the command has been give to enable the wire     
+                # The command has been given to enable the wire
                 wire_name = self._enable_data["wire"]
                 # Value of the wire to be set
                 wire_val = np.array([1])
