@@ -38,14 +38,18 @@ function MenuBar(props: MenuBarProps) {
     const [marketplaceOpen, setMarketplaceOpen] = useState(false);
     const [downloads, setDownloads] = useState<any[]>([]);
 
-    const loadDownloads = () => {
+    const loadDownloads = async () => {
         try {
-            const stored = localStorage.getItem('vc_marketplace_blocks');
-            if (stored) {
-                setDownloads(JSON.parse(stored));
+            const backendHost = process.env.REACT_APP_BACKEND_HOST || 'http://localhost:8000/api/';
+            const endpoint = backendHost.endsWith('/') ? `${backendHost}installed_blocks` : `${backendHost}/installed_blocks`;
+            
+            const response = await fetch(endpoint);
+            if (response.ok) {
+                const data = await response.json();
+                setDownloads(data.blocks || []);
             }
         } catch (e) {
-            console.error("Failed to load downloads", e);
+            console.error("Failed to load downloads from backend", e);
         }
     };
 
