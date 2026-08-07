@@ -160,6 +160,6 @@ if DEBUG:
                 origin.replace(':4000', ':4002')
             ])
 
+
     # Allow frontend to read the Content-Disposition header to get the correct .zip filename
     CORS_EXPOSE_HEADERS = ['Content-Disposition']
-
