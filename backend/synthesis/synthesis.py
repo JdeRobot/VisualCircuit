@@ -5,6 +5,8 @@ from synthesis.file_utils import InMemoryZip
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.staticfiles.utils import get_files
 import json
+import ast
+import sys
 
 BLOCK_DIRECTORY = 'modules'
 
@@ -29,6 +31,14 @@ BLOCK_DEPENDENCIES = {
 }
 
 PROJECT_FILE_EXTENSION = '.vc3'
+
+COMMON_PIP_ALIASES = {
+    'cv2': 'opencv-python',
+    'sklearn': 'scikit-learn',
+    'PIL': 'Pillow',
+    'bs4': 'beautifulsoup4',
+    'yaml': 'pyyaml'
+}
 
 def get_number_or_default(num, default):
     try:
@@ -79,6 +89,24 @@ def syntheize_modules(data: dict, zipfile: InMemoryZip) -> Tuple[InMemoryZip, Di
 
                     if script_name in BLOCK_DEPENDENCIES:
                         project_dependencies.update(BLOCK_DEPENDENCIES[script_name])
+
+                    # AST automated dependency parsing
+                    try:
+                        tree = ast.parse(script)
+                        stdlib_names = getattr(sys, 'stdlib_module_names', set())
+                        for node in ast.walk(tree):
+                            module_name = None
+                            if isinstance(node, ast.Import):
+                                for alias in node.names:
+                                    module_name = alias.name.split('.')[0]
+                            elif isinstance(node, ast.ImportFrom) and node.module:
+                                module_name = node.module.split('.')[0]
+                            
+                            if module_name and module_name not in stdlib_names:
+                                pip_name = COMMON_PIP_ALIASES.get(module_name, module_name)
+                                project_dependencies.add(pip_name)
+                    except Exception as e:
+                        print(f"Warning: Failed to parse AST for block {script_name}: {e}")
 
                     script_name += dependency['package']['version'].replace('.', '')    # Append version number to the script name, removing dots
                     

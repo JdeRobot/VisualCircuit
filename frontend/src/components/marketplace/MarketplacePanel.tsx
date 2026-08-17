@@ -96,29 +96,27 @@ const MarketplacePanel: React.FC<MarketplacePanelProps> = ({ open, onClose, edit
       const isValid = validateMarketplaceBlock(blockData);
       
       if (isValid) {
-        // Save to Local Storage
-        let installedBlocks = [];
         try {
-            const stored = localStorage.getItem('vc_marketplace_blocks');
-            if (stored) {
-                installedBlocks = JSON.parse(stored);
-            }
-        } catch (e) {
-            console.warn("Could not read local storage", e);
-        }
-        
-        // Avoid duplicates by checking package name
-        const exists = installedBlocks.find((b: any) => b.package && b.package.name === blockData.package.name);
-        if (!exists) {
-            installedBlocks.push(blockData);
-            localStorage.setItem('vc_marketplace_blocks', JSON.stringify(installedBlocks));
+            const backendHost = process.env.REACT_APP_BACKEND_HOST || 'http://localhost:8000/api/';
+            const endpoint = backendHost.endsWith('/') ? `${backendHost}install_block` : `${backendHost}/install_block`;
             
-            // Dispatch event so the MenuBar updates
+            const installResponse = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(blockData),
+            });
+            
+            if (!installResponse.ok) {
+                throw new Error(`Backend error: ${installResponse.status}`);
+            }
             window.dispatchEvent(new Event('vc_marketplace_updated'));
 
-            alert(`Successfully added ${block.name} to your Downloads Menu!`);
-        } else {
-            alert(`${block.name} is already in your Downloads!`);
+            alert(`Successfully added ${block.name} to your Custom Blocks!`);
+        } catch (e) {
+            console.error("Failed to save to backend", e);
+            alert(`Failed to save ${block.name} to the backend.`);
         }
       } else {
         alert(`Failed to validate block ${block.name}.`);
