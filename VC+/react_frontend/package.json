@@ -55,7 +55,7 @@
     "react-bootstrap": "^2.7.4",
     "react-brace": "^3.6.6",
     "react-router-dom": "^6.30.4",
-    "react-use": "^17.4.0",
+    "react-use": "^17.6.1",
     "react-vnc": "^3.1.0",
     "styled-components": "^5.3.6",
     "three": "^0.144.0"
