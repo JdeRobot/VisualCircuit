@@ -23,10 +23,20 @@ For more information visit our site [VisualCircuit](https://jderobot.github.io/V
 ## Prerequisite
 
 ### Front-end
-For more specific instructions check the frontend [readme](/frontend/README.md) 
-1. Clone the repository https://github.com/JdeRobot/VisualCircuit.git
-3. Change directory to `frontend`
-4. Run `npm install`
+For more specific instructions check the frontend readme
+
+**Required versions:**
+- Node.js: 14.4.0
+- npm: 6.14.5
+
+> Tip: Use [nvm](https://github.com/nvm-sh/nvm) (Linux/macOS) or 
+> [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage 
+> Node versions. If you already ran `npm install` with a different version, 
+> delete `node_modules` and `package-lock.json` before retrying.
+
+1. Clone the repository
+2. Change directory to `frontend`
+3. Run `npm install`
 
 
 ### Back-end
