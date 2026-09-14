@@ -14,8 +14,8 @@ from lib.outputs import Outputs
 from lib.parameters import Parameters
 from lib.utils import Synchronise
 
-BLOCK_DIRECTORY = 'modules'
-FUNCTION_NAME = 'main'
+BLOCK_DIRECTORY = "modules"
+FUNCTION_NAME = "main"
 
 
 def clean_shared_memory(signum, frame, names, processes):
@@ -28,7 +28,7 @@ def clean_shared_memory(signum, frame, names, processes):
     all_names.extend([name + "_dim" for name in names])
     all_names.extend([name + "_shape" for name in names])
     all_names.extend([name + "_type" for name in names])
-    
+
     # Clean all shared memory
     for name in all_names:
         try:
@@ -85,9 +85,13 @@ def main():
             )
 
             if source["name"] in block_data[source["block"]]["outputs"]:
-                wire_name = block_data[source["block"]]["outputs"][source["name"]]["wire"]
+                wire_name = block_data[source["block"]]["outputs"][source["name"]][
+                    "wire"
+                ]
             elif target["name"] in block_data[target["block"]]["inputs"]:
-                wire_name = block_data[target["block"]]["inputs"][target["name"]]["wire"]
+                wire_name = block_data[target["block"]]["inputs"][target["name"]][
+                    "wire"
+                ]
             else:
                 wire_name = "".join(
                     random.choices(string.ascii_uppercase + string.digits, k=10)
@@ -96,21 +100,33 @@ def main():
             # If a new wire, add it to dictionary and also keep track of its lock
             if wire_name not in all_wires:
                 all_wires[wire_name] = Lock()
-            output_data = {source["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}}
-            input_data = {target["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}}
+            output_data = {
+                source["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}
+            }
+            input_data = {
+                target["name"]: {"wire": wire_name, "lock": all_wires[wire_name]}
+            }
             block_data[source["block"]]["outputs"].update(output_data)
             block_data[target["block"]]["inputs"].update(input_data)
 
-
     for block in blocks:
         if blocks[block]["type"] in parameters:
-            block_data[block] = block_data.get(block, {"inputs": {}, "outputs": {}, "parameters": {}})
-            for param in parameters[ blocks[block]["type"]]:
+            block_data[block] = block_data.get(
+                block, {"inputs": {}, "outputs": {}, "parameters": {}}
+            )
+            for param in parameters[blocks[block]["type"]]:
                 parameter_data = {param["name"]: param["value"]}
                 block_data[block]["parameters"].update(parameter_data)
-        if block in synchronize_frequency or blocks[block]["type"] in synchronize_frequency:
-            block_data[block] = block_data.get(block, {"inputs": {}, "outputs": {}, "parameters": {}})
-            block_data[block]["frequency"] = synchronize_frequency.get(block, synchronize_frequency.get(blocks[block]["type"], 30))
+        if (
+            block in synchronize_frequency
+            or blocks[block]["type"] in synchronize_frequency
+        ):
+            block_data[block] = block_data.get(
+                block, {"inputs": {}, "outputs": {}, "parameters": {}}
+            )
+            block_data[block]["frequency"] = synchronize_frequency.get(
+                block, synchronize_frequency.get(blocks[block]["type"], 30)
+            )
 
     processes = []
 
@@ -132,12 +148,19 @@ def main():
         processes.append(
             multiprocessing.Process(
                 target=method,
-                args=(inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30)))
+                args=(
+                    inputs,
+                    outputs,
+                    parameters,
+                    Synchronise(1 / (freq if freq != 0 else 30)),
+                ),
             )
         )
 
     # Register handler for Ctrl+C
-    param_func = functools.partial(clean_shared_memory, names=all_wires, processes=processes)
+    param_func = functools.partial(
+        clean_shared_memory, names=all_wires, processes=processes
+    )
     signal.signal(signal.SIGINT, param_func)
 
     for process in processes:
