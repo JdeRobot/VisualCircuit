@@ -307,7 +307,7 @@ function MenuBar(props: MenuBarProps) {
                 <Menu
                     menuButton={<Button className='menu-button'>Help</Button>}
                     theming={isDark ? 'dark' : undefined}>
-                    <MenuItem href='https://jderobot.github.io/VisualCircuit/' target='_blank'>Docs</MenuItem>
+                    <MenuItem href='https://jderobot.github.io/VisualCircuit-resources/Blocks.html' target='_blank'>Docs</MenuItem>
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit' target='_blank'>Github</MenuItem>
                     <MenuItem href='https://github.com/JdeRobot/VisualCircuit/releases' target='_blank'>Releases</MenuItem>
                 </Menu>
