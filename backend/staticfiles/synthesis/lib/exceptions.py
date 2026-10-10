@@ -5,5 +5,6 @@ class InvalidOutputNameException(Exception):
 class InvalidInputNameException(Exception):
     """Raised when Input name has not been declared in ports"""
 
+
 class InvalidParameterNameException(Exception):
     """Raised when Parameter name has not been declared in ports"""
