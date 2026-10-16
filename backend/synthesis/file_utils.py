@@ -1,16 +1,17 @@
 import zipfile
 from io import BytesIO
 
-# Thanks to stack overflow :) 
+
+# Thanks to stack overflow :)
 # https://stackoverflow.com/questions/2463770/python-in-memory-zip-library
 class InMemoryZip(object):
     def __init__(self):
         # Create the in-memory file-like object
         self.zip = BytesIO()
 
-    def append(self, filename_in_zip : str, file_contents: str):
-        '''Appends a file with name filename_in_zip and contents of 
-        file_contents to the in-memory zip.'''
+    def append(self, filename_in_zip: str, file_contents: str):
+        """Appends a file with name filename_in_zip and contents of
+        file_contents to the in-memory zip."""
         # Get a handle to the in-memory zip in append mode
         zf = zipfile.ZipFile(self.zip, "a", zipfile.ZIP_DEFLATED, False)
 
