@@ -11,13 +11,14 @@ import sys
 BLOCK_DIRECTORY = 'modules'
 
 OPTIONAL_FILES = {
-    'FaceDetector' : 'utils/models/haar_cascade/**/*',
-    'ObjectDetector': 'utils/models/yolov3/**/*'
+    "FaceDetector": "utils/models/haar_cascade/**/*",
+    "HandGestureDetector": "utils/models/hand_landmarker/**/*",
+    "ObjectDetector": "utils/models/yolov3/**/*",
 }
 
 BLOCK_DEPENDENCIES = {
     'FaceDetector': ['opencv-python', 'numpy'],
-    'ObjectDetector': ['opencv-python', 'numpy'],
+    'HandGestureDetector': ['mediapipe', 'opencv-python', 'numpy'],
     'ContourDetector': ['opencv-python', 'numpy'],
     'Cropper': ['opencv-python', 'numpy'],
     'ColorFilter': ['opencv-python', 'numpy'],
