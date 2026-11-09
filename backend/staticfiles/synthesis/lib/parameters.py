@@ -8,13 +8,13 @@ class Parameters:
     def read_number(self, name):
         if self.parameters.get(name) is None:
             raise InvalidParameterNameException(f"{name} is not declared in parameters")
-        
+
         return float(self.parameters[name])
 
     def read_string(self, name):
         if self.parameters.get(name) is None:
             raise InvalidParameterNameException(f"{name} is not declared in parameters")
-        
+
         return str(self.parameters[name])
 
     def read_bool(self, name):

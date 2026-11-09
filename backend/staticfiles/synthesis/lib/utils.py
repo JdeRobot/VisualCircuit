@@ -1,6 +1,7 @@
 import numpy as np
 from time import sleep, time
 
+
 def create_ndbuffer(shape, dtype, buffer):
     return np.ndarray(shape, dtype=dtype, buffer=buffer)
 

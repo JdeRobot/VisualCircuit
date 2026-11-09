@@ -12,6 +12,7 @@ def create_readonly_wire(name):
         shm = None
     return shm
 
+
 def create_number_wire(name, size):
     try:
         shm = shared_memory.SharedMemory(name=name)
@@ -19,13 +20,18 @@ def create_number_wire(name, size):
         shm = shared_memory.SharedMemory(name=name, create=True, size=size)
     return shm
 
+
 class Inputs:
 
     ENABLE_NAME = "Enable"
 
     def __init__(self, input_data) -> None:
         self.inputs = input_data
-        self._enable_data = self.inputs[Inputs.ENABLE_NAME] if Inputs.ENABLE_NAME in self.inputs else None
+        self._enable_data = (
+            self.inputs[Inputs.ENABLE_NAME]
+            if Inputs.ENABLE_NAME in self.inputs
+            else None
+        )
 
     def read(self, name):
         if self.inputs.get(name) is None:
@@ -36,7 +42,7 @@ class Inputs:
             # Read data from the different buffers of the SHM Objects
             dim = create_ndbuffer((1,), np.int64, self.inputs[name]["dim"].buf)[:][0]
             shape = create_ndbuffer((dim,), np.int64, self.inputs[name]["shape"].buf)
-            type = create_ndbuffer((1,), '<U6', self.inputs[name]["type"].buf)[:][0]
+            type = create_ndbuffer((1,), "<U6", self.inputs[name]["type"].buf)[:][0]
             data = create_ndbuffer(shape, type, self.inputs[name]["data"].buf)
         else:
             # Do this if read wire has not been created
@@ -47,7 +53,12 @@ class Inputs:
             shape_wire = create_readonly_wire(wire_name + "_shape")
             type_wire = create_readonly_wire(wire_name + "_type")
 
-            if data_wire is None or shape_wire is None or dim_wire is None or type_wire is None:
+            if (
+                data_wire is None
+                or shape_wire is None
+                or dim_wire is None
+                or type_wire is None
+            ):
                 return None
 
             # Store SHM Object in "dim"
@@ -57,10 +68,10 @@ class Inputs:
             # Store SHM Object in "type"
             self.inputs[name]["type"] = type_wire
             # Read type data from the object's buffer
-            type = create_ndbuffer((1,), '<U6', type_wire.buf)[:][0]
+            type = create_ndbuffer((1,), "<U6", type_wire.buf)[:][0]
             # In case type isn't defined return None
             if not type:
-                return None 
+                return None
 
             # Store SHM Object in "shape"
             self.inputs[name]["shape"] = shape_wire
@@ -131,16 +142,16 @@ class Inputs:
 
         string = None
         if self.inputs[name].get("created", False):
-            string = create_ndbuffer((1,), '<U64', self.inputs[name]["data"].buf)
+            string = create_ndbuffer((1,), "<U64", self.inputs[name]["data"].buf)
         else:
             wire_name = self.inputs[name]["wire"]
             data_wire = create_readonly_wire(wire_name)
             if data_wire is None:
                 return None
             self.inputs[name]["data"] = data_wire
-            string = create_ndbuffer((1,), '<U64', data_wire.buf)
+            string = create_ndbuffer((1,), "<U64", data_wire.buf)
             self.inputs[name]["created"] = True
-        
+
         return string
 
     def read_array(self, name):
@@ -149,7 +160,6 @@ class Inputs:
 
         data = self._read_npy_matrix(name, np.float64)
         return data
-
 
     @property
     def enabled(self) -> bool:
@@ -165,16 +175,14 @@ class Inputs:
 
         return np.isclose(_enabled, np.array([1.0]))
 
-
-
     @enabled.setter
     def enabled(self, _enabled: bool):
         # If no wire exists, we cannot set anything, it is true by default
         # TODO: Ideally one should be able to trigger a block on and off even without an enable wire
-        # Can we force there to be an enable slot in all blocks? Or is another approach a better idea? 
+        # Can we force there to be an enable slot in all blocks? Or is another approach a better idea?
         if self._enable_data is None:
             return
-            
+
         self._enable_data["lock"].acquire()
         if self._enable_data.get("created", False):
             wire_val = np.array([1])
@@ -185,9 +193,12 @@ class Inputs:
                 # print("Disabling wire")
                 wire_val = np.array([0])
 
-            wire_data = np.ndarray(wire_val.shape, dtype=wire_val.dtype, buffer=self._enable_data["data"].buf)
+            wire_data = np.ndarray(
+                wire_val.shape,
+                dtype=wire_val.dtype,
+                buffer=self._enable_data["data"].buf,
+            )
             wire_data[:] = wire_val[:]
-
 
         else:
             # Wire doesn't exist yet: this implementation requires it to be
@@ -198,11 +209,16 @@ class Inputs:
                 # Value of the wire to be set
                 wire_val = np.array([1])
                 # Create a new shared memory object in the "data" key of the _enable_data dictionary
-                self._enable_data["data"] = create_number_wire(wire_name, wire_val.nbytes)
-                data_wire = np.ndarray(wire_val.shape, dtype=np.float64, buffer=self._enable_data["data"].buf)
+                self._enable_data["data"] = create_number_wire(
+                    wire_name, wire_val.nbytes
+                )
+                data_wire = np.ndarray(
+                    wire_val.shape,
+                    dtype=np.float64,
+                    buffer=self._enable_data["data"].buf,
+                )
                 data_wire[:] = wire_val[:]
                 # Mark wire as created, since it has been created
                 self._enable_data["created"] = True
 
         self._enable_data["lock"].release()
-        
