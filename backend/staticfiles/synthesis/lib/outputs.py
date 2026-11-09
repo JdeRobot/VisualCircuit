@@ -44,8 +44,8 @@ class Outputs:
 
         # Store the array data in the appropriate variables
         data = np.array(data)
-        shape = np.array(data.shape)
-        dim = np.array([len(shape)])
+        shape = np.array(data.shape, dtype=np.int64)
+        dim = np.array([len(shape)], dtype=np.int64)
         # Check if the data type needs modifications, get the modified type after calling the function
         final_type = self.check_type(data.dtype.str)
         type = np.array([final_type], dtype='<U6')
@@ -53,19 +53,25 @@ class Outputs:
         if self.outputs[name].get("created", False):
             # Do this if wire has been created
             # Populate SHM buffers with new data on each cycle
-            self.outputs[name]["shape"][:] = shape[:]
+            self.outputs[name]["shape"][...] = shape
             self.outputs[name]["type"][:] = type[:]
-            self.outputs[name]["data"][:] = data[:]
+            self.outputs[name]["data"][...] = data
 
         else:
             # Create the wires(SHM Objects) to hold the different types 
             # of info that will be passed to the read function
             wire_name = self.outputs[name]["wire"]
-            shape_wire = self._create_wire(wire_name + "_shape", shape.nbytes)
+            # A scalar has a 0-sized shape array but SharedMemory still needs a
+            # positive size, so floor the shape wire at the int64 itemsize
+            shape_wire = self._create_wire(
+                wire_name + "_shape", max(shape.nbytes, np.int64().itemsize)
+            )
             dim_wire = self._create_wire(wire_name + "_dim", dim.nbytes) 
             type_wire = self._create_wire(wire_name + "_type", type.nbytes)
-            # By default allocate 256 bytes to the SHM Object, if the space needed is more then allocate that much space
-            data_size = data.nbytes if data.nbytes > 256 else 256 
+            # By default allocate 256 bytes to the SHM Object; if the space needed
+            # by the promoted dtype is more, then allocate that much space
+            data_size = data.size * np.dtype(final_type).itemsize
+            data_size = data_size if data_size > 256 else 256
             data_wire = self._create_wire(self.outputs[name]["wire"], data_size)
 
             # Create array that accesses SHM Object's buffer to store the dimensions of the data being passed
@@ -76,10 +82,10 @@ class Outputs:
             self.outputs[name]["type"][:] = type
             # Create array that accesses SHM Object's buffer to store the shape of the data being passed
             self.outputs[name]["shape"] = create_ndbuffer(shape.shape, shape.dtype, shape_wire.buf)
-            self.outputs[name]["shape"][:] = shape[:]
+            self.outputs[name]["shape"][...] = shape
             # Create array that accesses SHM Object's buffer to store the actual data being passed
             self.outputs[name]["data"] = create_ndbuffer(shape, type[0], data_wire.buf)
-            self.outputs[name]["data"][:] = data
+            self.outputs[name]["data"][...] = data
             # Mark output as created
             self.outputs[name]["created"] = True
 
