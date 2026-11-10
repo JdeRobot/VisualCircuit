@@ -2,6 +2,7 @@ import importlib
 import json
 import functools
 import multiprocessing
+import os
 import random
 import string
 from multiprocessing import shared_memory, Lock
@@ -48,6 +49,26 @@ def clean_shared_memory(signum, frame, names, processes):
     # Exit the program
     print("Exiting program.")
     sys.exit(0)
+
+
+def run_block(method, arguments, stdin_settings):
+    # Multiprocessing replaces sys.stdin in the worker, but leaves fd 0 open.
+    if stdin_settings is None or not os.isatty(0):
+        return method(*arguments)
+
+    encoding, errors = stdin_settings
+    try:
+        terminal = open(0, encoding=encoding, errors=errors, closefd=False)
+    except OSError:
+        return method(*arguments)
+
+    original_stdin = sys.stdin
+    with terminal:
+        sys.stdin = terminal
+        try:
+            return method(*arguments)
+        finally:
+            sys.stdin = original_stdin
 
 
 def main():
@@ -113,6 +134,10 @@ def main():
             block_data[block]["frequency"] = synchronize_frequency.get(block, synchronize_frequency.get(blocks[block]["type"], 30))
 
     processes = []
+    stdin_settings = None
+    # This relies on the inherited POSIX terminal descriptor.
+    if os.name == "posix" and sys.stdin is not None and sys.stdin.isatty():
+        stdin_settings = (sys.stdin.encoding, sys.stdin.errors)
 
     for block_id, block in blocks.items():
         name = BLOCK_DIRECTORY + "." + block["name"]
@@ -129,10 +154,16 @@ def main():
         parameters = Parameters(block_data[block_id]["parameters"])
         # Default frequency to 30 Hz if not specified by any wire / synchronize_frequency entry
         freq = block_data[block_id].get("frequency", 30)
+        block_arguments = (
+            inputs,
+            outputs,
+            parameters,
+            Synchronise(1 / (freq if freq != 0 else 30)),
+        )
         processes.append(
             multiprocessing.Process(
-                target=method,
-                args=(inputs, outputs, parameters, Synchronise(1 / (freq if freq != 0 else 30)))
+                target=run_block,
+                args=(method, block_arguments, stdin_settings),
             )
         )
 
